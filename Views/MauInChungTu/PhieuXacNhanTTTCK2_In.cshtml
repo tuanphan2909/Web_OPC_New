@@ -1,0 +1,754 @@
+﻿﻿﻿﻿﻿﻿
+@{ ViewBag.Title = "Phiếu Xác Nhận Thanh Toán";
+    decimal totaltienBT = 0;
+    decimal CKTT = 0;
+    decimal tienthuTT = 0;
+    string Dvcs = Request.Cookies["MA_DVCS"] != null ? HttpUtility.UrlDecode(Request.Cookies["MA_DVCS"].Value) : "";
+    var CN = "";
+
+    //if (Dvcs.Length > 10) // Đảm bảo chuỗi có ít nhất 10 ký tự trước khi cắt
+    //{
+    //    extractedText = Dvcs.Substring(10); // Cắt 10 ký tự đầu tiên
+    //}
+    if (Request.Cookies["MA_DVCS"].Value == "OPC_CT")
+    {
+        Dvcs = "Chi Nhánh Cần Thơ";
+        CN = "OPCCNCT";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_DN")
+    {
+        Dvcs = "Chi Nhánh Đà Nẵng";
+        CN = "OPCCNDN";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TG")
+    {
+        Dvcs = "Chi Nhánh Tiền Giang";
+        CN = "OPCCNTG";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_MD")
+    {
+        Dvcs = "Chi Nhánh Miền Đông";
+        CN = "OPCCNMD";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_VT")
+    {
+        Dvcs = "Chi Nhánh Vũng Tàu";
+        CN = "OPCCNVT";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NT")
+    {
+        Dvcs = "Chi Nhánh Nha Trang";
+        CN = "OPCCNNT";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TP")
+    {
+        Dvcs = "Chi Nhánh Hồ Chí Minh";
+        CN = "OPCCNHCM";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NA")
+    {
+        Dvcs = "Chi Nhánh Nghệ An";
+        CN = "OPCCNNA";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_HN")
+    {
+        Dvcs = "Chi Nhánh Hà Nội";
+        CN = "OPCCNHN";
+    }
+
+}
+@using System.Data;
+@using System.Globalization;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Phiếu Xác Nhận Thanh Toán</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+            color: black;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="forms-container">
+        <form class="data-form" id="data-form" style="margin-top:-30px">
+            <div style="text-align:left">
+                <h3 style="margin-left:-450px; font-size:13px;">CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                <h3 style="font-weight:bold;color:black; font-size:13px;margin-left:-500px">@Dvcs</h3>
+                <h3 style="font-weight:bold;color:black; font-size:13px;margin-left:-500px">Số:........../KT-@CN</h3>
+
+            </div>
+
+            <br />
+
+            <div>
+                <h3 style="font-size: 20px; color: black; font-weight: bold">XÁC NHẬN THANH TOÁN TIỀN CKTT</h3>
+
+                <h5 id="quarterYear" style="font-style: italic; color: black;text-align:center">
+                    <!-- The content will be dynamically set by JavaScript -->
+                </h5><br />
+
+            </div>
+            <div style="width:600px">
+                <h5 style="text-align:left">-Căn cứ Luật thương mại số 36/2005/QH11 ngày 14/06/2005</h5>
+                <h5 style="text-align: left">-Căn cứ vào hợp đồng số: ................../HĐNT-CNCT/2024, thỏa thuận của đôi bên.</h5>
+            </div>
+
+            <div class="flex-container" style="width:600px">
+                <h5 style="display: inline-block; color: black; font-weight: bold; text-align: left;">
+                    Khách hàng: <span style="font-size: 15px;">
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+
+                            @row2["Ten_Dt"];
+                            break;
+                        }
+
+
+                    </span>
+                </h5>
+
+                <h5 style="display: inline-block; color: black; font-weight: bold">
+                    Mã số:    @foreach (DataRow row2 in Model.Tables[0].Rows)
+                    {
+
+                        @row2["Ma_Dt"];
+                        break;
+                    }
+                </h5>
+            </div>
+            <div style="color:black;font-weight:bold; font-size:15px;width:600px">
+                <h5 style="text-align: left;">
+                    Điều kiện thanh toán: @foreach (DataRow row2 in Model.Tables[1].Rows)
+                    {
+
+                        @row2["Han_TT"];
+                        break;
+                    } Ngày
+                </h5>
+            </div>
+
+            <br />
+
+
+            <div style="width:600px">
+                <h5 style="font-size: 14px;text-align:left;">Trong thời hạn thanh toán. Quý khách hàng được chiết khấu 2% trên giá trị thanh toán. Chi tiết hóa đơn thanh toán, cụ thể như sau: </h5>
+            </div><br />
+            <div>
+                <table border="1" border-collapse="collapse" style="width:700px">
+                    <thead stye="display: table-header-group;">
+                        <tr style="font-size: 10px; font-weight: bold; color: black; page-break-inside:avoid">
+                            <th style="padding:10px;width:50px">STT</th>
+                            <th style="width:80px">SỐ HĐ</th>
+                            <th style="width:80px">NGÀY HĐ</th>
+                            <th style="width:80px">NGÀY THU/BÙ TRỪ</th>
+                            <th style="width:80px">TIỀN HÓA ĐƠN</th>
+
+
+                            <th style="width:80px">TIỀN CKTT</th>
+                            <th style="width:80px">TIỀN THU THỰC TẾ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{var stt = 1; }
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+                            <tr>
+                                <td>@stt</td>
+                                <td>@row2["So_Ct"]</td>
+                                <td>@row2["Ngay_HD1"]</td>
+                                <td>@row2["Ngay_Thu1"]</td>
+                                <td style="text-align:right;padding-right:5px">@String.Format("{0:n0}", Convert.ToDecimal(row2["Tien"])).Replace(",", ".")</td>
+                                <td style="text-align: right; padding-right: 5px">@String.Format("{0:n0}", Convert.ToDecimal(row2["CKTT1"])).Replace(",", ".")</td>
+                                <td style="text-align: right; padding-right: 5px"> @String.Format("{0:n0}", Convert.ToDecimal(row2["Tien_Thu"])).Replace(",", ".")</td>
+
+
+
+                            </tr>
+                            stt++;
+                            totaltienBT += Convert.ToDecimal(row2["Tien"]);
+                            CKTT += Convert.ToDecimal(row2["CKTT1"]);
+                            tienthuTT += Convert.ToDecimal(row2["Tien_Thu"]);
+
+                        }
+                    </tbody>
+                    <tfoot style=" display: table-row-group !important;">
+                        <tr style="color:black;font-weight:bold;">
+                            <td colspan="4">Tổng cộng</td>
+                            <td style="text-align: right; padding-right: 5px">@String.Format("{0:n0}", totaltienBT).Replace(",", ".") </td>
+
+
+                            <td style="text-align: right; padding-right: 5px">@String.Format("{0:n0}", CKTT).Replace(",", ".") </td>
+                            <td style="text-align: right; padding-right: 5px">@String.Format("{0:n0}", tienthuTT).Replace(",", ".") </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br />
+                <div style="text-align:left">
+                    <h5 style="word-wrap: break-word;font-size:15px;text-align:left;">Khách hàng đã thanh toán số tiền:............................</h5>
+                    <h5 style="word-wrap: break-word;font-size:15px;text-align:left;">Nhận chiết khấu thanh toán số tiền:............................</h5>
+                </div><br />
+                <div style="text-align:right;margin-right:30px">
+                    <span style="color: black;font-weight:bold" id="date"></span>
+
+                </div>
+                @*<h4 style="margin-left:auto">P. KHCU &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thủ kho&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xưởng sản xuất</h4>*@
+                <div style="display:inline-block;margin-left:20px">
+                    <h4 style="display:inline-block">Khách hàng xác nhận</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h4 style="display:inline-block">P. Giám đốc chi nhánh </h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h4 style="display:inline-block">Người lập bảng</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div><br />
+                @*<div>
+                        <h5 style="font-style:italic;text-align:left;margin-left:70px">(Ký, ghi họ tên)</h5>
+                    </div>*@
+            </div>
+            @*<button class="print-button" onclick="printDataForm()" id="print">In Data</button>*@
+        </form>
+    </div>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+
+        // Hàm để đọc giá trị từ cookie
+        function getCookieValue(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Lấy giá trị từ cookie
+        var toDateCookie = getCookieValue("Ngay_Ky");
+
+        // Tách giá trị thành năm, tháng, ngày
+        var dateParts = toDateCookie.split("-");
+        var year = dateParts[0];
+        var month = dateParts[1];
+        var day = dateParts[2];
+
+        // Hiển thị lên HTML
+        var resultDiv = document.getElementById("date");
+        resultDiv.innerHTML = "Ngày " + day + " tháng " + month + " năm " + year;
+    </script>
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+                    break;
+                }
+            }
+        });
+
+        function displaySelectedDate() {
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+            window.location.href = selectedDateDisplay;
+        }
+    </script>
+    <script>
+        // Function to get the value of a cookie by name
+        function getCookieValue(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return null;
+        }
+
+        // Function to update the content of the <h5> tag
+        function updateQuarterYear() {
+            // Get the value of the 'From_date' and 'To_date' cookies
+            var fromDateCookie = getCookieValue('From_date');
+            var toDateCookie = getCookieValue('To_date');
+
+            // If the cookies are present, extract the months and proceed
+            if (fromDateCookie && toDateCookie) {
+                var fromDateObj = new Date(fromDateCookie);
+                var toDateObj = new Date(toDateCookie);
+
+                var fromMonth = fromDateObj.getMonth() + 1; // Adding 1 since getMonth() returns 0-based index
+                var toMonth = toDateObj.getMonth() + 1; // Adding 1 since getMonth() returns 0-based index
+
+                // Determine the quarter and year for both 'From_date' and 'To_date'
+                var fromQuarter = Math.floor((fromMonth + 2) / 3); // Calculate the quarter for 'From_date'
+                var toQuarter = Math.floor((toMonth + 2) / 3); // Calculate the quarter for 'To_date'
+
+                var fromYear = fromDateObj.getFullYear();
+                var toYear = toDateObj.getFullYear();
+
+                var h5Element = $('#quarterYear'); // Using jQuery to select the <h5> element
+
+                if (fromMonth === toMonth && fromQuarter === toQuarter) {
+                    // Display quarter and year if the months are exactly 2 apart and in the same quarter
+                    h5Element.text('Tháng ' + fromMonth + ' năm ' + fromYear);
+                    var displayText = 'Tháng ' + fromMonth + ' năm ' + fromYear;
+                    setCookie("Time", displayText);
+
+                } else if (Math.abs(toMonth - fromMonth) === 2) {
+                    // Display quarter and year if the months are exactly 2 apart
+                    h5Element.text('Quý ' + fromQuarter + ' năm ' + fromYear);
+                    var displayText = 'Quý ' + fromQuarter + ' năm ' + fromYear;
+                    setCookie("Time", displayText);
+                } else {
+                    var displayText = 'Từ tháng ' + fromMonth + ' năm ' + fromYear + ' đến tháng ' + toMonth + ' năm ' + toYear;
+                    // Display range of months and years if the difference is neither 0 nor 2
+                    h5Element.text('Từ tháng ' + fromMonth + ' năm ' + fromYear + ' đến tháng ' + toMonth + ' năm ' + toYear);
+                    setCookie("Time", displayText);
+                }
+            } else {
+                // Handle the case where either 'From_date' or 'To_date' cookie is not present
+                console.error("The 'From_date' or 'To_date' cookie is not set.");
+            }
+            console.log("Ngay", h5Element);
+        }
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + "; path=/";
+        }
+        // Function to be executed when the page is fully loaded
+        $(document).ready(function () {
+            // Call the updateQuarterYear function when the page loads
+            updateQuarterYear();
+        });
+    </script>
+    <script>
+        // Lấy tất cả các phần tử có class "branch"
+        var branches = document.querySelectorAll('.branch');
+
+        // Duyệt qua từng phần tử và xử lý chuỗi dữ liệu
+        branches.forEach(function (branch) {
+            var text = branch.textContent;
+
+            // Tìm và loại bỏ phần "Chi nhánh"
+            var branchName = text.replace('Chi nhánh', '').trim();
+
+            // Tạo một thẻ <a> mới và gán nội dung
+            var newLink = document.createElement('a');
+            newLink.textContent = branchName;
+
+            // Thêm thẻ <a> vào trước phần tử hiện tại
+            branch.parentNode.insertBefore(newLink, branch);
+
+            // Loại bỏ phần tử hiện tại
+            branch.remove();
+        });
+    </script>
+</body>
+
+</html>
+

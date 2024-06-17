@@ -1,0 +1,1146 @@
+﻿
+
+@{ ViewBag.Title = "Bao Cao Hop Dong Mar"; }
+@using System.Data;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <style>
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+        width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 50px;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .data_table {
+            width: max-content;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 3;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .custom-checkbox {
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 2px solid black;
+            background-color: #ffffff;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkContainer {
+            height: 300px;
+            overflow: auto;
+        }
+
+            .checkContainer::-webkit-scrollbar {
+                width: 0.2em;
+                background-color: transparent;
+            }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            /*   z-index: 90000;*/
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+
+        .tab.selected-tab {
+            pointer-events: none;
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                pointer-events: none;
+                color: white /* Màu nền của tab */
+            }
+
+            .tab.selected-tab .closeTab {
+                pointer-events: auto;
+            }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>OPC </title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+
+
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body>
+
+    <div class="loader" style="z-index:3"></div>
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center; display:flex;margin-left:10px">
+            <li>
+                <form id="dateForm" action="BaoCaoChiTietHD" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+                        <span id="spanText" class="text-loading">[usp_BaoCaoHopDongMAR_SAP]</span>
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.QueryString["From_date"]" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                    </div>
+
+                    @*<div class="checkContainer">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Phân Loại HD TH
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Mã nhóm DV
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Mã DV
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tên DV
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Mã KH tại TD xuất HD
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tên KH tại thời điểm xuất HD
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Nhóm KH Tại TD xuất HD
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại KH tại TD xuất HD
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Năm/Tháng
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Năm/Quý
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            OPC
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            OPC BD
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            HD2
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            TW25
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Phiến
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Khác
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu(-VAT)
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Giá trị code KM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            GTC Loại trừ PLHD KHTT OPC
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu Loại Trừ OPC
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            DT loại trừ OPCBD
+
+                        </label>
+
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            DT Loại trừ HD2
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tổng DT code KM Loại trừ
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            DT Thực hiện PLHD KHTT
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Mã KH hiện tại
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Mã KH TH PLHD KHTT OPC
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Số HD nguyen tac
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Số PLHD KHTT OPC
+
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Nhóm KH HT
+
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại KH HT
+
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tên KH TH PLHD OP
+
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Danh Dau Thang
+
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Ghi Chú
+
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Mã DV Thực hiện PLHD KHTT OPC
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại DT Gam Hàng OPC theo CTKM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại DT Gam Hàng OPC Điều Chỉnh CTKM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Gam hàng OPC DX Tăng Giảm
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại DT Gam Hàng OPCBD Theo CTKM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại DT Gam Hàng OPCBD Điều Chỉnh CTKM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Gam Hàng OPCBD DX Tăng Giảm
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại DT Gam hàng HD2 Theo CTKM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Loại DT Gam hàng HD2 Điều chỉnh CTKM
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Gam hàng HD2 DX Tăng giảm
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu Q3
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu Q4
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tổng doanh thu 3 Gam
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Hoàn Thành PLHD
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Hoàn Thành PLHD Q1
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Hoàn Thành PLHD Q2
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Hoàn Thành PLHD Q3
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Hoàn Thành PLHD Q4
+
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tổng Doanh Thu
+
+                        </label>
+                    </div>*@
+
+                    <div>
+                        <button class="submit" type="submit" onclick="runReport()"> Chạy Báo Cáo </button>
+                    </div>
+                    @*<div>
+            <button id="loadMoreButton">Tải Thêm</button>
+
+        </div>*@
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <header class="header_part">
+        <a href="/Home/About">
+            <img src="~/assets/images/logo.png" alt="" class="img-fluid">
+        </a>
+        <h4>Báo Cáo Chi Tiết Hợp Đồng</h4>
+        <h5 style="color: white">Từ @Request.QueryString["From_date"] đến @Request.QueryString["To_date"]</h5>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+          <th>Phân Loại HD TH</th>
+          <th>Mã nhóm DV</th>
+          <th>Mã DV</th>
+          <th>Tên DV</th>
+          <th>Mã KH tại TD xuất HD</th>
+          <th>Tên KH tại thời điểm xuất HD</th>
+          <th>Nhóm KH Tại TD xuất HD</th>
+          <th>Loại KH tại TD xuất HD</th>
+          <th>Năm/Tháng</th>
+          <th>Năm/Quý</th>
+          <th>OPC</th>
+          <th>OPC BD</th>
+        <th>HD2</th>
+        <th>TW25</th>
+        <th>Phiến</th>
+        <th>Khác</th>
+        <th>Doanh Thu(-VAT)</th>
+        <th>Giá trị code KM</th>
+        <th>GTC Loại trừ PLHD KHTT OPC</th>
+        <th>Doanh Thu Loại Trừ OPC</th>
+        <th>DT loại trừ OPCBD</th>
+        <th>DT Loại trừ HD2</th>
+        <th>Tổng DT code KM Loại trừ</th>
+        <th>DT Thực hiện PLHD KHTT</th>
+        <th>Mã KH hiện tại</th>
+        <th>Mã KH TH PLHD KHTT OPC</th>
+        <th>Số HD nguyen tac</th>
+        <th>Số PLHD KHTT OPC</th>
+        <th>Nhóm KH HT</th>
+        <th>Loại KH HT</th>
+        <th>Tên KH TH PLHD OPC</th>
+        <th>Danh Dau Thang</th>
+        <th>Ghi Chú</th>
+        <th>Mã DV Thực hiện PLHD KHTT OPC</th>
+        <th>Loại DT Gam Hàng OPC theo CTKM</th>
+        <th>Loại DT Gam Hàng OPC Điều Chỉnh CTKM</th>
+        <th>Gam hàng OPC DX Tăng Giảm</th>
+        <th>Loại DT Gam Hàng OPCBD Theo CTKM</th>
+        <th>Loại DT Gam Hàng OPCBD Điều Chỉnh CTKM</th>
+        <th>Gam Hàng OPCBD DX Tăng Giảm</th>
+        <th>Loại DT Gam hàng HD2 Theo CTKM</th>
+        <th>Loại DT Gam hàng HD2 Điều chỉnh CTKM</th>
+         <th>Gam hàng HD2 DX Tăng giảm</th>
+        <th>Doanh Thu Q3</th>
+        <th>Doanh Thu Q4</th>
+        <th>Tổng doanh thu 3 Gam</th>
+        <th>Hoàn Thành PLHD</th>
+        <th>Hoàn Thành PLHD Q1</th>
+        <th>Hoàn Thành PLHD Q2</th>
+        <th>Hoàn Thành PLHD Q3</th>
+        <th>Hoàn Thành PLHD Q4</th>
+        <th>Tổng Doanh Thu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row2 in Model.Tables[0].Rows)
+                            {
+                            <tr>
+                                <td>@row2["Phan_loai_HD_TH"]</td>
+                                <td>@row2["Ma_Nhom_DV"]</td>
+                                <td>@row2["MA_DV"]</td>
+                                <td>@row2["Ten_DV"]</td>
+                                <td>@row2["Ma_KH_Tai_TD_Xuat_HD"]</td>
+                                <td>@row2["Ten_KH_Tai_TD_Xuat_HD"]</td>
+                                <td>@row2["Nhom_KH_Tai_TD_Xuat_HD"]</td>
+                                <td>@row2["Loai_KH_Tai_TD_Xuat_HD"]</td>
+                                <td>@row2["Nam/Thang"]</td>
+                                 <td>@row2["Nam/Quy"]</td>
+        <td>@row2["OPC"]</td>
+        <td>@row2["OPCBD"]</td>
+        <td>@row2["HD2"]</td>
+        <td>@row2["TW25"]</td>
+        <td>@row2["Phien"]</td>
+        <td>@row2["Khac"]</td>
+        <td>@row2["Doanh_Thu_(-VAT)"]</td>
+        <td>@row2["Gia_Tri_Code_KM"]</td>
+        <td>@row2["GTC_Loai_Tru_PLHD_KHTT_OPC"]</td>
+        <td>@row2["Doanh_thu_Loai_Tru_OPC"]</td>
+        <td>@row2["Doanh_Thu_loai_Tru_OPCBD"]</td>
+        <td>@row2["Doanh_Thu_Loai_Tru_HD2"]</td>
+        <td>@row2["Tong_Doanh_Thu_Code_Km_Loai_Tru"]</td>
+        <td>@row2["Doanh_Thu_ThucHien_PLHD_KHTT"]</td>
+        <td>@row2["Ma_KH_Hien_Tai"]</td>
+        <td>@row2["Ma_KH_TH_PLHD_KHTT_OPC"]</td>
+        <td>@row2["So_HD_Nguyen_Tac"]</td>
+        <td>@row2["So_PLHD_KHTT_OPC"]</td>
+        <td>@row2["Nhom_KH_HT"]</td>
+        <td>@row2["Loai_KH_HT"]</td>
+        <td>@row2["Ten_KH_TH_PLHD_OPC"]</td>
+        <td>@row2["Danh_Dau_Thang"]</td>
+        <td>@row2["Ghi_Chu"]</td>
+        <td>@row2["Ma_DV_thuc_hien_PLHD_KHTT_OPC"]</td>
+        <td>@row2["Loai_DT_Gam_Hang_OPC_Theo_CTKM"]</td>
+        <td>@row2["Loai_DT_Gam_Hang_OPC_DieuChinh_CTKM"]</td>
+        <td>@row2["Gam_hang_OPC_DX_Tang_Giam"]</td>
+        <td>@row2["Loai_DT_Gam_Hang_OPCBD_Theo_CTKM"]</td>
+        <td>@row2["Loai_DT_Gam_Hang_OPCBD_DieuChinh_CTKM"]</td>
+        <td>@row2["Gam_hang_OPCBD_DX_Tang_Giam"]</td>
+        <td>@row2["Loai_DT_Gam_Hang_HD2_Theo_CTKM"]</td>
+        <td>@row2["Loai_DT_Gam_Hang_HD2_DieuChinh_CTKM"]</td>
+         <td>@row2["Gam_hang_HD2_DX_Tang_Giam"]</td>
+        <td>@row2["DT_Q3"]</td>
+        <td>@row2["DT_Q4"]</td>
+        <td>@row2["Tong_Doanh_Thu_3Gam"]</td>
+        <td>@row2["Hoan_Thanh_PLHD"]</td>
+        <td>@row2["Hoan_Thanh_PLHD_Q1"]</td>
+        <td>@row2["Hoan_Thanh_PLHD_Q2"]</td>
+        <td>@row2["Hoan_Thanh_PLHD_Q3"]</td>
+        <td>@row2["Hoan_Thanh_PLHD_Q4"]</td>
+        <td>@row2["Tong_Doanh_Thu"]</td>
+                            </tr>
+                            }
+
+
+                        </tbody>
+                       
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+    @*<div class="tab-control" style="position:fixed;bottom:50px">
+            <ul class="tabs" style="background-color: #1d1b31">
+                <li class="tab selected"><a href="/Home/About" style="padding-right:5px">Home</a></li>
+
+            </ul>
+        </div>*@
+
+
+    @*<script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>*@
+    
+
+    @*<script>
+        function runReport() {
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+        }
+    </script>
+
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+                const table = document.getElementById('example');
+
+                checkboxes.forEach((checkbox, index) => {
+                    checkbox.addEventListener('change', function () {
+                        const columnIndex = index;
+                        const rows = table.querySelectorAll('tr');
+
+                        rows.forEach(row => {
+                            const cells = row.querySelectorAll('td, th');
+                            cells[columnIndex].style.display = this.checked ? '' : 'none';
+                        });
+                    });
+                });
+            });
+        </script>
+    <script>
+            function applyCheckboxAndColumnState() {
+                const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+                const table = document.getElementById('example');
+
+                checkboxes.forEach((checkbox, index) => {
+                    const columnIndex = index;
+                    const rows = table.querySelectorAll('tr');
+
+                    if (!checkbox.checked) {
+                        rows.forEach(row => {
+                            const cells = row.querySelectorAll('td, th');
+                            cells[columnIndex].style.display = 'none';
+                        });
+                    } else {
+                        rows.forEach(row => {
+                            const cells = row.querySelectorAll('td, th');
+                            cells[columnIndex].style.display = '';
+                        });
+                    }
+                });
+            }
+            // Hàm lấy trạng thái checkbox từ Local Storage và ẩn cột
+            function applyUncheckedCheckboxState() {
+                const uncheckedCheckboxIndexes = JSON.parse(localStorage.getItem('uncheckedCheckboxIndexes'));
+                if (uncheckedCheckboxIndexes) {
+
+                    const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+                    uncheckedCheckboxIndexes.forEach(index => {
+                        checkboxes[index].checked = false;
+                    });
+                }
+            }
+
+            // Áp dụng trạng thái checkbox đã bỏ chọn từ Local Storage khi trang được tải
+            document.addEventListener('DOMContentLoaded', function () {
+                // Áp dụng trạng thái của các checkbox đã bỏ chọn
+                applyUncheckedCheckboxState();
+            });
+
+
+        </script>*@
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        }
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        // Add an event listener to the form submission
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+            applyCheckboxAndColumnState();
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var start = 0;
+            var length = 100;
+
+            // Sự kiện khi người dùng nhấp vào nút "Tải Thêm"
+            $('#loadMoreButton').on('click', function () {
+                // Thực hiện cuộc gọi AJAX để lấy thêm dữ liệu
+                $.ajax({
+                    url: '/BaoCaoHopDongController/BaoCaoChiTietHD', // Đường dẫn đến phương thức LoadMoreData trong Controller
+                    type: 'POST',
+                    data: {
+                        start: start,
+                        length: length
+                    },
+                    success: function (data) {
+                        // Xử lý dữ liệu trả về và cập nhật bảng hoặc danh sách
+                        // Thêm dữ liệu mới vào bảng hoặc danh sách
+
+                        // Cập nhật biến 'start' để lấy 100 dòng tiếp theo trong lần tải tiếp theo
+                        start += length;
+                    },
+                    error: function () {
+                        alert('Đã xảy ra lỗi khi tải thêm dữ liệu.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

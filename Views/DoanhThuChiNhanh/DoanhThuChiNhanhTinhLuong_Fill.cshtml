@@ -1,0 +1,1165 @@
+﻿@{ ViewBag.Title = "Bao Cao Doanh Thu CN Tinh Luong"; }
+@using System.Data;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <style>
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+        width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 50px;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .data_table {
+            width: max-content;
+        }
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .custom-checkbox {
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 2px solid black;
+            background-color: #ffffff;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkContainer {
+            height: 300px;
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+            .checkContainer::-webkit-scrollbar {
+                width: 0.2em;
+                background-color: transparent;
+            }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 100;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+        .tab.selected-tab {
+            pointer-events: none;
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                pointer-events: none;
+                color: white /* Màu nền của tab */
+            }
+
+            .tab.selected-tab .closeTab {
+                pointer-events: auto;
+            }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>OPC </title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+
+
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee ">
+    <div class="loader" style="z-index:1"></div>
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center; display:flex;margin-left:10px">
+            <li>
+                <form id="dateForm" action="DoanhThuChiNhanhTinhLuong" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+                        <span id="spanText" class="text-loading">[usp_BaoCaoDoanhThuCN_HCNS_SAP]</span>
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.QueryString["From_date"]" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                    </div>
+
+                    <div class="checkContainer">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tên Đơn Vị
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu SP Chủ Lực OTC
+                        </label>
+                        @*<label class="custom-checkbox">
+                                <input type="checkbox" name="myCheckbox" value="option1" checked>
+                                <span class="checkmark"></span>
+                                Doanh Thu SP Chủ Lực ETC
+                            </label>*@
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu SP Phát Triển OTC
+                        </label>
+                        @*<label class="custom-checkbox">
+                                <input type="checkbox" name="myCheckbox" value="option1" checked>
+                                <span class="checkmark"></span>
+                                Doanh Thu SP Phát Triển ETC
+                            </label>*@
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu OTC OPC
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu ETC OPC
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu OTC Cồn
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu ETC Cồn
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu OTC Sủi
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu ETC Sủi
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu OTC Phiến
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu ETC Phiến
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu OTC 25
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu ETC 25
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu Combo
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Doanh Thu Khác
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="myCheckbox" value="option1" checked>
+                            <span class="checkmark"></span>
+                            Tổng Thực hiện
+                        </label>
+
+                    </div>
+
+                    <div>
+                        <button class="submit" type="submit" onclick="runReport()"> Chạy Báo Cáo </button>
+                    </div>
+
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+        @if (Request.Cookies["UserName"].Value == "admin-cnct" || Request.Cookies["UserName"].Value == "admin-cntg" || Request.Cookies["UserName"].Value == "admin-cnmd" || Request.Cookies["UserName"].Value == "admin-cnh1" || Request.Cookies["UserName"].Value == "admin-cnvt"
+                       || Request.Cookies["UserName"].Value == "admin-cnnt" || Request.Cookies["UserName"].Value == "admin - cndn" || Request.Cookies["UserName"].Value == "admin - cnna" || Request.Cookies["UserName"].Value == "admin - cnhn")
+        {
+
+
+
+            <a href="/Home/About1" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        else
+        {
+            <a href="/Home/About" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        <h4 style="color:#3483bd">Báo Cáo Doanh Thu Chi Nhánh Tính Lương</h4>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Tên Đơn Vị</th>
+                                <th>Doanh Thu SP Chủ Lực OTC</th>
+                                <th>Doanh Thu SP Chủ Lực ETC</th>
+                                <th>Doanh Thu SP Phát Triển OTC</th>
+                                <th>Doanh Thu SP Phát Triển ETC</th>
+                                <th>Doanh Thu OTC OPC</th>
+                                <th>Doanh Thu ETC OPC</th>
+                                <th>Doanh Thu OTC Cồn</th>
+                                <th>Doanh Thu ETC Cồn</th>
+                                <th>Doanh Thu OTC Sủi</th>
+                                <th>Doanh Thu ETC Sủi</th>
+                                <th>Doanh Thu OTC Phiến</th>
+                                <th>Doanh Thu ETC Phiến</th>
+                                <th>Doanh Thu OTC 25</th>
+                                <th>Doanh Thu ETC 25</th>
+                                <th>Doanh Thu Combo</th>
+                                <th>Doanh Thu Khác</th>
+                                <th>Tổng Thực Hiện</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+    @*<div class="tab-control">
+        <ul class="tabs" style="background-color: #1d1b31; bottom: 0; left: 0; right: 0;">
+            <li class="tab selected" style="padding-right:10px"><a href="/Home/About">Home</a></li>
+
+        </ul>
+    </div>*@
+
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+
+    <script>
+        // Set the "Từ Ngày" input to the first day of the current month
+        function setFirstDayOfCurrentMonth() {
+            const currentDate = new Date();
+            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const formattedDate = formatDate(firstDayOfMonth);
+
+            document.getElementById("tu_ngay").value = formattedDate;
+        }
+        function setCurrentDate() {
+            const currentDate = new Date();
+            const formattedToDate = formatDate(currentDate);
+            document.getElementById("den_ngay").value = formattedToDate;
+        }
+        // Format the date as "yyyy-mm-dd" for input type="date"
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        // Call the function to set the "Từ Ngày" input on page load
+        setFirstDayOfCurrentMonth();
+        setCurrentDate();
+    </script>
+    <script>
+        function runReport() {
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+            const table = document.getElementById('example');
+
+            checkboxes.forEach((checkbox, index) => {
+                checkbox.addEventListener('change', function () {
+                    const columnIndex = index;
+                    const rows = table.querySelectorAll('tr');
+
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td, th');
+                        cells[columnIndex].style.display = this.checked ? '' : 'none';
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        // Hàm lưu trạng thái checkbox vào Local Storage
+        function saveCheckboxState() {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+            const checkboxState = {};
+
+            checkboxes.forEach((checkbox, index) => {
+                checkboxState[index] = checkbox.checked;
+            });
+
+            localStorage.setItem('checkboxState', JSON.stringify(checkboxState));
+        }
+
+        // Lưu trạng thái khi người dùng bỏ chọn checkbox
+        // Lắng nghe sự kiện thay đổi của các checkbox
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    localStorage.setItem(checkbox.value, checkbox.checked);
+                });
+            });
+        });
+
+    </script>
+    <script>
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            showLoader();
+            // Show the loader when the form is submitted
+
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        }
+        function displaySelectedDate() {
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+            window.location.href = selectedDateDisplay;
+        }
+
+        // Function to show the loader
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        /*  Add an event listener to the form submission*/
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            displaySelectedDate();
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+            const fromDate = urlParams.get('From_date');
+            const toDate = urlParams.get('To_date');
+            if (fromDate && toDate) {
+                displaySelectedDate();
+            }
+        });
+
+
+
+
+    </script>
+    @*<script>
+        // Hàm kiểm tra và chuyển hướng về trang Home nếu mảng tabsArray rỗng
+        function checkAndRedirectToHome() {
+            const tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+
+            // Kiểm tra nếu không còn tab nào, chuyển về trang Home
+            if (tabsArray.length === 0) {
+                window.location.href = "/Home/About"; // Sử dụng đường dẫn tương đối dựa trên ngữ cảnh
+            }
+        }
+
+        // Hàm để tạo lại giao diện tab từ mảng đã lưu trong Local Storage
+        function createTabsFromLocalStorage() {
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+            const tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+            const currentHref = window.location.href; // Lấy đường dẫn hiện tại
+
+            // Xóa toàn bộ các tab hiện có trong giao diện
+            tabControlTabs.innerHTML = "";
+
+            // Lặp qua từng tab và thêm vào giao diện
+            tabsArray.forEach(function (tabInfo, index) {
+                const tabTitle = tabInfo.title;
+                const tabHref = tabInfo.href;
+
+                // Tạo tab và thêm vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+
+                // Kiểm tra nếu tabHref trùng với đường dẫn hiện tại, thêm lớp active
+                if (tabHref === currentHref) {
+                    newTab.classList.add("active");
+                }
+
+                newTab.innerHTML = `
+                                <a href="${tabHref}">${tabTitle}</a>
+                                <a class="closeTab" href="">✕</a>
+                            `;
+                tabControlTabs.appendChild(newTab);
+
+                // Sự kiện khi người dùng nhấp vào nút đóng tab
+                newTab.querySelector(".closeTab").addEventListener("click", function (event) {
+                    event.preventDefault();
+                    closeTabAndNavigate(tabTitle, index);
+                });
+            });
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Lấy trạng thái hiện tại của view từ Local Storage
+            const currentView = localStorage.getItem("currentView");
+
+            // Lấy mảng tabsArray từ Local Storage
+            const tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+
+            // Lặp qua từng phần tử trong tabsArray để tạo tab
+            tabsArray.forEach(function (tabInfo, index) {
+                const tabTitle = tabInfo.title;
+                const tabHref = tabInfo.href;
+
+                // Tạo tab và thêm vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+                newTab.innerHTML = `
+                                    <a href="${tabHref}">${tabTitle}</a>
+                                    <a class="closeTab" href="">✕</a>
+                                `;
+                tabControlTabs.appendChild(newTab);
+
+                // Sự kiện khi người dùng nhấp vào nút đóng tab
+                newTab.querySelector(".closeTab").addEventListener("click", function (event) {
+                    event.preventDefault();
+                    closeTabAndNavigate(tabTitle, index);
+                });
+            });
+
+            hideLoader();
+            checkAndRedirectToHome(); // Gọi hàm kiểm tra và chuyển hướng
+        });
+
+        // Hàm để xóa tab và chuyển đến view gần nhất (nếu có)
+        // Hàm để xóa tab và cập nhật giao diện
+        function closeTabAndNavigate(tabTitle, tabIndex) {
+            const tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+
+            // Lọc ra tab cần đóng dựa trên chỉ số tabIndex và cập nhật lại tabsArray
+            if (tabIndex >= 0 && tabIndex < tabsArray.length) {
+                tabsArray.splice(tabIndex, 1);
+                localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+            }
+
+            // Xóa tab khỏi giao diện và cập nhật lại thanh tab
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Lặp qua danh sách tab để tìm tab cần xóa
+            for (let i = 0; i < tabControlTabs.children.length; i++) {
+                const tab = tabControlTabs.children[i];
+                if (tab.querySelector("a").textContent === tabTitle) {
+                    tab.remove();
+                    break;
+                }
+            }
+
+            // Gọi lại hàm để tạo lại giao diện tab từ mảng đã được cập nhật
+            createTabsFromLocalStorage();
+
+            // Kiểm tra nếu không còn tab nào, chuyển về trang Home
+            checkAndRedirectToHome();
+            window.location.reload();
+        }
+
+    </script>
+    <script>
+        // Trong view 2
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy đường dẫn hiện tại của tab trong view 2
+            const currentTabHref = window.location.href;
+
+            // Lấy nút hoặc sự kiện mà bạn sử dụng để chuyển sang tab khác trong view 3
+            const switchToView3Button = document.querySelector("#switchToView3Button");
+
+            // Sự kiện khi bạn chuyển sang tab khác trong view 3
+            switchToView3Button.addEventListener("click", function () {
+                // Đường dẫn của tab trong view 3
+                const newTabHref = "ĐƯỜNG_DẪN_CỦA_TAB_VIEW_3"; // Thay thế bằng đường dẫn thật
+
+                // Cập nhật đường dẫn của tab trong view 2
+                window.location.href = newTabHref;
+            });
+
+            // Log đường dẫn hiện tại của tab trong view 2
+            console.log(currentTabHref);
+        });
+
+    </script>
+    <script>
+        // Sự kiện khi người dùng nhấp vào tab
+        document.addEventListener("click", function (event) {
+            const clickedTab = event.target.closest(".tab");
+            if (clickedTab) {
+                // Xóa lớp active từ tất cả các tab
+                const tabs = document.querySelectorAll(".tab");
+                tabs.forEach(function (tab) {
+                    tab.classList.remove("active");
+                });
+
+                // Thêm lớp active cho tab được nhấp vào
+                clickedTab.classList.add("active");
+            }
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Lấy tất cả các tab
+            const tabs = tabControlTabs.querySelectorAll(".tab");
+
+            // Xử lý sự kiện khi người dùng click vào một tab
+            tabs.forEach(function (tab) {
+                tab.addEventListener("click", function (event) {
+                    // Lấy tên của tab được click
+                    const tabTitle = tab.querySelector("a").textContent;
+
+                    // Cập nhật biến selected bằng tên của tab
+                    selected = tabTitle;
+
+                    // Lưu giá trị mới vào Local Storage
+                    localStorage.setItem("selected", selected);
+
+                    // Cập nhật màu sắc hoặc thực hiện các hành động khác dựa trên giá trị mới của selected
+                    // Ví dụ: Đổi màu tab đã chọn
+                    tabs.forEach(function (otherTab) {
+                        otherTab.classList.remove("selected-tab");
+                    });
+                    tab.classList.add("selected-tab");
+
+                    // Đối với các tác vụ khác bạn muốn thực hiện khi tab được chọn, hãy thêm mã vào đây.
+
+                    // ...
+                });
+            });
+
+            // Nếu có giá trị selected trong Local Storage, cập nhật giao diện dựa trên giá trị đó
+            if (selected) {
+                tabs.forEach(function (tab) {
+                    if (tab.querySelector("a").textContent === selected) {
+                        tab.classList.add("selected-tab");
+                    }
+                });
+            }
+
+            hideLoader();
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy giá trị selected từ Local Storage
+            const selected = localStorage.getItem("selected");
+
+            // Lấy tất cả các tab
+            const tabs = document.querySelectorAll(".tab");
+
+            // Lặp qua tất cả các tab và kiểm tra nếu có tab có title bằng với giá trị selected
+            tabs.forEach(function (tab) {
+                const tabTitle = tab.querySelector("a").textContent;
+                if (tabTitle === selected) {
+                    // Đổi màu cho tab này
+                    tab.classList.add("selected-tab");
+                }
+            });
+        });
+
+    </script>
+    <script>
+        subMenuLinks.forEach(function (subMenuLink) {
+            subMenuLink.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const tabTitle = subMenuLink.textContent;
+                const subMenuLinkHref = subMenuLink.getAttribute("href");
+
+                // Cập nhật biến selected với giá trị của tabTitle
+                localStorage.setItem("selected", tabTitle);
+                console.log("selected:", tabTitle); // Thêm log để kiểm tra giá trị của selected
+
+                // Kiểm tra xem tab đã tồn tại trong mảng hay chưa
+                const tabExists = tabsArray.some(tab => tab.title === tabTitle);
+
+                // Nếu tab chưa tồn tại, thêm nó vào mảng
+                if (!tabExists) {
+                    tabsArray.push({ title: tabTitle, href: subMenuLinkHref });
+                    localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+                }
+
+                // Thêm tab vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+                newTab.innerHTML = `
+                            <a href="${subMenuLinkHref}">${tabTitle}</a>
+                            <a class="closeTab" href="">✕</a>
+                        `;
+                tabControlTabs.appendChild(newTab);
+
+                // Chuyển view tới thẻ li tương ứng
+                if (subMenuLinkHref) {
+                    // Lưu trạng thái hiện tại vào Local Storage trước khi chuyển trang
+                    localStorage.setItem("currentTabView1", tabTitle);
+                    localStorage.setItem("currentTabHrefView1", subMenuLinkHref);
+                    window.location.href = subMenuLinkHref;
+                }
+            });
+        });
+
+    </script>
+    <script>
+        subMenuLinks.forEach(function (subMenuLink) {
+            subMenuLink.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const tabTitle = subMenuLink.textContent;
+                const subMenuLinkHref = subMenuLink.getAttribute("href");
+
+                // Kiểm tra xem tabTitle có trùng với selected không
+                const selected = localStorage.getItem("selected");
+                if (selected === tabTitle) {
+                    // Nếu trùng, không làm gì cả và thoát khỏi sự kiện click
+                    return;
+                }
+
+                // Cập nhật biến selected với giá trị của tabTitle
+                localStorage.setItem("selected", tabTitle);
+                console.log("selected:", tabTitle);
+
+                // Kiểm tra xem tab đã tồn tại trong mảng hay chưa
+                const tabExists = tabsArray.some(tab => tab.title === tabTitle);
+
+                // Nếu tab chưa tồn tại, thêm nó vào mảng
+                if (!tabExists) {
+                    tabsArray.push({ title: tabTitle, href: subMenuLinkHref });
+                    localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+                }
+
+                // Thêm tab vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+                newTab.innerHTML = `
+                        <a href="${subMenuLinkHref}">${tabTitle}</a>
+                        <a class="closeTab" href="">✕</a>
+                    `;
+                tabControlTabs.appendChild(newTab);
+
+                // Chuyển view tới thẻ li tương ứng
+                if (subMenuLinkHref) {
+                    // Lưu trạng thái hiện tại vào Local Storage trước khi chuyển trang
+                    localStorage.setItem("currentTabView1", tabTitle);
+                    localStorage.setItem("currentTabHrefView1", subMenuLinkHref);
+                    window.location.href = subMenuLinkHref;
+                }
+            });
+        });
+
+    </script>*@
+
+</body>
+
+</html>

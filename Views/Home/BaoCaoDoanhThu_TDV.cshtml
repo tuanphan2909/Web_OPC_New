@@ -1,0 +1,125 @@
+﻿@using System.Data;
+@{
+    ViewData["Title"] = "Bao Cao Doanh Thu TDV";
+}
+<style>
+ .container {
+      
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        zoom: 90%
+    }
+    h3 {
+        text-align: center;
+        color: blue;
+        
+    }
+    table, td, th {
+        border: 1px solid black;
+        margin-left:auto;
+        margin-right: auto;
+    }
+    table {  border-collapse: collapse;
+        
+    }
+   .num{
+       text-align: right;
+   }
+    button {
+        background-color: #2297f6;
+        border: none;
+        outline: none;
+        padding: 5px;
+        font-size: 30px;
+        color: #ffffff;
+        cursor: pointer;
+        margin-top: 20px;
+        text-align: center;
+    }
+    p {
+        color: #ffffff;
+    }
+</style>
+<head>
+    <meta name="viewport" content="width=device-with" />
+    <title>BCCN</title>
+</head>
+<body>
+    <div class="container">
+        <h3>
+            BÁO CÁO DOANH THU TRÌNH DƯỢC VIÊN
+        </h3>
+        <table border="1" >
+            
+            <tr bgcolor="White">
+
+                <th>Mã TDV</th>
+                <th>Họ Và Tên</th>
+                <th colspan="3">Thực Hiện</th>
+                <th colspan="3"> Khoán</th>
+                <th colspan="2">CỘNG</th>
+                <th>Tỷ Lệ</th>
+                <th>Tiền Về Phiến</th>
+            </tr>
+            <tr>
+                <th> </th>
+                <th> </th>
+                <th>OPC</th>
+                <th>HD2</th>
+                <th>CỒN</th>
+                <th>OPC</th>
+                <th>HD2</th>
+                <th>CỒN</th>
+                <th>Thực Hiện</th>
+                <th>Khoán</th>
+                <th> </th>
+                <th> </th>
+
+                @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+                    <tr>
+
+                    <td>@row["Ma_TDV"]</td>
+                    <td style="width:20%">@row["Ten_TDV"]</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_OTC"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_Sui"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_con"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_K_OTC"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_k_sui"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_k_OTC_con"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Tong_cong"] &nbsp;</td>
+                    <td class="num">&nbsp;@row["Tong_cong_k"] &nbsp;</td>
+                    <td>@row["Ty_le_dt"]</td>
+                    <td class="num">&nbsp;@row["Doanh_thu_phien"] &nbsp;</td>
+                </tr>
+                }
+            
+                @foreach (DataRow row in Model.Tables[1].Rows)
+                                {
+                           <tr>
+                                <td></td>
+                                <td><b>Tổng Cộng</b> </td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_OTC"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_Sui"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_con"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_K_OTC"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_k_sui"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_k_OTC_con"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Tong_cong"] &nbsp;</b></td>
+                                <td class="num"><b>&nbsp;@row["TC_Tong_cong_k"] &nbsp;</b></td>
+                                <td></td>
+                                <td class="num"><b>&nbsp;@row["TC_Doanh_thu_phien"] &nbsp;</b></td>
+                    </tr>
+                }
+        </table>
+        <button onclick="myfun()">Print Page</button>
+        <button><a href="/Home/About"><p>Trang Chủ</p></button>
+        <script type="text/javascript">
+            function myfun() {
+                window.print();
+            }
+        </script>
+        </div>
+  
+</body>

@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Table with Highlighted Row</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        td.editable {
+            cursor: pointer;
+        }
+
+        td.editable input {
+            border: none;
+            width: 100%;
+            padding: 0;
+        }
+
+        .add-row {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+
+        /* CSS to highlight the selected row */
+        .selected-row {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Header 1</th>
+                <th>Header 2</th>
+                <th>Header 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="status-cell"><div class="status-indicator"></div></td>
+                <td class="editable"><input type="text" value="Value 1"></td>
+                <td class="editable"><input type="text" value="Value 2"></td>
+                <td class="editable"><input type="text" value="Value 3"></td>
+            </tr>
+            <tr>
+                <td class="status-cell"><div class="status-indicator"></div></td>
+                <td class="editable"><input type="text" value="Value 4"></td>
+                <td class="editable"><input type="text" value="Value 5"></td>
+                <td class="editable"><input type="text" value="Value 6"></td>
+            </tr>
+            <tr class="add-row">
+                <td colspan="4">Click here to add a new row</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // JavaScript to make table cells editable
+        const editableCells = document.querySelectorAll('.editable');
+        
+        editableCells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                // Create an input element
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = cell.textContent.trim();
+                
+                // Clear the cell and append the input element
+                cell.innerHTML = '';
+                cell.appendChild(input);
+                
+                // Focus on the input
+                input.focus();
+                
+                // Update cell content when input loses focus
+                input.addEventListener('blur', () => {
+                    cell.textContent = input.value;
+                });
+            });
+        });
+
+        // JavaScript to add a new row when the "add-row" cell is clicked
+        const addRowCell = document.querySelector('.add-row');
+        addRowCell.addEventListener('click', () => {
+            const tbody = addRowCell.parentNode;
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = '<td class="status-cell"><div class="status-indicator"></div></td><td class="editable"><input type="text" value=""></td><td class="editable"><input type="text" value=""></td><td class="editable"><input type="text" value=""></td>';
+            tbody.insertBefore(newRow, addRowCell);
+        });
+
+        // JavaScript to handle row highlighting
+        const statusCells = document.querySelectorAll('.status-cell');
+        
+        statusCells.forEach(cell => {
+            cell.addEventListener('click', () => {
+                // Remove the highlight class from all rows
+                document.querySelectorAll('tr.selected-row').forEach(row => {
+                    row.classList.remove('selected-row');
+                });
+                
+                // Highlight the clicked row
+                const row = cell.parentNode;
+                row.classList.add('selected-row');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+﻿@using System.Data;
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu Điều Phối Giao Hàng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #000;
+            padding: 20px;
+        }
+
+        .header, .footer {
+            text-align: center;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        .title {
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .form-section {
+            margin-top: 20px;
+        }
+
+        .footer-signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+            .footer-signature div {
+                width: 45%;
+                text-align: center;
+            }
+
+        .signature-space {
+            height: 80px;
+        }
+
+        @@media print {
+            body {
+                transform: scale(0.85);
+                transform-origin: top left;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <p>Công Ty Cổ Phần Dược Phẩm OPC - Chi Nhánh Cần Thơ</p>
+            <p>PHIẾU ĐIỀU PHỐI GIAO HÀNG</p>
+            <p>
+                Số:
+                @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    @row2["So_Ct"];
+                    var soCtValue = row2["So_Ct"].ToString();
+
+                    // Lưu giá trị vào cookie
+                    HttpCookie soCtCCookie = new HttpCookie("soCtCCookie");
+                    soCtCCookie.Value = soCtValue;
+                    Response.Cookies.Add(soCtCCookie);
+                }, ngày   @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+                    @row["Ngay"]
+                    var dayValue = row["Ngay"].ToString();
+
+                    // Lưu giá trị vào cookie
+                    HttpCookie ngayCookie = new HttpCookie("ngayCookie");
+                    ngayCookie.Value = dayValue;
+                    Response.Cookies.Add(ngayCookie);
+                }
+                tháng   @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+                    @row["Thang"]
+                    var thangValue = row["Thang"].ToString();
+
+                    // Lưu giá trị vào cookie
+                    HttpCookie thangCookie = new HttpCookie("thangCookie");
+                    thangCookie.Value = thangValue;
+                    Response.Cookies.Add(thangCookie);
+                }
+                năm   @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+                    @row["Nam"]
+                    var namValue = row["Nam"].ToString();
+
+                    // Lưu giá trị vào cookie
+                    HttpCookie namCookie = new HttpCookie("namCookie");
+                    namCookie.Value = namValue;
+                    Response.Cookies.Add(namCookie);
+                }
+            </p>
+        </div>
+
+        <div class="content">
+            <p>
+                Người giao hàng - thu tiền:   @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    @row2["Ten_NVGiaoHang"];
+                    var tenNVValue = row2["Ten_NVGiaoHang"].ToString();
+
+                    // Lưu giá trị vào cookie
+                    HttpCookie tenNVCookie = new HttpCookie("tenNVCookie");
+                    tenNVCookie.Value = tenNVValue;
+                    Response.Cookies.Add(tenNVCookie);
+                }
+            </p>
+            <p>
+                Tuyến giao hàng: @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    @row2["Ten_NVPhuKho"];
+                    var NVPhuKho = row2["Ten_NVPhuKho"].ToString();
+
+                    // Lưu giá trị vào cookie
+                    HttpCookie tenNVPhuCookie = new HttpCookie("tenNVPhuCookie");
+                    tenNVPhuCookie.Value = NVPhuKho;
+                    Response.Cookies.Add(tenNVPhuCookie);
+                } : (GN)
+            </p>
+
+            <table id="deliveryTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Stt</th>
+                        <th rowspan="2">Đơn vị</th>
+                        <th colspan="4">Hóa đơn</th>
+                        <th colspan="2">Tổng Đơn Vị</th>
+                        <th rowspan="2">Hạn Mức TT</th>
+                    </tr>
+                    <tr>
+                        <th>Số</th>
+                        <th>Ngày</th>
+                        <th>Tiền HD</th>
+                        <th>Tiền Thu</th>
+                        <th>Thùng</th>
+                        <th>Lẻ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row2 in Model.Tables[2].Rows)
+                    {
+                        <tr>
+                            <td>@row2["So_tt"]</td>
+                            <td>@row2["Ten_Dt"]</td>
+                            <td>@row2["So_Hd"]</td>
+                            <td>@row2["Ngay_HD"]</td>
+                            <td class="text-right" name="tien-hd">@row2["Tien_Hd"]</td>
+                            <td class="text-right" name="tien-hd">@row2["Tien_Phai_Thu"]</td>
+
+                            <td></td>
+                            <td class="text-right"></td>
+                            <td>@row2["Han_TT"]</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    @foreach (DataRow row2 in Model.Tables[3].Rows)
+                    {
+                        var tongcong1 = row2["Tong_Cong1"].ToString();
+
+                        // Lưu giá trị vào cookie
+                        HttpCookie tongCongCookie1 = new HttpCookie("tongCongCookie1");
+                        tongCongCookie1.Value = tongcong1;
+                        Response.Cookies.Add(tongCongCookie1);
+
+
+                        var tonggcong = row2["Tong_Cong"].ToString();
+
+                        // Lưu giá trị vào cookie
+                        HttpCookie tongCongCookie = new HttpCookie("tongCongCookie");
+                        tongCongCookie.Value = tonggcong;
+                        Response.Cookies.Add(tongCongCookie);
+                        <tr>
+                            <td colspan="4">Tổng Cộng</td>
+                            <td id="tong-cong">@row2["Tong_Cong"]</td>
+                            <td id="tong-cong1">@row2["Tong_Cong1"]</td>
+
+                            <td colspan="3"></td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+
+            <div class="form-section">
+                <p class="section-title">Đánh giá Nghiệp vụ kho:</p>
+                <p class="section-title">Báo cáo Tình hình giao hàng:</p>
+                <br />
+                <br />
+                <ol>
+                    <li>
+                        Chất lượng sản phẩm
+                        <p>SP đúng hạn: Tốt ........., chất lượng tốt ........., Hàng đổi trả ........., Bể vỡ ........., Thu hồi .........</p>
+                    </li>
+                    <li>
+                        Điều kiện bảo quản
+                        <p>Nhiệt độ thường ≤ 30 độ C .........</p>
+                        <p>Điều kiện khác: .........</p>
+                    </li>
+                </ol>
+
+                @*<p class="section-title">Tổng chi phí giao hàng (Giao nhận ghi):</p>
+                    <p>1. Thuế xe: ...........(thùng/kiện) x ......... (đơn giá) = ......... (thành tiền)</p>
+                    <p>2. Gửi hàng tại Chi nhánh: ...........(thùng/kiện) x ......... (đơn giá) = ......... (thành tiền)</p>
+                    <p>3. Gửi hàng từ địa bàn: ...........(thùng/kiện) x ......... (đơn giá) = ......... (thành tiền)</p>
+
+                    <p>Tổng số hàng hóa đơn trả cho kế Toán CN: Ngày ......... Xác nhận .........</p>
+                    <p>Kho: (đơn vị) ......... Số đơn: ......... Xác nhận .........</p>
+                    <p>Xe: ............ Xác nhận .........</p>
+                    <p>Số đơn HỦY trả cho kế Toán KTBH: .........</p>*@
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-signature">
+                <div>
+                    <p>Điều Phối Giao Hàng</p>
+                    <p class="signature-space"> </p>
+                </div>
+
+                <div>
+                    <p>Thủ Kho</p>
+                    <p class="signature-space"> </p>
+                </div>
+
+                <div>
+                    <p>Người Giao Hàng</p>
+                    <p class="signature-space"> </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <button id="export-button" onclick="exportExcel()">Xuất Excel</button>
+
+    <script>
+  function exportExcel() {
+    window.location.href = '@Url.Action("ExportToExcel", "TheoDoiGiaoHang")';
+}
+
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var exportButton = document.getElementById("export-button");
+
+            // Ẩn nút khi người dùng nhấn Ctrl + P
+            window.addEventListener("beforeprint", function () {
+                exportButton.style.display = "none";
+            });
+
+            // Hiển thị lại nút sau khi in xong
+            window.addEventListener("afterprint", function () {
+                exportButton.style.display = "block";
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

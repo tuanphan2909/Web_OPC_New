@@ -1,0 +1,882 @@
+﻿﻿
+
+@{ ViewBag.Title = "Bảng Đối Chiếu Doanh Thu Công Nợ";
+    string ten_dt = Request.Cookies["ten_dt"] != null ? HttpUtility.UrlDecode(Request.Cookies["ten_dt"].Value) : "";
+
+
+}
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Phiếu Xác Nhận Thanh Toán</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+    <script src="~/Scripts/multi-select-tag.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Styles/virtual-select.min.css" />
+    <style>
+        * {
+            font-family: 'Times New Roman';
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            /*                text-align: center;*/
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            /*text-align: center;*/
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        img {
+            width: 70px;
+            height: 40px;
+        }
+        #multipleSelect {
+           /* max-width:100%;
+            width:400px;  */  /* overflow-x: auto;*/ /* Kích thước của dropdown vượt quá khả năng hiển thị sẽ xuất hiện thanh cuộn ngang */
+            white-space: nowrap; /* Ngăn chặn việc xuống dòng trong các mục dropdown */
+        }
+        .vscomp-dropbox {
+            width: max-content;
+          
+        }
+        input[type="checkbox"] {
+            margin: 0;
+            padding: 0;
+            height: 16px;
+            width: 16px;
+            vertical-align: bottom;
+        }
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 17px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            /* Hide the browser's default checkbox */
+            .container input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+            }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border:1px solid black;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body style="background-color: #e0e8ee ">
+
+    <div class="forms-container">
+        <ul class="nav-links" style="display: flex; justify-content: center;">
+            <li>
+                <form class="locBC-form" id="dateForm" action="BangDoiChieuCongNo" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.QueryString["From_date"]" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+
+
+
+                        <a>Ngày Thanh Toán</a><br /><br />
+                        <input class="den_ngay" id="Ngay_TT" placeholder=" Đến Ngày" name="Ngay_TT" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+
+                        <a>Ngày Ký</a><br /><br />
+                        <input class="den_ngay" id="Ngay_Ky" placeholder=" Đến Ngày" name="Ngay_ky" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                        <a>Số</a><br /><br />
+                        <input type="text" name="So" placeholder="Số" /><br /><br />
+                        <a>Đối Tượng</a><br /><br />
+                        <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm danh mục">
+                        <datalist id="dropdownList">
+                            @{ var l = ViewBag.DataItems;
+                                foreach (var item in l)
+                                {
+                                    <option value="@item.Ma_Dt" data-madt="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-diachi="@item.Dia_Chi" data-dvcs="@item.Dvcs" data-dvcs1="@item.Dvcs1">@item.Ten_Dt</option>
+                                }
+                            }
+                        </datalist>
+                        <input type="hidden" name="Ma_Dt" id="selectedOption">
+
+                        @*<select id="multipleSelect" multiple name="native-select" placeholder="Chọn Đối Tượng" data-search="true" data-silent-initial-value-set="true" noOptionsText="Không tìm thấy" onChange="handleSelectChange(event)">
+                                @{ var l = ViewBag.DataItems;
+                                    foreach (var item in l)
+                                    {
+                                        <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-diachi="@item.Dia_Chi" data-dvcs="@item.Dvcs" data-dvcs1="@item.Dvcs1">@item.Ma_Dt @item.Ten_Dt</option>
+                                    }
+                                }
+
+
+                            </select>*@
+
+                        @*<div style="display:flex;margin-top:10px">
+                            <label class="container">
+
+                                <input type="checkbox" class="rowCheckbox" data-ma-kh="1">
+                                <span class="checkmark"></span>
+                            </label>
+                            <div style="">Gộp Mã</div>
+                        </div>*@
+
+                        <div>
+                            <button class="submit" type="submit" id="runReportButton" onclick="runReport()"> Chạy Báo Cáo </button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+
+        <span id="spanText" class="text-loading">[usp_DoiChieuDoanhThuCongNo_SAP]</span>
+        <div class="forms-container">
+            <form class="data-form" id="data-form">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div style=" display: flex; justify-content: space-between; align-items: center;text-align:left">
+                        <div style="text-align: left;">
+                            <img src="~/assets/images/logo.png" alt="" class="img-fluid">
+                        </div>
+                        <div>
+                            <h3 style="font-size: 13px;">CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                            <h5 style="text-align:left;">Chi Nhánh Cần Thơ</h5>
+                            <h5 style="text-align:left;">Số:</h5>
+                        </div>
+
+                    </div>
+                    <div style="text-align:center">
+                        <h5>Cộng Hòa Xã Hội Chủ Nghĩa Việt Nam</h5>
+                        <h5>Độc lập - Tự do - Hạnh Phúc</h5>
+                        <br />
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <h3 style="font-size: 25px; color: black; font-weight: bold">BẢNG ĐỐI CHIẾU DOANH THU CÔNG NỢ</h3>
+                    <h6 style="text-align:center;color:black;font-size:13px;font-weight:bold">Từ ngày 01 tháng 07 đến ngày 31 tháng 08 năm 2023</h6>
+                </div>
+                <div style="justify-content:start;display:flex">
+                    <div style="text-align:left">
+                        <h5 style="color:black;text-align:left">Tên khách hàng:    QUẦY THUỐC MINH CHI</h5>
+
+                        <h5 style="margin-top:5px;color:black"><span style="color:black;font-weight:bold">I.Số dư nợ trước ngày:</span> 01/07/2023 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mang sang: 4.999.999</h5>
+                        <h5 style="margin-top:5px;color:black;text-align:left">II.Doanh thu và công nợ phát sinh trong kỳ đối chiếu này: </h5>
+                    </div>
+
+
+                </div>
+                <div style="text-align:left;margin-left:50px;color:black;font-weight:bold">
+                    <h5>1.Doanh thu khách hàng mua trong kỳ: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23.303.303</h5>
+                    <h5>2.Khách hàng đã thanh toán/ trả hàng/ bù trừ trong kỳ: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;23.303.303</h5>
+                </div>
+                <br />
+                <div style="color:black;font-weight:bold">
+                    <h5 style="text-align: left">III. Số tiền khách hàng chưa thanh toán, tính đến cuối ngày: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;31/08/2023&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;là: 7.249.000 </h5>
+                </div>
+                <br />
+                <div>
+                    <h5 style="text-align: left;color:black">Số tiền bằng chữ là: Bảy triệu năm trăm ....... </h5>
+                    <h5 style="text-align: left;color:black">Chi tiết các hóa đơn chưa thanh toán: </h5>
+                </div>
+
+
+
+                <!--<div style="margin-left:-250px;text-align:left">
+                <h5>Đơn vị xuất hàng: Kho thành phẩm Cửa hàng Quận 10</h5>
+                <h5 style="margin-left:-5px">Địa chỉ: 134/1 Tô Hiến Thành, P15, Quận 10, TP.HCM</h5>-->
+                @*<h5 style="margin-left: 40px">Đơn vị nhận hàng:@Request.Cookies["Ten_dt"].Value</h5>*@
+                <!--<h5 style="margin-left: -120px">Diễn giải: Xuất hàng giao cho khách</h5>
+                </div>-->
+
+
+                <div style="margin-top:10px">
+                    <table border="1" border-collapse="collapse" style="width:800px">
+                        <tr style="font-size:10px;font-weight:bold;color:black">
+                            <th style="padding:10px" rowspan="2">STT</th>
+                            <th colspan="2">HÓA ĐƠN</th>
+
+                            <th rowspan="2">SỐ TIỀN HD</th>
+                            <th rowspan="2">GHI CHÚ</th>
+
+                        </tr>
+                        <th>Số</th>
+                        <th>Ngày</th>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                        </tr>
+                        <tbody>
+
+                            @*@foreach (DataRow row3 in Model.Tables[1].Rows)
+                                {
+                                    <tr class="table2-data hidden-row" data-soct="@row3["So_Ct"]">
+
+
+                                        <td>@row3["so_Line_Id"]</td>
+                                        <td>@row3["Ten_vt"]</td>
+                                        <td>@row3["Dvt"]</td>
+                                        <td>@row3["so_luong"]</td>
+                                    </tr>
+                                }*@
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="font-weight:bold;color:black;text-align:center">Tổng cộng</td>
+                                <td style="font-weight:bold;color:black;text-align:right">67677</td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                    <br />
+                    <div style="width:700px;color:black">
+                        <h5 style="text-align:left">Xin vui lòng xác nhận và gửi lại cho Chi Nhánh Nha Trang trước ngày <span style="color:black;font-weight:bold">26/06/2023</span></h5>
+                        <br />
+                        <h5 style="text-align:left">Nơi nhận:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHI NHÁNH CTY CỔ PHẦN DƯỢC PHẨM OPC TẠI NHA TRANG </h5>
+                        <br />
+                        <h5 style="text-align:left">Địa chỉ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1017 Hồng Bàng </h5><br />
+                        <h5 style="text-align:left">Khi cần đối chiếu số liệu liên hệ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kế toán công nợ: &nbsp;&nbsp;&nbsp;,Điện thoại: +84 23456789</h5>
+                    </div>
+                    <br />
+                    <div style="word-wrap: break-word;color:black">
+                        <h5 style="text-align:left">Số tiền còn nợ đề nghị Quý khách hàng thanh toán bằng tiền mặt hoặc chuyển khoản vào tài khoản CHI NHÁNH CTY CỔ PHẦN DƯỢC PHẨM OPC TẠI NHA TRANG, số tài khoản: 1000010110 tại Ngân hàng TMCP Công Thương Việt Nam </h5>
+                        <br />
+                        <h5 style="text-align:left">Trân trọng cảm ơn!</h5>
+
+
+                    </div>
+
+                    <div style="text-align:right;color:black">
+                        <h5 style="text-align:right">Khánh Hòa, ngày 10 tháng 09 năm 2023</h5>
+                    </div>
+
+                    <div style="color:black;font-weight:bold">
+
+                        <h5 style="text-align:left">ĐẠI DIỆN KHÁCH HÀNG</h5>
+                        <h5 style="text-align:right;margin-top:-10px">
+                            ĐẠI DIỆN CHI NHÁNH
+                        </h5>
+                    </div>
+
+
+            </form>
+        </div>
+    </div>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+    <script type="text/javascript" src="~/Scripts/virtual-select.min.js"></script>
+    <script type="text/javascript">
+        VirtualSelect.init({
+            ele: 'select',
+
+
+        });
+
+    </script>
+    <script>
+        // Lấy tất cả các ô checkbox trong hàng
+        const checkboxes = document.querySelectorAll('.rowCheckbox');
+
+        // Thêm lắng nghe sự kiện cho mỗi ô checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                // Nếu ô checkbox đang được kiểm tra
+                if (this.checked) {
+                    // Lấy giá trị của cột Ma_KH từ thuộc tính data
+                    const maKH = this.getAttribute('data-ma-kh');
+                    // Đặt cookie với tên GopMa và giá trị là maKH
+                    document.cookie = `GopMa=${maKH}`;
+                } else {
+                    // Nếu ô checkbox không được kiểm tra
+                    // Cập nhật cookie GopMa với giá trị là 0
+                    document.cookie = `GopMa=0`;
+                }
+                // Hủy chọn tất cả các ô checkbox trừ ô checkbox trong hàng hiện tại
+                checkboxes.forEach(cb => {
+                    if (cb !== this) {
+                        cb.checked = false;
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function handleSelectChange(event) {
+            var selectedOption = event.target.options[event.target.selectedIndex];
+            /*     var selectedValue = event.target.value;*/
+            var tenDt = selectedOption.getAttribute('data-ten');
+
+            // Gửi giá trị lên cookie với tên là "Ma_Dt" và "Ten_Dt"
+            /*  document.cookie = "Ma_Dt=" + selectedValue;*/
+            document.cookie = "Ten_Dt=" + tenDt;
+        }
+
+    </script>
+    <script>
+        // Function to delete a cookie by name
+        function deleteCookie(name) {
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+
+        // Function to be executed when the page is fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Call the deleteCookie function to remove the 'Ten_Dt' cookie
+            deleteCookie('Ten_Dt');
+        });
+    </script>
+    <script>
+        // Function to delete a cookie by name
+        function deleteCookie(name) {
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+
+        // Function to be executed when the page is fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Call the deleteCookie function to remove the 'Ten_Dt' cookie
+            deleteCookie('Ten_Dt');
+        });
+    </script>
+    <script>
+        //document.getElementById("dropdownInput").addEventListener("input", function () {
+        //    var inputValue = this.value;
+        //    var options = document.querySelectorAll("#dropdownList option");
+
+        //    for (var i = 0; i < options.length; i++) {
+        //        if (options[i].getAttribute("value") === inputValue) {
+        //            document.getElementById("selectedOption").value = inputValue;
+
+        //            break;
+        //        }
+        //    }
+        //});
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-ten');
+                        var selectedDiaChi = selectedOption.getAttribute('data-diachi');
+                        var selectedMaDt = selectedOption.getAttribute('data-madt');
+                        var selectedDvcs = selectedOption.getAttribute('data-Dvcs');
+                        var selectedDvcs1 = selectedOption.getAttribute('data-dvcs1');
+                        document.cookie = 'Ten_Dt=' + tenDt;
+                        document.cookie = 'Dia_Chi=' + selectedDiaChi;
+                        document.cookie = 'Dvcs=' + selectedDvcs;
+                        document.cookie = 'Dvcs1=' + selectedDvcs1;
+                        document.cookie = 'MaDT=' + selectedMaDt;
+                    }
+                });
+            }
+        });
+
+
+    </script>
+    <script>
+        function runReport() {
+            // Get values from date inputs
+            var fromDate = document.getElementById('tu_ngay').value;
+            var toDate = document.getElementById('den_ngay').value;
+            var ngayTT = document.getElementById("Ngay_TT").value;
+            var ngayKy = document.getElementById("Ngay_Ky").value;
+            // Save values in cookies
+            document.cookie = 'From_date=' + fromDate + '; path=/';
+            document.cookie = 'To_date=' + toDate + '; path=/';
+            document.cookie = 'From_dateDTCN=' + fromDate + '; path=/';
+            document.cookie = 'To_dateDTCN=' + toDate + '; path=/';
+            document.cookie = "Ngay_Ky=" + ngayKy;
+            document.cookie = "Ngay_TT=" + ngayTT;
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+
+            const gopMaCheckbox = document.querySelector('.rowCheckbox');
+            const gopMaValue = gopMaCheckbox.checked ? "1" : "0";
+            document.cookie = `GopMa=${gopMaValue}`;
+
+        }
+        // Set the "Từ Ngày" input to the first day of the current month
+        function setFirstDayOfCurrentMonth() {
+            const currentDate = new Date();
+            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const formattedDate = formatDate(firstDayOfMonth);
+
+            document.getElementById("tu_ngay").value = formattedDate;
+        }
+        function setCurrentDate() {
+            const currentDate = new Date();
+            const formattedToDate = formatDate(currentDate);
+            document.getElementById("den_ngay").value = formattedToDate;
+        }
+        function setCurrentDateTT() {
+            const currentDate = new Date();
+            const formattedToDate = formatDate(currentDate);
+            document.getElementById("Ngay_TT").value = formattedToDate;
+        }
+        function setCurrentDateKy() {
+            const currentDate = new Date();
+            const formattedToDate = formatDate(currentDate);
+            document.getElementById("Ngay_Ky").value = formattedToDate;
+        }
+        // Format the date as "yyyy-mm-dd" for input type="date"
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        // Call the function to set the "Từ Ngày" input on page load
+        setFirstDayOfCurrentMonth();
+        setCurrentDate();
+        setCurrentDateKy();
+        setCurrentDateTT();
+    </script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,85 @@
+﻿@using System.Data;
+@{
+    ViewData ["Title"] = "BCCN";
+  
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-with" />
+    <title>BCCN</title>
+</head>
+<body>
+    <h1>
+        Bao cao nhan vien all
+    </h1>
+    <h3>lay du lieu bao cao nhan vien</h3>
+    <table border="1">
+        <tr bgcolor="Yellow">
+            <th>Ma_cbnv</th>
+            <th>Ten_CbNv</th>
+            @*<th>Ten_Bp0</th>*@
+            <th>Ten_to</th>
+            @*<th>Nghe_Nghiep</th>*@
+            <th>Ngay_vao_lam</th>
+            <th>Tham_Nien</th>
+            <th>Ten_Tlg</th>
+            @*<th>Loại Lương</th>*@
+            @*<th>Bac_Luong</th>*@
+            <th>Luong_Bao_Hiem</th>
+            <th>Quoc_Tich</th>
+            <th>Dan_toc</th>
+            <th>Ton_giao</th>
+            <th>Hon_nhan</th>
+            @*<th>Ten_Gioi_Tinh</th>*@
+            <th>Ngay_Sinh</th>
+            <th>Noi_Sinh</th>
+            <th>Ten_PLTD</th>
+            <th>Ten_ChucDanh</th>
+            <th>Dia_Chi</th>
+            <th>Email</th>
+            <th>Dien_Thoai</th>
+            <th>So_Cmnd</th>
+            <th>Ngay_Cap</th>
+            <th>Noi_Cap</th>
+            <th>So_Tk_NH</th>
+            <th>Ngan_Hang</th>
+            <th>Ma_So_Thue</th>
+            </tr>
+        @foreach (DataRow row in Model.Rows)
+            {
+    <tr>
+        <td>@row["Ma_cbnv"]</td>
+        <td>@row["Ten_CbNv"]</td>
+        @*<td>@row["Ten_Bp0"]</td>*@
+        <td>@row["Ten_to"]</td>
+        @*<td>@row["Nghe_Nghiep"]</td>*@
+        <td>@row["Ngay_vao_lam"]</td>
+        <td>@row["Tham_Nien"]</td>
+        <td>@row["Ten_Tlg"]</td>
+        @*<td>@row["Loại Lương"]</td>*@
+        @*<td>@row["Bac_Luong"]</td>*@
+        <td>@row["Luong_Bao_Hiem"]</td>
+        <td>@row["Quoc_Tich"]</td>
+        <td>@row["Dan_toc"]</td>
+        <td>@row["Ton_giao"]</td>
+        <td>@row["Hon_nhan"]</td>
+        @*<td>@row["Ten_Gioi_Tinh"]</td>*@
+        <td>@row["Ngay_Sinh"]</td>
+        <td>@row["Noi_Sinh"]</td>
+        <td>@row["Ten_PLTD"]</td>
+        <td>@row["Ten_ChucDanh"]</td>
+        <td>@row["Dia_Chi"]</td>
+        <td>@row["Email"]</td>
+        <td>@row["Dien_Thoai"]</td>
+        <td>@row["So_Cmnd"]</td>
+        <td>@row["Ngay_Cap"]</td>
+        <td>@row["Noi_Cap"]</td>
+        <td>@row["So_Tk_NH"]</td>
+        <td>@row["Ngan_Hang"]</td>
+        <td>@row["Ma_So_Thue"]</td>
+    </tr>
+    }
+</table>
+</body>
+</html>

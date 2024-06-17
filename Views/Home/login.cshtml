@@ -1,0 +1,142 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<!-- login form -->
+<html>
+<head>
+    <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    @*<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+    <link rel="stylesheet" type="text/css" href="~/Styles/login.css">
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*padding: 0 2rem;*/
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="loader" style="z-index:1"></div>
+    <img class="wave" src="~/Images/image_background.jpg" style="width:100%">
+    <div class="container" style="display:flex;flex-direction:column">
+
+        <div class="login-content">
+            <form action="Verify" method="post" class="signin-form">
+
+                <h2 class="title">LOGIN</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+
+                    <div class="div">
+                        <input placeholder="Username" type="text" class="input" name="Name" id="Name">
+
+                    </div>
+
+                </div>
+
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        <input placeholder="Password" type="password" class="input" name="Password">
+                    </div>
+                </div>
+                <div class="select-menu">
+                    <div class="select-btn">
+                        <select name="Ma_DvCs">
+                            <option value=" ">Văn Phòng Công Ty</option>
+                            <option value="OPC_B1">Công Ty Cổ Phần Dược Phẩm OPC</option>
+                            <option value="OPC">Tài Chính Kế Toán Công Ty</option>
+                            <option value="OPC_TP">CN Hồ Chí Minh</option>
+                            <option value="OPC_CT">CN Cần Thơ</option>
+                            <option value="OPC_TG">CN Tiền Giang</option>
+                            <option value="OPC_MD">CN Miền Đông</option>
+                            <option value="OPC_VT">CN Vũng Tàu</option>
+                            <option value="OPC_NT">CN Nha Trang</option>
+                            <option value="OPC_DN">CN Đà Nẵng</option>
+                            <option value="OPC_NA">CN Nghệ An</option>
+                            <option value="OPC_HN">CN Hà Nội</option>
+                        </select>
+                    </div>
+                </div>
+                <a href="#">Forgot Password?</a>
+                <input type="submit" class="btn" value="Login" onclick="saveName()">
+                <div style="text-align:center"> <h4 id="wrong_pass" style="color:red"></h4></div>
+            </form>
+
+        </div>
+        <a class="link"id="tdv-link">Dành cho TDV</a>
+    </div>
+   
+</body>
+</html>
+@if (ViewBag.Message != null)
+{
+<script>
+        document.getElementById("wrong_pass").innerHTML = "@ViewBag.Message";
+          var message = "@ViewBag.Message";
+
+    // Kiểm tra xem ViewBag.Message có khác rỗng hay không
+    if (message.trim() !== "") {
+        // Gọi hàm hiển thị thông báo lỗi
+        displayAlert(message);
+    }
+</script>
+}
+
+<script>
+    function saveName() {
+        var nameInput = document.getElementById("Name");
+        var nameValue = nameInput.value;
+        localStorage.setItem("username", nameValue);
+        showLoader();
+        return true; // Cho phép form submit
+    }
+    function displayAlert(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return false;
+    }
+    function showLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+
+    // Function to hide the loader
+    function hideLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.add("loader-hidden");
+    }
+    window.addEventListener("load", () => {
+        // Hide the loader after the page is loaded
+        hideLoader();
+       
+    });
+</script>
+<script>
+    // Lắng nghe sự kiện click trên dòng div "Dành cho TDV"
+    document.getElementById("tdv-link").addEventListener("click", function () {
+        // Chuyển hướng người dùng đến một trang web khác (ví dụ: "https://example.com")
+        window.location.href = "Login_TDV";
+    });
+
+</script>
+
+
+

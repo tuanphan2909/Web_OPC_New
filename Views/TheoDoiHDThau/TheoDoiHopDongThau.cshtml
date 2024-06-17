@@ -1,0 +1,1029 @@
+﻿﻿﻿
+
+@{ ViewBag.Title = "THEO DÕI HỢP ĐỒNG THẦU"; }
+@using System.Data;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <style>
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+        width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+
+        .hidden-row {
+            display: none;
+        }
+
+        #myInput::placeholder {
+            text-align: center;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>THEO DÕI HỢP ĐỒNG THẦU</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+
+
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee">
+    <div class="loader" style="z-index:1"></div>
+    <span id="spanText" class="text-loading">[usp_TheoDoiHopDongThau_SAP]</span>
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="display: flex; justify-content: center;">
+            <li>
+                <form id="dateForm" action="TheoDoiHopDongThau" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.Cookies["From_date"].Value" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.Cookies["To_date"].Value" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                    </div>
+                    <h6>Chọn Đối Tượng</h6>
+
+                    <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm đối tượng">
+                    <datalist id="dropdownList">
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-maDt="@item.Ma_Dt" data-dvcs="@item.Dvcs" data-dvcs1="@item.Dvcs1">@item.Ten_Dt</option>
+                        }
+                    </datalist>
+                    <input type="hidden" name="Ma_Dt" id="selectedOption"><br /><br />
+                    <h6>Chọn TDV</h6>
+
+
+
+                    <input type="text" id="dropdownInputTDV" list="dropdownListTDV" placeholder="Tìm kiếm TDV">
+                    <datalist id="dropdownListTDV">
+                        @foreach (var item in ViewBag.DataTDV)
+                        {
+                            <option value="@item.Ma_CbNv" data-Ma_CbNv="@item.Ma_CbNv">@*@item.Ma_CbNv*@ @item.hoten</option>
+                        }
+                    </datalist>
+                    <input type="hidden" name="Ma_TDV" id="selectedOptionTDV">
+                    <div class="select-btn" style="width:80px;margin-top:10px;">
+                        <select name="Ma_Dvcs" id="maDvCsSelect" onchange="saveSelectedValueToCookie()" style="width:200px">
+                            <option value="" style="background-color: #020024;color:white">Đơn Vị Cơ Sở</option>
+                            <option value="OPC_B1">Công Ty Cổ Phần Dược Phẩm OPC</option>
+                            <option value="OPC_B2">Nhà Máy Bình Dương</option>
+                            <option value="OPC_TP">CN Hồ Chí Minh</option>
+                            <option value="OPC_CT">CN Cần Thơ</option>
+                            <option value="OPC_TG">CN Tiền Giang</option>
+                            <option value="OPC_MD">CN Miền Đông</option>
+                            <option value="OPC_VT">CN Vũng Tàu</option>
+                            <option value="OPC_NT">CN Nha Trang</option>
+                            <option value="OPC_DN">CN Đà Nẵng</option>
+                            <option value="OPC_NA">CN Nghệ An</option>
+                            <option value="OPC_HN">CN Hà Nội</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="submit" type="button" id="xemTungHD" onclick="handleXemTungHD()">
+                            Chạy Báo Cáo
+                        </button>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+        @if (Request.Cookies["UserName"].Value == "Admin-cnct" || Request.Cookies["UserName"].Value == "Admin-cntg" || Request.Cookies["UserName"].Value == "Admin-cnmd" || Request.Cookies["UserName"].Value == "Admin-cnh1" || Request.Cookies["UserName"].Value == "Admin-cnvt"
+                     || Request.Cookies["UserName"].Value == "Admin-cnnt" || Request.Cookies["UserName"].Value == "Admin - cndn" || Request.Cookies["UserName"].Value == "Admin - cnna" || Request.Cookies["UserName"].Value == "Admin - cnhn")
+        {
+
+
+
+            <a href="/Home/AboutCN" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        else
+        {
+            <a href="/Home/About" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        <h4 style="color: #3483bd">Theo Dõi Hợp Đồng Thầu</h4>
+        <h5 style="color: #3483bd">Từ @Request.Cookies["From_date"].Value đến @Request.Cookies["To_date"].Value</h5>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+    <div class="container" style="margin-left: 150px">
+        @*<div class="container">
+
+                <span>Search: <input type="Text" name="" id="myInput" placeholder="Số Chứng Từ" onkeyup="searchFun()"></span>
+                <div class="search"></div>
+            </div>*@
+        <div class="row">
+            <div class="col-12">
+
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Số HĐ</th>
+                                <th>Tên Hợp Đồng</th>
+                                <th>Số Báo Giá</th>
+                                <th>Tên Báo Giá</th>
+
+
+                                <th>Tên Đối Tượng</th>
+                                <th>Tình Trạng</th>
+                                <th>In</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+
+                                string previousSoCt = ""; // Biến để lưu trữ giá trị So_Ct trước đó
+                                foreach (DataRow row2 in Model.Tables[0].Rows)
+                                {
+                                    var currentSoCt = row2["So_Hop_Dong"].ToString(); // Lấy giá trị So_Ct từ dòng hiện tại
+                                    if (currentSoCt != previousSoCt)
+                                    {
+                                        // Nếu giá trị So_Ct khác với giá trị trước đó, thì hiển thị dòng này
+                                        <tr class="table1-data" data-soct="@currentSoCt">
+                                            <td>@currentSoCt</td>
+                                            <td>@row2["Ten_Hop_Dong"]</td>
+                                            <td>@row2["So_Bao_Gia"]</td>
+                                            <td>@row2["Ten_Bao_Gia"]</td>
+                                            <td>@row2["Ten_Dt"]</td>
+                                            <td>@row2["Tinh_Trang"]</td>
+                                            @*<td onclick="saveSelectedValueToCookie(this.parentNode.parentNode);runReport('@Url.Action("PhieuNhapKho", "MauInChungTu", new { So_Ct = row2["So_Ct"] })')"><span class="material-symbols-outlined print-icon">print</span></td>*@
+                                            <td><button onclick="scrollToBottom()">Xem</button></td>
+
+                                        </tr>
+                                        previousSoCt = currentSoCt; // Cập nhật giá trị So_Ct trước đó
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="data_table" style="margin-top:20px">
+                    <table id="example2" class="table table-striped table-bordered" style="width:100%">
+                        <thead class="table-dark">
+                            <tr>
+
+                                <th>Số HĐ</th>
+                                <th>Mã Đơn Vị</th>
+                                <th>Tên Đơn Vị</th>
+                                <th>Mã VT</th>
+                                <th>Tên Vt</th>
+                                <th>Mã TDV</th>
+                                <th>Tên TDV</th>
+                                <th>Số Lượng TT</th>
+                                <th>Giá Trị TT</th>
+                                <th>Số Lượng Bán</th>
+                                <th>Giá Trị Bán</th>
+                                <th>Số lượng còn lại</th>
+                                <th>Giá trị còn lại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (DataRow row3 in Model.Tables[0].Rows)
+                            {
+                                <tr>
+
+                                    <td>@row3["So_Hop_Dong"]</td>
+                                    <td>@row3["Ma_Don_Vi"]</td>
+                                    <td>@row3["Ten_Don_Vi"]</td>
+                                    <td>@row3["Ma_Vt"]</td>
+                                    <td>@row3["Ten_Vt"]</td>
+                                    <td>@row3["Ma_TDV"]</td>
+                                    <td>@row3["Ten_TDV"]</td>
+                                    <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["So_Luong_TT"]))</td>
+                                    <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["Gia_Tri_TT"]))</td>
+                                    <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["So_Luong_Ban"]))</td>
+                                    <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["Gia_Tri_Ban"]))</td>
+                                    <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["So_Luong_Con_Lai"]))</td>
+                                    <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["Gia_Tri_Con_Lai"]))</td>
+                                </tr>
+                            }
+
+
+
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+    <div id="footer"></div><!--click vào cuộn xuống dưới trang web-->
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#dropdownDt").select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#dropdownMaTDV").select2();
+        });
+    </script>
+    <script>
+        window.onload = function () {
+            // Trích xuất giá trị từ cookie
+            function getCookieValue(cookieName) {
+                const name = cookieName + "=";
+                const decodedCookie = decodeURIComponent(document.cookie);
+                const cookieArray = decodedCookie.split(";");
+                for (let i = 0; i < cookieArray.length; i++) {
+                    let cookie = cookieArray[i];
+                    while (cookie.charAt(0) === " ") {
+                        cookie = cookie.substring(1);
+                    }
+                    if (cookie.indexOf(name) === 0) {
+                        return cookie.substring(name.length, cookie.length);
+                    }
+                }
+                return "";
+            }
+
+            // Lấy giá trị từ cookie "Dvcs3"
+            const dvcs3Value = getCookieValue("Dvcs3");
+
+            // Tìm phần tử select
+            const selectElement = document.getElementById("maDvCsSelect");
+
+            // Thiết lập giá trị cho select nếu có giá trị từ cookie
+            if (dvcs3Value !== "" ) {
+                selectElement.value = dvcs3Value;
+            }
+
+
+              var maDvCsSelect = document.getElementById("maDvCsSelect");
+    var maDvcsCookieValue = "@Request.Cookies["MA_DVCS"].Value"; // Thay thế bằng cách lấy giá trị từ Razor (ASP.NET)
+
+            if (maDvcsCookieValue === "OPC_VT" || maDvcsCookieValue === "OPC_CT" || maDvcsCookieValue === "OPC_TP" || maDvcsCookieValue === "OPC_TG" || maDvcsCookieValue === "OPC_MD" || maDvcsCookieValue === "OPC_NT" || maDvcsCookieValue === "OPC_DN" || maDvcsCookieValue === "OPC_NA" || maDvcsCookieValue==="OPC_HN") {
+        // Nếu MA_DVCS là rỗng, bạn có thể ẩn dropdown
+        maDvCsSelect.style.display = "none";
+    } else {
+        // Nếu MA_DVCS không rỗng, bạn có thể hiển thị dropdown và chọn giá trị tương ứng
+        maDvCsSelect.style.display = "block";
+      /*  maDvCsSelect.value = maDvcsCookieValue;*/
+            }
+
+
+        };
+
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInput');
+            var selectedOption = document.getElementById('selectedOption');
+
+            // Lấy giá trị từ cookie
+            var maDtFromCookie = getCookie('Ma_Dt');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (maDtFromCookie) {
+                dropdownInput.value = maDtFromCookie;
+                selectedOption.value = maDtFromCookie;
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInputTDV');
+            var selectedOption = document.getElementById('selectedOption');
+
+            // Lấy giá trị từ cookie
+            var matdvFromCookie = getCookie('Ma_TDV');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (matdvFromCookie) {
+                dropdownInput.value = matdvFromCookie;
+                selectedOption.value = matdvFromCookie;
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInputVT');
+            var selectedOption = document.getElementById('selectedOption');
+
+            // Lấy giá trị từ cookie
+            var mavtFromCookie = getCookie('Ma_Vt');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (mavtFromCookie) {
+                dropdownInput.value = mavtFromCookie;
+                selectedOption.value = mavtFromCookie;
+            }
+        });
+        // Hàm lấy giá trị từ cookie
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return null;
+        }
+    </script>
+    <script>
+         function handleXemTungHD() {
+            var select = document.getElementById("maDvCsSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+            var maDvcsCookieValue = "@Request.Cookies["MA_DVCS"].Value";
+            if (selectedValue === "" && maDvcsCookieValue ==="") {
+                // Hiển thị hộp thoại cảnh báo nếu không có giá trị được chọn
+                window.alert("Vui lòng chọn Đơn Vị Cơ Sở!");
+                return null;
+            } else {
+                showLoader();
+                // Thực hiện các tác vụ cần thiết cho Xem Từng HD
+                runReport();
+
+                saveNgay();
+
+                // Chuyển hướng đến action TheoDoiHopDongThau
+                document.getElementById("dateForm").action = "TheoDoiHopDongThau";
+                document.getElementById("dateForm").submit();
+            }
+
+        }
+
+        function runReport() {
+
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+                showLoader();
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+        }
+        function saveNgay() {
+            var from_date = document.getElementById("tu_ngay").value;
+            var to_date = document.getElementById("den_ngay").value;
+            document.cookie = "From_date=" + from_date;
+            document.cookie = "To_date=" + to_date;
+        }
+        function saveSelectedValueToCookie() {
+            var select = document.getElementById("maDvCsSelect");
+            var selectedValue = select.options[select.selectedIndex].value;
+            if (selectedValue === "") {
+                // Hiển thị hộp thoại cảnh báo nếu không có giá trị được chọn
+                window.alert("Vui lòng chọn một giá trị trong dropdown.");
+            } else {
+                // Cập nhật cookie với giá trị đã chọn
+                document.cookie = "Dvcs3=" + selectedValue + "; expires=" + new Date(Date.now() + 86400 * 1000).toUTCString();
+            }
+            // Lưu giá trị vào cookie với tên là "Dvcs3" và thời gian sống là 1 ngày (86400 giây)
+
+            /*      document.cookie = "MA_DVCS=" + selectedValue + "; expires=" + new Date(Date.now() + 86400 * 1000).toUTCString();*/
+        }
+    </script>
+    <script>
+
+
+        //document.addEventListener("DOMContentLoaded", function () {
+        //    var tableRows = document.querySelectorAll("#example tbody tr");
+
+        //    tableRows.forEach(function (row) {
+        //        row.addEventListener("click", function () {
+        //            saveSelectedValueToCookie(row);
+        //        });
+        //    });
+        //});
+
+        function scrollToBottom() {
+            var footer = document.getElementById("footer"); // Lấy phần tử phần dưới cùng của trang
+            if (footer) {
+                footer.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+            }
+        }
+    </script>
+    @*<script>
+
+            function runReport(url) {
+                const spanElement = document.getElementById("spanText");
+                spanElement.style.display = "block";
+                var selectedValue = document.cookie.replace(/(?:(?:^|.*;\s*)So_Ct\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
+                // Sử dụng AJAX để gửi giá trị lên controller
+                $.ajax({
+                    type: "POST",
+                    url: "PhieuNhapKho", // Điều chỉnh URL tương ứng với controller của bạn
+                    data: { Loai_Ct: selectedValue },
+                    success: function (data) {
+                        // Xử lý phản hồi từ controller (nếu cần)
+                    }
+                });
+                window.open(url, '_blank');
+            }
+            function openNewTab(url) {
+
+
+            }
+        </script>*@
+
+
+    <script>
+        //function handleFormSubmit(event) {
+        //    event.preventDefault();
+
+        //    // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+        //    const fromDate = document.getElementById('tu_ngay').value;
+        //    const toDate = document.getElementById('den_ngay').value;
+
+        //    // Tạo URL mới với các tham số truy vấn
+        //    const form = event.target;
+        //    const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+        //    // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+        //    window.location.href = actionUrl;
+        //}
+
+
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        // Add an event listener to the form submission
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+        });
+
+    </script>
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+
+                    break;
+                }
+            }
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("xemTungHD");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-maDt');
+                        document.cookie = 'Ma_Dt=' + tenDt;
+                    } else {
+                        var selected = "";
+                        document.cookie = 'Ma_Dt=' + selected;
+                    }
+                });
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("xemTatCa");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-maDt');
+                        document.cookie = 'Ma_Dt=' + tenDt;
+                    } else {
+                        var selected = "";
+                        document.cookie = 'Ma_Dt=' + selected;
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table1Rows = document.querySelectorAll('.table1-data');
+            const table2Rows = document.querySelectorAll('.table2-data');
+
+            table1Rows.forEach(table1Row => {
+                const dataSoct = table1Row.getAttribute('data-soct');
+                const relatedTable2Rows = document.querySelectorAll(`.table2-data[data-soct="${dataSoct}"]`);
+
+                relatedTable2Rows.forEach(table2Row => {
+                    table1Row.parentElement.insertBefore(table2Row, table1Row.nextElementSibling);
+                });
+
+                table1Row.addEventListener('click', function () {
+                    relatedTable2Rows.forEach(row => {
+                        row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+                    });
+                });
+            });
+        });
+
+
+
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    const actionIcons = document.querySelectorAll('.print-icon');
+
+        //    actionIcons.forEach(icon => {
+        //        icon.addEventListener('click', function () {
+        //            const parentRow = icon.closest('.table1-data'); // Tìm phần tử cha <tr>
+        //            const soCt = parentRow.getAttribute('data-soct');
+        //            const ngay = parentRow.getAttribute('data-ngay');
+        //            const thang = parentRow.getAttribute('data-thang');
+        //            const nam = parentRow.getAttribute('data-Nam');
+        //            //const rowsInTable2 = document.querySelectorAll(`.table2-data[data-soct="${soCt}"]`);
+
+        //            // Thực hiện hành động tùy ý ở đây
+        //            const newUrl = `/MauInChungTu/MauInNLCB?So_Ct=${soCt}`;
+        //            document.cookie = `SoCt=${soCt}`;
+        //            document.cookie = `Ngay=${ngay}`;
+        //            document.cookie = `Thang=${thang}`;
+        //            document.cookie = `Nam=${nam}`;
+        //            window.location.href = newUrl;
+        //        });
+        //    });
+        //});
+
+
+        const searchFun = () => {
+            let filter = document.getElementById('myInput').value; // Loại bỏ toUpperCase()
+            let myTable = document.getElementById('example');
+            let tr = myTable.getElementsByTagName('tr');
+            for (var i = 0; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName('td')[0]; // Chuyển từ 1 thành 0
+                if (td) {
+                    let textValue = td.textContent || td.innerHTML;
+                    if (textValue.includes(filter)) { // Sử dụng includes() thay vì indexOf()
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+
+        });
+    </script>
+    <script>
+        function handleFormSubmit(event) {
+
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var table1Rows = document.querySelectorAll("#example tbody tr");
+            var table2Rows = document.querySelectorAll("#example2 tbody tr");
+            var table2Body = document.querySelector("#example2 tbody");
+
+            // Ẩn tất cả các hàng trong bảng 2 khi trang tải lần đầu
+            table2Rows.forEach(function (row2) {
+                row2.style.display = "none";
+            });
+
+            table1Rows.forEach(function (row) {
+                row.querySelector("td button").addEventListener("click", function () {
+                    var soCt = row.getAttribute("data-soct");
+                    // Ẩn tất cả các hàng trong bảng dưới
+                    table2Rows.forEach(function (row2) {
+                        row2.style.display = "none";
+                    });
+                    if (soCt !== "") {
+                        // Hiển thị các hàng trong bảng dưới có số Ct tương ứng
+                        table2Rows.forEach(function (row2) {
+                            if (row2.querySelector("td:first-child").textContent === soCt) {
+                                row2.style.display = "table-row";
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+</body>
+
+</html>

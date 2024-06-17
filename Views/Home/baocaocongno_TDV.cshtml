@@ -1,0 +1,132 @@
+﻿@using System.Data;
+@{
+    ViewData["Title"] = "BCCN";
+}
+
+<style>
+    /* I always reset all the html elements */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: sans-serif;
+        min-height: 100vh;
+        color: #555;
+    }
+
+    table {
+        width: 1000px;
+        margin: 30px auto;
+    }
+
+        table th {
+            padding: 10px 0;
+            background-color: #f4f4f4;
+            /* background-color: #fff; */
+            border: thin solid #d4d4d4;
+        }
+
+        table td {
+            padding: 10px;
+            border: thin solid #d4d4d4;
+            width: 18%;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        table img {
+            width: 70%;
+        }
+
+        table td.total-price {
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        table a {
+            text-decoration: none;
+            color: darkred;
+            background-color: #ffecef;
+            padding: 10px 15px;
+        }
+
+            table a:active {
+                background-color: #ccf4d6;
+                color: green;
+            }
+
+        table select {
+            padding: 10px;
+            width: 200px;
+            font-size: 16px;
+            border: thin solid #d4d4d4;
+            background-color: transparent;
+        }
+
+            table select:focus {
+                outline: none;
+            }
+
+
+    input {
+        text-align: center;
+        height: auto;
+        width: 1000px;
+        padding: 10px;
+    }
+
+    .container {
+        text-align: center;
+    }
+    h3{
+        color:deepskyblue;
+        font-size: medium;
+    }
+</style>
+<head>
+    <meta name="viewport" content="width=device-with" />
+    <title>BCCN</title>
+</head>
+<body>
+    <div class="container">
+        <h3>Báo Cáo Công Nợ TDV</h3>
+        <input type="Text" name="" id="myInput" placeholder="Tìm Tên Đối Tượng" onkeyup="searchFun()">
+        <table border="1" id="myTable">
+            <tr bgcolor="White">
+                <th>Tên Đối Tượng</th>
+                <th>Số Chứng Từ</th>
+                <th>Tên TDV Phụ Trách</th>
+                <th>Tổng Tiền</th>
+
+            </tr>
+
+            @foreach (DataRow row in Model.Tables[0].Rows)
+            {
+                <tr>
+                    <td class="num">@row["Ten_DT"]</td>
+                    <td class="num">@row["So_CT"]</td>
+                    <td class="num">@row["Ten_TDV"]</td>
+                    <td class="num">@row["Tong_Tien"]</td>
+                </tr>
+            }
+        </table>
+        <br />
+        <br />
+    </div>
+    <button onclick="myfun()">Print Page</button>
+    <button onclick="trangchu()">Trang Chủ</button>
+    <script src="/Scripts/script.js"></script>
+    <script type="text/javascript">
+        function myfun() {
+            window.print();
+        }
+        function trangchu() {
+            window.location.href = "/Home/About";
+        }
+
+    </script>
+
+</body>

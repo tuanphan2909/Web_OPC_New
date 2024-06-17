@@ -1,0 +1,1088 @@
+﻿
+
+@{ ViewBag.Title = "SỔ QUỸ TIỀN MẶT - IN";
+    var fromDate = Request.Cookies["From_date"].Value;
+    var toDate = Request.Cookies["To_date"].Value;
+    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    var formattedFromDate = fromDateValue.ToString("dd/MM/yyyy");
+    var formattedToDate = toDateValue.ToString("dd/MM/yyyy");
+    var DenNgay = Request.Cookies["To_date"].Value;
+    DateTime ngay = DateTime.ParseExact(DenNgay, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    // Chuyển đổi thành chuỗi theo định dạng "DD/MM/YYYY"
+    string ngayDaChinhSua = ngay.ToString("dd/MM/yyyy");
+    HttpCookie ngayDaChinhSuaCookie = new HttpCookie("NgayDaChinhSua", ngayDaChinhSua);
+    ngayDaChinhSuaCookie.Expires = DateTime.Now.AddDays(1); // Ví dụ: sống trong 1 ngày
+
+    var TuNgay = Request.Cookies["From_date"].Value;
+    DateTime tungay = DateTime.ParseExact(TuNgay, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    string tungayDaChinhSua = tungay.ToString("dd/MM/yyyy");
+    HttpCookie tungayDaChinhSuaCookie = new HttpCookie("TungayDaChinhSua", tungayDaChinhSua);
+    var MaTK = Request.Cookies["Ma_TK"].Value;
+    var title = "";
+    var MaNH = Request.Cookies["Ma_NH"].Value;
+    var TenNH = "";
+    string Dvcs = Request.Cookies["MA_DVCS"] != null ? HttpUtility.UrlDecode(Request.Cookies["MA_DVCS"].Value) : "";
+    if (MaNH == "1605201013995" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "001-033554-001" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TNHH MTC HSBC";
+    }
+    else if (MaNH == "007.137.1023892" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Ngoại Thương Việt Nam";
+    }
+    else if (MaNH == "1012756827_VCB" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Ngoại Thương Việt Nam";
+    }
+    else if (MaNH == "1037931581" && MaTK != "1111")
+    {
+        TenNH = "Ngân Hàng TMCP Công Thương Việt Nam";
+    }
+    else if (MaNH == "1037931581_VCB" && MaTK != "1111")
+    {
+        TenNH = "Ngân Hàng TMCP Ngoại Thương Việt Nam";
+    }
+    else if (MaNH == "111002637244_VIETIN" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Công Thương Việt Nam";
+    }
+    else if (MaNH == "111101409003" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng thương mại Cổ phần Quân đội";
+    }
+    else if (MaNH == "116000030030" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Công thương Việt Nam";
+    }
+    else if (MaNH == "118002874433" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Công thương Việt Nam";
+    }
+    else if (MaNH == "118002929530" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Công thương Việt Nam";
+    }
+    else if (MaNH == "12343939" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Việt Á - Chi Nhánh Sài Gòn";
+    }
+    else if (MaNH == "151703359" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Á Châu (ACB)";
+    }
+    else if (MaNH == "1605201011620" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "1605311200009" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "1890201002962" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "2000201348722" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "311100007727122" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Đầu tư và Phát Triển VN";
+    }
+    else if (MaNH == "31110370007977" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Đầu tư và Phát Triển VN";
+    }
+    else if (MaNH == "3304000058249000" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Việt Á  - Chi Nhánh Sài Gòn";
+    }
+    else if (MaNH == "3601201002934" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông nghiệp và phát triển VN";
+    }
+    else if (MaNH == "4939668" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Á Châu (ACB)";
+    }
+    else if (MaNH == "5506201002874" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông Nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "6090201003970_AGRIBANK" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông Nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "6900201004039_AGRIBANK" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng Nông Nghiệp và Phát Triển VN";
+    }
+    else if (MaNH == "700011141409" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TNHH MTV SHINHAN VIỆT NAM";
+    }
+    else if (MaNH == "71001023887" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Ngoại Thương VN";
+    }
+    else if (MaNH == "71010001751421" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng TMCP Đầu Tư và Phát triển VN";
+    }
+    else if (MaNH == "907-18-071111-8" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng CTBC";
+    }
+    else if (MaNH == "907-18-071112-1" && MaTK != "1111")
+    {
+        TenNH = "Ngân hàng CTBC";
+    }
+    else if (MaNH == "CT_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "DN_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "HN_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "MD_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "NA_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "NT_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "OPC_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "OPC_VANG" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    else if (MaNH == "TG_QUYTM" && MaTK != "1111")
+    {
+        TenNH = "";
+    }
+    if (MaTK == "1111")
+    {
+        title = "SỔ QUỸ TIỀN MẶT";
+
+    }
+    if (MaTK == "1121")
+    {
+        title = "SỔ QUỸ NGÂN HÀNG";
+
+    }
+    if (MaTK == "1131")
+    {
+        title = "SỔ QUỸ NGÂN HÀNG";
+
+    }
+    if (MaTK == "1113")
+    {
+        title = "SỔ QUỸ TIỀN MẶT";
+
+    }
+
+    if (Request.Cookies["MA_DVCS"].Value == "OPC_CT")
+    {
+        Dvcs = "Chi Nhánh Cần Thơ";
+       
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_DN")
+    {
+        Dvcs = "Chi Nhánh Đà Nẵng";
+      
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TG")
+    {
+        Dvcs = "Chi Nhánh Tiền Giang";
+        
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_MD")
+    {
+        Dvcs = "Chi Nhánh Miền Đông";
+       
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_VT")
+    {
+        Dvcs = "Chi Nhánh Vũng Tàu";
+        
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NT")
+    {
+        Dvcs = "Chi Nhánh Nha Trang";
+      
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TP")
+    {
+        Dvcs = "Chi Nhánh Hồ Chí Minh";
+     
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NA")
+    {
+        Dvcs = "Chi Nhánh Nghệ An";
+      
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_HN")
+    {
+        Dvcs = "Chi Nhánh Hà Nội";
+      
+    }
+}
+
+
+@using System.Data;
+@using System.Globalization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>SỔ QUỸ TIỀN MẶT - IN</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="~/Styles/main.css" rel='stylesheet' type='text/css' media="all">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+            color: black;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            /*                text-align: center;*/
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            /*text-align: center;*/
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        img {
+            width: 70px;
+            height: 40px;
+        }
+
+        tr {
+            page-break-inside: avoid; /* Tránh chuyển trang giữa các dòng */
+        }
+        tr td{
+            padding:5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="forms-container">
+        <form class="data-form" id="data-form">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <div style="justify-content: space-between;text-align:left;text-align:center">
+                    <div>@Dvcs</div>
+                    <div style="height:30px"></div>
+                </div>
+                <div style="text-align:center;width:300px">
+                    <h5 style="font-weight:bold">Mẫu số: S07-DN</h5>
+                    <h5 style="word-wrap: break-word">(Ban hành theo Thông tư số 200/2014/TT-BTC Ngày 22/12/2014 của Bộ Tài Chính). </h5>
+                    <br />
+                </div>
+            </div>
+
+            <div style="text-align:center">
+                <h3 style="font-size: 25px; color: black; font-weight: bold">@title</h3>
+                <h5>Từ ngày @tungayDaChinhSua đến ngày @ngayDaChinhSua</h5>
+                <h5 style="font-weight:bold">Tài khoản: @Request.Cookies["Ma_TK"].Value - @TenNH</h5>
+                <br />
+            </div>
+
+            <div style="margin-top:10px">
+                <table id="example" class="table table-striped table-bordered" data-excel-name="Sheet 1">
+                    <thead class="table-dark" id="head">
+                        <tr>
+
+                            <th colspan="4">Chứng Từ</th>
+                            <th rowspan="2" style="width:160px">Tên Đối Tượng</th>
+                            <th rowspan="2"style="width:60px">Diễn giải</th>
+                            <th rowspan="2">TK đối ứng</th>
+                            <th colspan="2">Phát sinh</th>
+                            <th rowspan="2">Số dư</th>
+
+                        </tr>
+                        <tr>
+                            <th>Ngày</th>
+                            <th style="width:110px">Số</th>
+                            <th>Payment</th>
+                            <th>Payment Advice</th>
+                            <th>Thu</th>
+                            <th>Chi</th>
+
+
+
+                        </tr>
+                    </thead>
+                    @*<tbody>
+                            @foreach (DataRow row2 in Model.Tables[0].Rows)
+                            {
+                                <tr class="data-row">
+                                    <td>@row2["Ngay_Ct1"]</td>
+                                    <td data-format="string">@row2["So_NumBer"].ToString()</td>
+                                    <td>@row2["So_Ct"].ToString()</td>
+                                    <td style="text-align:left">@row2["Ten_Dt"]</td>
+                                    <td class="text" style="text-align:left">@row2["Dien_Giai"]</td>
+                                    <td>@row2["Tk_Du"]</td>
+                                    <td data-t="n" class="num" style="text-align:right"> @String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_No"])).Replace(",", ".")</td>
+                                    <td data-t="n" style="text-align:right"> @String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_Co"])).Replace(",", ".")</td>
+                                    <td data-t="n" style='text-align:right;'> @String.Format("{0:n0}", Convert.ToDecimal(row2["Du_Cuoi"])).Replace(",", ".")</td>
+
+
+                                </tr>
+
+
+
+                            }
+                        </tbody>*@
+                    <tbody style="padding:5px">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+
+                            <td style="font-weight:bold;text-align:left;width:150px">Dư Đầu Kỳ</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="DuDauKy" style="font-weight:bold;text-align:right"></td>
+                        </tr>
+                        @{
+                            //decimal Du_Cuoi_FirstRow = 0; // Khởi tạo biến lưu giá trị Du_Cuoi của hàng đầu tiên
+                            //bool firstLoopSkipped = false;
+                            decimal Du_Cuoi_Calculated = 0;
+                            bool isFirstRowFound = false;
+                            decimal DuCuoiKy = 0;
+                            decimal sumThu = 0;
+                            decimal sumChi = 0;
+                            string formattedDuCuoi = "";
+                            string formattedThu = "";
+                            string formattedChi = "";
+                            string formattedDuCuoiKy = "";
+                            foreach (DataRow row2 in Model.Tables[0].Rows)
+                            {
+                                if (row2["Ngay_Ct1"] != DBNull.Value && !string.IsNullOrEmpty(row2["Ngay_Ct1"].ToString()))
+                                {
+                                    DateTime ngayCt;
+                                    if (DateTime.TryParseExact(row2["Ngay_Ct1"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ngayCt))
+                                    {
+                                        //if (!firstLoopSkipped)
+                                        //{
+                                        //    Du_Cuoi_FirstRow = Convert.ToDecimal(row2["Du_Cuoi"]); // Lấy giá trị Du_Cuoi của hàng đầu tiên
+                                        //    firstLoopSkipped = true;
+                                        //    continue;
+                                        //}
+
+                                        DateTime fromDate1;
+                                        DateTime toDate1;
+                                        if (DateTime.TryParseExact(formattedFromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fromDate1) &&
+                                            DateTime.TryParseExact(formattedToDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out toDate1))
+                                        {
+                                            // Đảo ngược vị trí ngày và tháng
+                                            string formattedNgayCt = ngayCt.ToString("dd/MM/yyyy");
+                                            ngayCt.ToString("MM/dd/yyyy");
+                                            if (ngayCt.Day >= fromDate1.Day && ngayCt.Day <= toDate1.Day)
+                                            {
+                                                if (!isFirstRowFound)
+                                                {
+                                                    decimal PS_No = Convert.ToDecimal(row2["Ps_No"]);
+                                                    decimal PS_Co = Convert.ToDecimal(row2["Ps_Co"]);
+                                                    Du_Cuoi_Calculated = Convert.ToDecimal(row2["Du_Cuoi"]) - PS_No + PS_Co;
+                                                    isFirstRowFound = true; // Đánh dấu là đã tìm thấy giá trị đầu tiên
+                                                    formattedDuCuoi = String.Format(Du_Cuoi_Calculated.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
+
+
+                                                }
+
+                                                <tr class="data-row">
+                                                    <td>@formattedNgayCt</td>
+                                                    <td data-format="string">@row2["So_NumBer"].ToString()</td>
+                                                    <td>@row2["So_Ct"].ToString()</td>
+                                                    <td>@row2["So_Ct_Chi"].ToString()</td>
+                                                    <td style="text-align:left">@row2["Ten_Dt"]</td>
+                                                    <td class="text" style="text-align:left">@row2["Dien_Giai"]</td>
+                                                    <td>@row2["Tk_Du"]</td>
+                                                    <td data-t="n" class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_No"])).Replace(",", ".")</td>
+                                                    <td data-t="n" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_Co"])).Replace(",", ".")</td>
+                                                    <td data-t="n" style="text-align:right;">@String.Format("{0:n0}", Convert.ToDecimal(row2["Du_Cuoi"])).Replace(",", ".")</td>
+                                                </tr>
+                                                decimal Thu = Convert.ToDecimal(row2["PS_No"]);
+                                                decimal Chi = Convert.ToDecimal(row2["PS_Co"]);
+                                                sumThu += Thu;
+                                                sumChi += Chi;
+                                                formattedChi = String.Format(sumChi.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
+                                                formattedThu = String.Format(sumThu.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
+                                                DuCuoiKy = Convert.ToDecimal(row2["Du_Cuoi"]);
+                                                formattedDuCuoiKy = String.Format(DuCuoiKy.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        <tr style="font-weight:bold;">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Tổng Phát Sinh</td>
+                            <td></td>
+                            <td class="ThuCuoiKy" style="font-weight:bold;text-align:right"></td>
+                            <td class="ChiCuoiKy" style="font-weight:bold;text-align:right"></td>
+
+                            <td></td>
+                        </tr>
+                        <tr style="font-weight:bold">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Dư Cuối Kỳ</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="DuCuoiKy" style="font-weight:bold;text-align:right"></td>
+
+                        </tr>
+                    </tbody>
+
+
+
+
+
+
+
+                </table>
+
+
+                <br />
+                <div style="display:block;float:right">Ngày.......tháng.......năm.......</div><br />
+
+                <div style="display:flex;justify-content:space-between;text-align:center">
+                    <h4 style="">Người Lập Bảng</h4>
+                    <h4 style="">Thủ Quỹ</h4>
+                    <h4 style="">Kế Toán Tổng Hợp</h4>
+                    <h4 style="">Giám Đốc Chi Nhánh</h4>
+                </div><br />
+
+            </div>
+
+        </form>
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    @*<button id="export-button" onclick="exportExcel()">Xuất Excel</button>*@
+    <input type="file" id="file-input" style="display: none">
+    <script src="src/jquery.table2excel.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+    <!-- Tải jQuery từ CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+    $(".DuDauKy").text('@formattedDuCuoi');
+    $(".ThuCuoiKy").text('@formattedThu');
+     $(".ChiCuoiKy").text('@formattedChi');
+     $(".DuCuoiKy").text('@formattedDuCuoiKy');
+    </script>
+    @*<script>
+        // Bắt sự kiện click vào nút "Xuất Excel"
+        document.getElementById("export-button").addEventListener("click", function () {
+            // Thực hiện cuộc gọi Ajax đến action trong controller
+            $.ajax({
+                url: '@Url.Action("ExportToExcel", "MauInChungTu")', // Thay thế "Excel" bằng tên controller thực tế
+                type: 'GET', // Hoặc 'POST' tùy theo action trong controller
+                success: function (result) {
+                    // Xử lý kết quả tải xuống tệp Excel (result) ở đây
+                    // Ví dụ: bạn có thể mở tệp Excel hoặc hiển thị thông báo cho người dùng
+                },
+                error: function () {
+                    // Xử lý lỗi ở đây (nếu có)
+                }
+            });
+        });
+        </script>*@
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example tbody tr').each(function () {
+                var dienGiaiValue = $(this).find('td:nth-child(5)').text(); // 3 là vị trí cột "Dien_Giai"
+
+                if (dienGiaiValue === "DuDauKy") {
+                    $(this).addClass("bold-row");
+                }
+            });
+        });
+        $(document).ready(function () {
+            $('#example tbody tr').each(function () {
+                var dienGiaiValue = $(this).find('td:nth-child(5)').text(); // 3 là vị trí cột "Dien_Giai"
+
+                if (dienGiaiValue === "TongPhatSinh") {
+                    $(this).addClass("bold-row");
+                }
+            });
+        });
+        $(document).ready(function () {
+            $('#example tbody tr').each(function () {
+                var dienGiaiValue = $(this).find('td:nth-child(5)').text(); // 3 là vị trí cột "Dien_Giai"
+
+                if (dienGiaiValue === "DuCuoiKy") {
+                    $(this).addClass("bold-row");
+                }
+            });
+        });
+    </script>
+    <script>
+        function showFileInput() {
+            // Sử dụng JavaScript để kích hoạt hộp thoại chọn vị trí lưu tệp
+            var fileInput = document.getElementById("file-input");
+            file.click();
+        }
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var tableData = []; // Mảng lưu dữ liệu
+
+            // Lặp qua từng hàng trong bảng
+            var rows = document.querySelectorAll("#export tbody tr");
+            rows.forEach(function (row) {
+                var rowData = [];
+                var cells = row.querySelectorAll("td");
+
+                // Lặp qua từng ô dữ liệu trong hàng
+                cells.forEach(function (cell) {
+                    rowData.push(cell.textContent);
+                });
+
+                tableData.push(rowData); // Thêm mảng dữ liệu hàng vào mảng tableData
+            });
+
+            // Chuyển mảng tableData thành một chuỗi JSON
+            var jsonData = JSON.stringify(tableData);
+
+            // Lưu chuỗi JSON vào cookie
+            Cookies.set("tableDataCookie", jsonData);
+
+            // Kiểm tra xem dữ liệu đã được lưu vào cookie chưa
+            var retrievedData = Cookies.get("tableDataCookie");
+            console.log("Dữ liệu từ cookie:", retrievedData);
+        });
+    </script>
+    <script>
+        // Đợi cho tài liệu HTML được tải hoàn thành
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy thẻ tbody của bảng
+            var tbody = document.querySelector("#export tbody");
+
+            // Khởi tạo mảng để lưu dữ liệu
+            var tableData = [];
+
+            // Lặp qua từng hàng (tr) trong tbody
+            var rows = tbody.querySelectorAll("tr");
+            rows.forEach(function (row) {
+                // Lấy tất cả các ô dữ liệu trong hàng (td)
+                var rowData = [];
+                var cells = row.querySelectorAll("td");
+                cells.forEach(function (cell) {
+                    // Lấy nội dung của ô dữ liệu và thêm vào mảng rowData
+                    rowData.push(cell.textContent);
+                });
+
+                // Thêm mảng rowData vào mảng tableData
+                tableData.push(rowData);
+            });
+
+            // Xuất mảng tableData lên console
+            console.log(tableData);
+        });
+    </script>
+
+    <script>
+  function exportExcel() {
+    window.location.href = '@Url.Action("ExportToExcel", "MauInChungTu")';
+}
+
+
+    </script>
+
+
+
+    @*<script>
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        $(document).ready(function () {
+            $("#export-button").click(function () {
+                var tableData = [];
+
+                // Lặp qua từng hàng dữ liệu trong tbody
+                $("#export tbody tr").each(function () {
+                    var rowData = [];
+
+                    // Lặp qua từng ô dữ liệu trong hàng
+                    $(this).find("td").each(function () {
+                        rowData.push($(this).text());
+                    });
+
+                    // Thêm hàng dữ liệu vào mảng tableData
+                    tableData.push(rowData);
+                });
+
+                // Gửi dữ liệu lên máy chủ để xử lý tạo tệp Excel
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ExportToExcel", "MauInChungTu")',
+                    data: JSON.stringify(tableData), // Truyền dữ liệu dưới dạng JSON
+                    contentType: "application/json; charset=utf-8", // Đặt kiểu dữ liệu là JSON
+                    success: function (response) {
+                        console.log("Thành công");
+                    },
+                    error: function () {
+                        console.log("Lỗi");
+                    }
+                });
+            });
+        });
+        </script>*@
+
+
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+                    break;
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 'p') {
+                // Người dùng nhấn Ctrl+P, ẩn nút xuất Excel
+                document.getElementById('export-button').style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+

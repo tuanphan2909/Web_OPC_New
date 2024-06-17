@@ -1,0 +1,191 @@
+﻿@using System.Data;
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phiếu Theo Dõi Hóa Đơn Giao Hàng</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            border: 1px solid #000;
+            padding: 15px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            table th, table td {
+                border: 1px solid black;
+                padding: 5px;
+                text-align: left;
+            }
+
+            table th {
+                background-color: #f2f2f2;
+            }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .signature {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start; /* Đảm bảo các phần tử căn đều ở đỉnh */
+            margin-top: 30px;
+        }
+
+            .signature div {
+                flex: 1; /* Đảm bảo các div có kích thước bằng nhau */
+                margin: 0 10px; /* Cung cấp một chút không gian giữa các chữ ký */
+            }
+
+        .signature-line {
+            border-top: 1px solid black;
+            padding-top: 2px; /* Cung cấp không gian cho dòng viền phía trên */
+            margin-top: 50px; /* Khoảng cách từ chữ ký đến dòng viền */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">PHIẾU THEO DÕI HÓA ĐƠN GIAO HÀNG</div>
+        <div class="subtitle">
+
+            <div>
+                Số:  @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    @row2["So_Ct"];
+                }
+            </div>
+        </div>
+
+        <div>
+            Ngày giao hàng:  @foreach (DataRow row2 in Model.Tables[0].Rows)
+            {
+                @row2["Ngay_Ct"];
+            }
+        </div>
+        <div>
+            Trình Dược Viên:  @foreach (DataRow row2 in Model.Tables[0].Rows)
+            {
+                @row2["Ten_NVGiaoHang"];
+            }
+        </div>
+        <div>
+           Nhân Viên Giao Nhận:  @foreach (DataRow row2 in Model.Tables[0].Rows)
+            {
+                @row2["Ten_NVPhuKho"];
+            }
+        </div>
+
+        <table>
+            <tr>
+                <th rowspan="2">Stt</th>
+                <th rowspan="2">Đơn vị</th>
+                <th colspan="3">Hóa Đơn</th>
+
+                <th colspan="3">Hình thức thanh toán</th>
+                <th rowspan="2">Người phụ giao hàng</th>
+                <th rowspan="2">Trả Hóa Đơn</th>
+            </tr>
+            <tr>
+
+                <th>Số</th>
+                <th>Ngày</th>
+                <th>Số tiền</th>
+                <th>Nợ</th>
+                <th>TM</th>
+                <th>Chi Phí GH</th>
+            </tr>
+            @foreach (DataRow row2 in Model.Tables[2].Rows)
+            {
+                <tr>
+                    <td>@row2["So_tt"]</td>
+                    <td>@row2["Ten_Dt"]</td>
+                    <td>@row2["So_Hd"]</td>
+                    <td>@row2["Ngay_HD"]</td>
+                    <td class="text-right" name="tien-hd">@row2["Tien_Hd"]</td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            }
+            <!-- Repeat rows as needed -->
+            <tfoot>
+                @foreach (DataRow row2 in Model.Tables[3].Rows)
+                {
+                    <tr>
+                        <td colspan="4">Tổng Cộng</td>
+                        <td id="tong-cong">@row2["Tong_Cong"]</td>
+                        <td colspan="5"></td>
+                    </tr>
+                }
+            </tfoot>
+        </table>
+
+        <div>
+            <p class="" style="font-size: 15px;">Tổng số hóa đơn đã nhận đi giao (Giao nhận ghi): ...........................................</p>
+            <p class="" style="font-size: 15px;">Tổng chi phí giao hàng (Giao nhận ghi: Tổng số tiền /  Tổng số thùng): ............................................/.....................thùng.</p>
+            <p class="" style="font-size: 15px;">Tổng số hóa đơn đã trả lại (Kế toán công nợ ghi): ......................................................................................................</p>
+            <p style="font-size: 15px; text-align: right;">Ngày .... tháng ..... năm ...........</p>
+
+        </div>
+
+        <div class="signature">
+            @*<div>
+                <p class="text-center">Kế toán công ty</p>
+                <p class="text-center signature-line">(Ký và ghi rõ họ tên)</p>
+            </div>*@
+            <div>
+                <p class="text-center">Điều phối kho</p>
+                <p class="text-center signature-line">(Ký và ghi rõ họ tên)</p>
+            </div>
+            @*<div>
+                <p class="text-center">Thủ Kho</p>
+                <p class="text-center signature-line">(Ký và ghi rõ họ tên)</p>
+            </div>*@
+            <div>
+                <p class="text-center">Người giao hàng</p>
+                <p class="text-center signature-line">(Ký và ghi rõ họ tên)</p>
+            </div>
+        </div>
+       
+
+    </div>
+    
+
+</body>
+</html>

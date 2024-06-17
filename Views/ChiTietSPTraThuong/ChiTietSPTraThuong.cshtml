@@ -1,0 +1,1277 @@
+﻿
+
+
+
+@{ ViewBag.Title = "CHI TIẾT SẢN PHẨM TRẢ THƯỞNG";
+    var fromDate = Request.Cookies["From_date"].Value;
+    var toDate = Request.Cookies["To_date"].Value;
+    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    var formattedFromDate = fromDateValue.ToString("dd/MM/yyyy");
+    var formattedToDate = toDateValue.ToString("dd/MM/yyyy");
+    string dvcs = "";
+    switch (Request.Cookies["Ma_Dvcs_2"].Value)
+    {
+        case "OPC_CT": dvcs = "Chi Nhánh Cần Thơ"; break;
+        case "OPC_TG": dvcs = "Chi Nhánh Tiền Giang"; break;
+        case "OPC_MD": dvcs = "Chi Nhánh Miền Đông"; break;
+        case "OPC_VT": dvcs = "Chi Nhánh Vũng Tàu"; break;
+        case "OPC_TP": dvcs = "Chi Nhánh Hồ Chí Minh"; break;
+        case "OPC_NT": dvcs = "Chi Nhánh Nha Trang"; break;
+        case "OPC_DN": dvcs = "Chi Nhánh Đà Nẵng"; break;
+        case "OPC_NA": dvcs = "Chi Nhánh Nghệ An"; break;
+        case "OPC_HN": dvcs = "Chi Nhánh Hà Nội"; break;
+        case "": dvcs = "Công Ty"; break;
+    }
+}
+@using System.Data;
+@using System.Globalization;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+
+    <style>
+            a:hover {
+                background-color: lightskyblue;
+            }
+
+            * {
+                font-family: "Times New Roman";
+            }
+
+            a {
+                text-decoration: none;
+            }
+
+            .container table {
+                justify-content: center;
+                align-items: center;
+                height: 50vh;
+                zoom: 90%;
+                text-align: center;
+            }
+
+            .container canvas {
+                justify-content: center;
+                align-items: center;
+                height: min-content;
+                zoom: normal;
+            }
+
+            h3 {
+                text-align: center;
+                color: blue;
+            }
+
+            table, td, th {
+                border: 1px solid black;
+                align-items: center;
+                margin-left: auto;
+                margin-right: auto;
+                height: 50px;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            .num {
+                text-align: center;
+                width: 100px;
+            }
+
+            .ten {
+                text-align: left;
+            }
+
+            button {
+                background-color: #2297f6;
+                border: none;
+                outline: none;
+                padding: 5px;
+                font-size: 30px;
+                color: #ffffff;
+                cursor: pointer;
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            p {
+                color: #ffffff;
+            }
+
+
+
+            canvas {
+                width: 200px;
+                height: 100px;
+                text-align: center;
+            }
+
+            .tu_ngay {
+                height: 35px;
+                border-radius: 5px;
+                border: 1px solid #dcdcdc;
+                padding: 0px 10px;
+                outline: none;
+                Format: 'd-m-y';
+            }
+
+            .den_ngay {
+                height: 35px;
+                border-radius: 5px;
+                border: 1px solid #dcdcdc;
+                padding: 0px 10px;
+                outline: none;
+                Format: 'd-m-y';
+            }
+
+
+
+            div#chart {
+                text-align: center;
+                display: flex;
+                /*         justify-content:;*/
+                width: 50%;
+                height: 300px;
+            }
+
+            .submit {
+                height: 50px;
+                background-color: silver;
+                border: none;
+                color: cadetblue;
+                border-radius: 7px;
+                font-size: 18px;
+                font-weight: 600;
+                margin-top: 20px;
+                justify-content: center;
+                align-items: center;
+                transition: all 1s ease-in-out;
+            }
+
+                .submit:hover {
+                    background-color: darkcyan;
+                    color: #ffffff;
+                    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+                }
+
+            .form .locBC {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                width: 500px;
+                height: 400px;
+                float: left;
+            }
+
+            .form table {
+                justify-content: center;
+                align-items: center;
+                height: 50vh;
+                zoom: 90%;
+                text-align: center;
+            }
+
+            .expandable {
+                cursor: pointer;
+            }
+
+            .percent {
+                width: 20%;
+                text-align: right;
+                text-align: center;
+                background-color: #eee;
+                background: linear-gradient(to right, #3399dd, #3399dd);
+                background-size: 1% 100%;
+                background-repeat: no-repeat;
+            }
+
+
+
+            #data {
+                width: 100%;
+                height: 150px;
+                background: white;
+                float: inline-start;
+            }
+
+            .dropdown-check-list {
+                display: inline-block;
+            }
+
+                .dropdown-check-list .anchor {
+                    position: relative;
+                    cursor: pointer;
+                    display: inline-block;
+                    padding: 5px 50px 5px 10px;
+                    border: 1px solid #ccc;
+                }
+
+                    .dropdown-check-list .anchor:after {
+                        position: absolute;
+                        content: "";
+                        border-left: 2px solid black;
+                        border-top: 2px solid black;
+                        padding: 5px;
+                        right: 10px;
+                        top: 20%;
+                        -moz-transform: rotate(-135deg);
+                        -ms-transform: rotate(-135deg);
+                        -o-transform: rotate(-135deg);
+                        -webkit-transform: rotate(-135deg);
+                        transform: rotate(-135deg);
+                    }
+
+                    .dropdown-check-list .anchor:active:after {
+                        right: 8px;
+                        top: 21%;
+                    }
+
+                .dropdown-check-list ul.items {
+                    padding: 2px;
+                    display: none;
+                    margin: 0;
+                    border: 1px solid #ccc;
+                    border-top: none;
+                }
+
+                    .dropdown-check-list ul.items li {
+                        list-style: none;
+                    }
+
+                .dropdown-check-list.visible .anchor {
+                    color: #0094ff;
+                }
+
+                .dropdown-check-list.visible .items {
+                    display: block;
+                }
+
+            .custom-combobox-container {
+                position: relative;
+                width: 100%;
+                outline: none;
+                border: none;
+            }
+
+            .custom-combobox {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                border: 1px solid rgb(199, 199, 199);
+                padding: 10px;
+            }
+
+                .custom-combobox input[type="text"] {
+                    width: 95%;
+                    border: none;
+                    outline: none;
+                    background: none;
+                }
+
+            .options-container {
+                position: absolute;
+                width: 100%;
+                z-index: 100;
+                border: 1px solid rgb(204, 204, 204);
+                border-top: none;
+                display: none;
+                height: 150px;
+                overflow-y: scroll;
+            }
+
+                .options-container label {
+                    display: block;
+                    cursor: pointer;
+                    padding: 5px;
+                    margin-top: 5px;
+                    user-select: none;
+                }
+
+                    .options-container label:hover {
+                        background: rgb(255, 255, 255);
+                    }
+
+                .options-container::-webkit-scrollbar {
+                    width: 8px;
+                }
+
+                .options-container::-webkit-scrollbar-thumb {
+                    background-color: white;
+                }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+                left: 0;
+                height: 50px;
+                width: 200px;
+                transition: all 0.5s ease;
+            }
+
+            .myInput {
+                text-align: center;
+                height: auto;
+                width: 1000px;
+                padding: 10px;
+            }
+
+            .container {
+                text-align: center;
+            }
+
+            .data_table {
+                width: max-content;
+            }
+
+            .bieu_do {
+                padding: 10px;
+                margin: 10%;
+                text-align: center;
+                width: 200px;
+                font-size: 16px;
+                font-weight: 600;
+                color: #fff;
+                cursor: pointer;
+                margin: 20px;
+                height: 55px;
+                text-align: center;
+                border: none;
+                background-size: 300% 100%;
+                border-radius: 10px;
+                moz-transition: all .4s ease-in-out;
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+                .bieu_do:hover {
+                    background-position: 100% 0;
+                    moz-transition: all .4s ease-in-out;
+                    -o-transition: all .4s ease-in-out;
+                    -webkit-transition: all .4s ease-in-out;
+                    transition: all .4s ease-in-out;
+                }
+
+                .bieu_do:focus {
+                    outline: none;
+                }
+
+            .bieu_do {
+                background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+                box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+            }
+
+            .chart {
+                margin: 20px 0px 0px 0px;
+            }
+
+            .text-loading {
+                position: fixed;
+                top: 60%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 13px;
+                color: black;
+                z-index: 2;
+                background-color: rgba(255, 255, 255, 0.9);
+                padding: 5px 10px;
+                display: none;
+            }
+
+            .custom-checkbox {
+                margin-top: 10px;
+                display: inline-block;
+                position: relative;
+                padding-left: 30px;
+                margin-right: 15px;
+                cursor: pointer;
+            }
+
+                .custom-checkbox input {
+                    position: absolute;
+                    opacity: 0;
+                    cursor: pointer;
+                }
+
+            .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                border: 2px solid black;
+                background-color: #ffffff;
+            }
+
+            .custom-checkbox:hover input ~ .checkmark {
+                background-color: #ccc;
+            }
+
+            .custom-checkbox input:checked ~ .checkmark {
+                background-color: #2196F3;
+            }
+
+            .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+            .custom-checkbox input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+            .custom-checkbox .checkmark:after {
+                left: 9px;
+                top: 5px;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 3px 3px 0;
+                transform: rotate(45deg);
+            }
+
+            .checkContainer {
+                height: 300px;
+                overflow: auto;
+                scrollbar-width: none;
+            }
+
+                .checkContainer::-webkit-scrollbar {
+                    width: 0.2em;
+                    background-color: transparent;
+                }
+
+            .tabs {
+                display: inline-block;
+                /* bottom: 0;
+        left: 0;
+        right: 0;*/
+                width: 300vh;
+                height: 50px;
+                /* margin: 15px auto;*/
+                border-bottom: 1px solid #DAE0E7;
+                background: #F9F9F9;
+                list-style-type: none;
+                padding: 0px 12px 0;
+            }
+
+            a {
+                text-decoration: none;
+                color: #333;
+            }
+
+            .tab {
+                float: left;
+                height: 44px;
+                margin: 0 8px -1px 0;
+                border: 1px solid #DAE0E7;
+                background: #F9F9F9;
+                border-radius: 0px 0px 0 0;
+                overflow: hidden;
+            }
+
+                .tab, .tab a {
+                    transition: all .25s;
+                }
+
+                    .tab a {
+                        display: inline-block;
+                    }
+
+                        .tab a:first-child {
+                            padding: 12px 2px 12px 16px;
+                            white-space: nowrap;
+                        }
+
+                    .tab.tabClosed, .tab.tabClosed a:first-child {
+                        margin-right: 0;
+                        border-width: 0;
+                    }
+
+                    .tab.tabClosed {
+                        width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                    }
+
+                        .tab.tabClosed a {
+                            opacity: 0;
+                        }
+
+            .closeTab:hover {
+                background: #DAE0E7;
+            }
+
+            .tab-control {
+                z-index: 1;
+                position: fixed;
+            }
+
+                .tab-control ul {
+                    position: absolute;
+                    bottom: 0px;
+                    /* left:300px;*/
+                }
+
+                    .tab-control ul li {
+                        text-align: center;
+                    }
+
+            .closeTab {
+                position: relative;
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 10px; /* Điều chỉnh khoảng cách với h4 */
+            }
+
+            .closeIcon {
+                display: inline-block;
+                width: 30px;
+                height: 25px;
+                border-radius: 50%;
+                background-color: white;
+                color: black; /* Màu chữ x */
+                text-align: center;
+                line-height: 25px;
+            }
+
+            .tab.active {
+                background-color: cornflowerblue; /* Màu nền tab khi active */
+                color: #fff; /* Màu chữ khi active */
+            }
+
+            .tab.selected-tab {
+                pointer-events: none;
+                background-color: #3763a3; /* Màu nền của tab */
+            }
+
+                .tab.selected-tab a {
+                    color: white /* Màu nền của tab */
+                }
+
+                .tab.selected-tab .closeTab {
+                    pointer-events: auto;
+                }
+
+            .first-row-gray {
+                background-color: #ccc;
+                font-weight: bold;
+                color: black;
+            }
+
+            input[type="checkbox"] {
+                margin: 0;
+                padding: 0;
+                height: 16px;
+                width: 16px;
+                vertical-align: bottom;
+            }
+            /* Customize the label (the container) */
+            .container1 {
+                display: block;
+                position: relative;
+                padding-left: 35px;
+                margin-bottom: 12px;
+                cursor: pointer;
+                font-size: 17px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+                /* Hide the browser's default checkbox */
+                .container1 input {
+                    position: absolute;
+                    opacity: 0;
+                    cursor: pointer;
+                    height: 0;
+                    width: 0;
+                }
+
+            /* Create a custom checkbox */
+            .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #eee;
+            }
+
+
+            .container1:hover input ~ .checkmark {
+                background-color: #ccc;
+            }
+
+
+            .container1 input:checked ~ .checkmark {
+                background-color: #2196F3;
+            }
+
+
+            .checkmark:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+
+
+            .container1 input:checked ~ .checkmark:after {
+                display: block;
+            }
+
+
+            .container1 .checkmark:after {
+                left: 9px;
+                top: 5px;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 3px 3px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+
+            td button {
+                background-color: transparent;
+                border: 2px solid #007bff;
+                color: #007bff;
+                /* padding: 10px 20px;*/
+                font-size: 13px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border-radius: 5px;
+            }
+
+                td button:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+                /* Optional: Adjust the button size */
+                td button.large {
+                    padding: 15px 30px;
+                    font-size: 18px;
+                }
+
+                /* Optional: Adjust the button color */
+                td button.primary {
+                    background-color: #007bff;
+                    border-color: #007bff;
+                    color: #fff;
+                }
+
+                    td button.primary:hover {
+                        background-color: #0056b3;
+                        border-color: #0056b3;
+                    }
+
+            .agree-btn,
+            .disagree-btn {
+                padding: 8px 16px;
+                border: none;
+                cursor: pointer;
+                border-radius: 4px;
+                font-size: 14px;
+                font-weight: bold;
+                text-transform: uppercase;
+                transition: background-color 0.3s ease;
+            }
+
+            .agree-btn {
+                background-color: #28a745;
+                color: #fff;
+            }
+
+            .disagree-btn {
+                background-color: #dc3545;
+                color: #fff;
+            }
+
+                .agree-btn:hover,
+                .disagree-btn:hover {
+                    filter: brightness(90%);
+                }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>QUẢN LÝ TRƯNG BÀY</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee">
+    <div class="loader" style="z-index:1"></div>
+
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center; display:flex;margin-left:10px">
+            <li>
+                <form id="dateForm" action="ChiTietSPTraThuong" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+                        <span id="spanText" class="text-loading">[Usp_DanhSachTrungBay_Detail]</span>
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.Cookies["From_date"].Value" />
+                        <br /><br />
+                        @*<script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />*@
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.Cookies["To_date"].Value" /><br /><br />
+                        @*<script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>*@
+                    </div>
+
+                    @if (Request.Cookies["UserName"].Value == "Admin" || Request.Cookies["UserName"].Value == "ADMIN" || Request.Cookies["UserName"].Value == "OPCMAR001" || Request.Cookies["UserName"].Value == "opcmar001" || Request.Cookies["UserName"].Value == "VPCT-cuonghd")
+                    {
+                        <h6>Chọn chi nhánh</h6>
+                        <div class="select-btn" style="width:100px;margin-top:10px">
+                            <select name="Chitiet" id="chitietselect" onchange="saveSelectedValueToCookie()">
+                                <option value="" style="background-color: #020024;color:white">Chọn giá trị</option>
+                                <option value="OPC_CT">OPC_CT Chi Nhánh Cần Thơ</option>
+                                <option value="OPC_TG">OPC_TG Chi Nhánh Tiền Giang</option>
+                                <option value="OPC_MD">OPC_MD Chi Nhánh Miền Đông</option>
+                                <option value="OPC_TP">OPC_TP Chi Nhánh Hồ Chí Minh</option>
+                                <option value="OPC_VT">OPC_VT Chi Nhánh Vũng Tàu</option>
+                                <option value="OPC_NT">OPC_NT Chi Nhánh Nha Trang</option>
+                                <option value="OPC_DN">OPC_DN Chi Nhánh Đà Nẵng</option>
+                                <option value="OPC_NA">OPC_NA Chi Nhánh Nghệ An</option>
+                                <option value="OPC_HN">OPC_HN Chi Nhánh Hà Nội</option>
+                                <option value="">OPC Công Ty</option>
+                            </select>
+                        </div>
+                    }
+                    <div>
+                        <button class="submit" type="submit" id="runReportButton" onclick="runReport(); saveNgay();runReportAndSaveCookie()">
+                            Chạy Báo Cáo
+                        </button>
+
+                    </div>
+
+                </form>
+        
+            </li>
+        </ul>
+    </div>
+
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+
+        <a style="cursor:pointer">
+            <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+        </a>
+        <h4 style="color: #3483bd">CHI TIẾT SẢN PHẨM TRẢ THƯỞNG</h4>
+        <h4 style="color: #3483bd">Từ @formattedFromDate đến @formattedToDate </h4>
+        <h5 style="color: #3483bd">@dvcs</h5>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Mã Dvcs</th>
+                                <th>Mã KH </th>
+                                <th>Tên KH</th>
+                                <th>Số HD</th>
+                                <th>Ngày HD</th>
+                                <th>Ngày bắt đầu</th>
+                                <th>Ngày kết thúc</th>
+                                @*<th>Thời Lượng Trưng Bày(Tháng)</th>
+                                <th>Mức Thưởng</th>
+                                <th>Số lượng mua HoAstex-S</th>*@
+                                <th>Option 1</th>
+                                <th>Option 2</th>
+                                <th>Mã VT</th>
+                                <th>Tên VT</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Giá</th>
+                                <th>Trả Thưởng</th>
+
+
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in Model.Tables[0].Rows)
+                            {
+                            <tr>
+                                <td>@row["Dvcs"]</td>
+                                <td style="text-align:left">@row["Ma_Dt"]</td>
+                                <td style="text-align:left">@row["Ten_Dt"]</td>
+                                <td>@row["So_Ct"]</td>
+                                <td>@row["Ngay_Ct"]</td>
+                                <td>@row["Ngay_bat_dau"]</td>
+                                <td>@row["Ngay_ket_thuc"]</td>
+                                @*<td>@row["Thoi_Luong_trung_bay"]</td>*@
+                                @*<td style="text-align:right">@String.Format("{0:n0}", row["Muc_thuong"]).Replace(",", ".")</td>
+        <td style="text-align:right">@String.Format("{0:n0}", row["So_Luong_HD"]).Replace(",", ".")</td>*@
+                                <td>@row["Option_1"]</td>
+                                <td>@row["Option_2"]</td>
+                                <td>@row["Ma_Vt"]</td>
+                                <td style="text-align:left">@row["Ten_Vt"]</td>
+                                <td>@row["So_luong"]</td>
+                                <td style="text-align:right">@String.Format("{0:n0}", row["Dvt"]).Replace(",", ".")</td>
+                              <td>@row["Dong_y_Tra_Thuong"]</td>
+                            </tr>
+                            }
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+   
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+  
+    <script>
+
+
+        // Gọi hàm setDefaultDropdownValue khi trang được tải
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        function saveSelectedValueToCookie() {
+            var selectedValue = $("#chitietselect").val();
+
+            // Lấy giá trị của cookie hiện tại
+            var existingCookieValue = getCookie('Ma_Dvcs_2');
+
+            // Thời gian sống của cookie (đơn vị là giây, 30 ngày trong ví dụ này)
+            var expirationTime = 30 * 24 * 60 * 60;
+
+            // Tạo một object Date để thiết lập thời gian hết hạn của cookie
+            var expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (expirationTime * 1000));
+
+            if (existingCookieValue) {
+                // Nếu cookie đã tồn tại, cập nhật giá trị của nó và thiết lập thời gian hết hạn
+                document.cookie = 'Ma_Dvcs_2=' + selectedValue;
+            } else {
+                // Nếu cookie chưa tồn tại, tạo một cookie mới với thời gian hết hạn
+                document.cookie = 'Ma_Dvcs_2=' + selectedValue;
+            }
+        }
+        function runReportAndSaveCookie() {
+            var selectedValue = $("#chitietselect").val();
+            var maDvcsValue = getCookie('MA_DVCS');
+
+            if (!selectedValue) {
+                selectedValue = maDvcsValue;
+            }
+
+            // Thời gian sống của cookie (đơn vị là giây, 30 ngày trong ví dụ này)
+            var expirationTime = 30 * 24 * 60 * 60;
+
+            // Tạo một object Date để thiết lập thời gian hết hạn của cookie
+            var expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (expirationTime * 1000));
+
+            // Cập nhật hoặc tạo cookie mới với thời gian hết hạn
+            document.cookie = 'Ma_Dvcs_2=' + selectedValue + '; expires=' + expirationDate.toUTCString() + '; path=/';
+
+            // Gọi hàm runReport nếu có định nghĩa
+            if (typeof runReport === 'function') {
+                runReport();
+            }
+        }
+    </script>
+    @*<script>
+        // Lấy tất cả các ô checkbox trong hàng
+        const checkboxes = document.querySelectorAll('.rowCheckbox');
+
+        // Thêm lắng nghe sự kiện cho mỗi ô checkbox
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                // Nếu ô checkbox đang được kiểm tra
+                if (this.checked) {
+                    // Lấy giá trị của cột Ma_KH từ thuộc tính data
+                    const maKH = this.getAttribute('data-ma-kh');
+                    // Đặt cookie với tên Ma_Dt và giá trị là maKH
+                    document.cookie = `Ma_Dt=${maKH}`;
+                    // Hủy chọn tất cả các ô checkbox trừ ô checkbox trong hàng hiện tại
+                    checkboxes.forEach(cb => {
+                        if (cb !== this) {
+                            cb.checked = false;
+                        }
+                    });
+                }
+            });
+        });
+    </script>*@
+    <script>
+        function saveNgay() {
+            var from_date = document.getElementById("tu_ngay").value;
+            var to_date = document.getElementById("den_ngay").value;
+            document.cookie = "From_date=" + from_date;
+            document.cookie = "To_date=" + to_date;
+        }
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+
+                    break;
+                }
+            }
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-ten');
+                        document.cookie = 'Ma_Dt=' + tenDt;
+                    } else {
+                        var select = "";
+                        document.cookie = 'Ma_Dt=' + select;
+                    }
+
+                });
+            }
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+    <script>
+        function runReport() {
+
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+        }
+    </script>
+
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            showLoader();
+            // Show the loader when the form is submitted
+
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        }
+        function displaySelectedDate() {
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+            window.location.href = selectedDateDisplay;
+        }
+
+        // Function to show the loader
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        /*  Add an event listener to the form submission*/
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            displaySelectedDate();
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+            const fromDate = urlParams.get('From_date');
+            const toDate = urlParams.get('To_date');
+            if (fromDate && toDate) {
+                displaySelectedDate();
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInputTDV');
+            var selectedOption = document.getElementById('selectedOptionTDV');
+
+            // Lấy giá trị từ cookie
+            var mavtFromCookie = getCookie('Ma_TDV');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (mavtFromCookie) {
+                dropdownInput.value = mavtFromCookie;
+                selectedOption.value = mavtFromCookie;
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInput');
+            var selectedOption = document.getElementById('selectedOption');
+
+            // Lấy giá trị từ cookie
+            var mavtFromCookie = getCookie('Ma_Dt');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (mavtFromCookie) {
+                dropdownInput.value = mavtFromCookie;
+                selectedOption.value = mavtFromCookie;
+            }
+        });
+        // Hàm lấy giá trị từ cookie
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return null;
+        }
+    </script>
+    <script>
+        //function nextPage() {
+        //    // Mở cửa sổ in mới
+        //    var nextWindow = window.open('', '_blank');
+        //    nextWindow.location.href = "/ViengTham/QuanLyTrungBay_Detail";
+
+
+
+        //}
+        //function exportToExcel() {
+        //    // Lấy danh sách cột cần xuất từ bảng gốc
+        //    /* var columnsToExport = ['', 'Số', 'Số Trên SAP', 'Tên Đối Tượng', 'Diễn Giải', 'TK Đối Ứng', 'Thu', 'Chi', 'Số dư'];*/
+
+        //    // Tạo bảng tạm thời chỉ chứa cột cần xuất
+        //    var temporaryTable = $('#example').clone();
+
+        //    // Lặp qua các cột không nằm trong danh sách cần xuất và ẩn chúng
+        //    //temporaryTable.find('thead th, tbody td').each(function () {
+        //    //    var columnHeader = $(this).text();
+        //    //    if (!columnsToExport.includes(columnHeader)) {
+        //    //        $(this).hide();
+        //    //    }
+        //    //});
+
+        //    // Format cells with numeric data (assuming 'Tổng tiền' is a numeric column)
+        //    temporaryTable.find('tbody td:contains("₫")').attr('data-type', 'number'); // This assumes that the 'Tổng tiền' column contains "₫" symbol
+
+        //    // Xuất Excel từ bảng tạm thời
+        //    temporaryTable.table2excel({
+        //        exclude: ".hidden",
+        //        name: "Sheet 1",
+        //        filename: "SoChiTietPhaiThuCuaKH"
+        //    });
+        //}
+    </script>
+
+    @*<script>
+        function scrollToBottom() {
+            var footer = document.getElementById("footer");
+            if (footer) {
+                footer.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+            }
+        }
+    </script>*@
+    <!--<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var table1Rows = document.querySelectorAll("#example tbody tr");
+            var table2Rows = document.querySelectorAll("#example2 tbody tr");
+
+
+
+            table2Rows.forEach(function (row2) {
+                row2.style.display = "none";
+            });
+
+            table1Rows.forEach(function (row) {
+                row.querySelector("td:last-child button").addEventListener("click", function () {
+                    var soCt = row.getAttribute("data-soct");
+                    console.log("Sự kiện click đã được kích hoạt");
+                    console.log("so chung tu", soCt);
+
+                    table2Rows.forEach(function (row2) {
+                        row2.style.display = "none";
+                    });
+                    if (soCt !== "") {
+
+                        table2Rows.forEach(function (row2) {
+                            var maDt = row2.querySelector("td:first-child").textContent;
+                            if (maDt === soCt) {
+                                row2.style.display = "table-row";
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+    </script>-->
+    <!--Đồng ý trả thưởng-->
+    <!--<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    var agreeButtons = document.querySelectorAll('.agree-btn');
+    var disagreeButtons = document.querySelectorAll('.disagree-btn');
+
+    agreeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            handleButtonAction(this, true);
+        });
+    });
+
+    disagreeButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            handleButtonAction(this, false);
+        });
+    });
+
+    function handleButtonAction(button, trangThai) {
+        var row = button.closest('tr');
+        var stt = row.querySelector('.ctvid').getAttribute('data-stt'); // Lấy giá trị STT từ data attribute
+
+        fetch('@Url.Action("UpdateTrangThai", "ViengTham")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: stt, // Gửi STT như một phần của request
+                trangThai: trangThai // true cho Đồng ý, false cho Không
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                if (trangThai) {
+                    // Đồng ý: Ẩn nút Đồng ý, hiển thị nút Không
+                    button.hidden = true;
+                    row.querySelector('.disagree-btn').hidden = false;
+                } else {
+                    // Không: Ẩn nút Không, hiển thị nút Đồng ý
+                    button.hidden = true;
+                    row.querySelector('.agree-btn').hidden = false;
+                }
+            } else {
+                alert('Không thể cập nhật trạng thái.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+        });
+
+
+    </script>-->
+</body>
+
+</html>

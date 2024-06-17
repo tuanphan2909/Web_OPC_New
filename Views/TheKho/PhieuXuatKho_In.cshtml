@@ -1,0 +1,856 @@
+﻿﻿﻿@{
+    ViewBag.Title = "Phiếu Xuất Kho | OPC";
+
+    var soCtFromUrl = Request.QueryString["So_Ct"];
+    string ten = null;
+    decimal tax = 0;
+    string diachi = null;
+    string chinhanh = null;
+    string mst = null;
+    //string dvcs = null;
+    string diachi1 = null;
+    decimal totalThanhTien = 0;
+    decimal tienST = 0;
+    string ngay = null;
+    //string tkNo = null;
+    if (Request.Cookies["MA_DVCS"].Value == "OPC_CT")
+    {
+        chinhanh = "CHI NHÁNH CẦN THƠ";
+        diachi1 = "Số 172, Khu đô thị hai bên đường Nguyễn Văn Cừ, Khu Vực 8, Phường An Bình, Q. Ninh Kiều, TP.Cần Thơ.";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TG")
+    {
+        chinhanh = "CHI NHÁNH TIỀN GIANG";
+        diachi1 = "297 Nguyễn Thị Thập, Phường 5, Thành Phố Mỹ Tho, Tiền Giang";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_MD")
+    {
+        chinhanh = "CHI NHÁNH MIỀN ĐÔNG";
+        diachi1 = "09/ĐX 04-TH,Tổ 7, Kp. Tân Hóa, P. Tân Vĩnh Hiệp, Tp. Tân Uyên, Bình Dương.";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TP")
+    {
+        chinhanh = "CHI NHÁNH HỒ CHÍ MINH";
+        diachi1 = "1017 Hồng Bàng, Phường 12, Quận 6, TP.Hồ Chí Minh";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_VT")
+    {
+        chinhanh = "CHI NHÁNH VŨNG TÀU";
+        diachi1 = "38 Trương Văn Bang, phường 7, Tp. Vũng Tàu";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NT")
+    {
+        chinhanh = "CHI NHÁNH NHA TRANG";
+        diachi1 = "STH03A.01-06, Đường số 6, Khu đô thị mới Lê Hồng Phong II, Phường Phước Hải, TP. Nha Trang, Tỉnh Khánh Hòa";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_DN")
+    {
+        chinhanh = "CHI NHÁNH ĐÀ NẴNG";
+        diachi1 = "số 612 Nguyễn Hữu Thọ - Phường Khuê Trung - Quận Cẩm Lệ - TP.Đà Nẵng";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NA")
+    {
+        chinhanh = "CHI NHÁNH NGHỆ AN";
+        diachi1 = "Số 99B, đường Nguyễn Thái Học, phường Lê Lợi, thành phố Vinh, tỉnh Nghệ An";
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_HN")
+    {
+        chinhanh = "Hà Nội";
+        diachi1 = "Số 99B, đường Nguyễn Thái Học, phường Lê Lợi, thành phố Vinh, tỉnh Nghệ An";
+
+    }
+
+    foreach (DataRow row3 in Model.Tables[0].Rows)
+    {
+        if (row3["so_ct"].ToString() == soCtFromUrl)
+        {
+            mst = row3["MST"].ToString();
+            ten = row3["Ten_Dt"].ToString(); // Gán giá trị của Ten_Supplier vào biến ten
+            diachi = row3["Dia_Chi"].ToString();
+            ngay = row3["Ngay_Ct1"].ToString();
+            break; // Kết thúc vòng lặp khi tìm thấy điều kiện
+        }
+    }
+    //foreach (DataRow row3 in Model.Tables[1].Rows)
+    //{
+    //    if (row3["so_ct"].ToString() == soCtFromUrl)
+    //    {
+    //        tkNo = row3["TK_No"].ToString();
+
+    //        break; // Kết thúc vòng lặp khi tìm thấy điều kiện
+    //    }
+    //}
+}
+
+
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Phiếu Nhập Nguyên Liệu Chế biến</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+            color: black;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+           
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+
+      
+
+        h4 {
+        }
+
+        table {
+            font-size: 12px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid black;
+            font-size: 12px; /* Set font size to 12px */
+        }
+
+            th:last-child, td:last-child {
+                border-right: 1px solid black;
+            }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            transform: scale(1.05);
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 0vh;
+            margin: 0;
+        }
+
+        form {
+           text-align:center;
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .left-aligned {
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center; /* Align content to the left */
+            border-bottom: 1px solid black; /* Add bottom border to cells */
+        }
+
+            th:last-child, td:last-child {
+                border-right: 1px solid black; /* Add right border to last cell in each row */
+            }
+
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border from last row */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+    </style>
+
+    <link rel="stylesheet" href="~/Styles/loader.css">
+</head>
+<body>
+    <div class="loader" style="z-index:1"></div>
+    <span id="spanText" class="text-loading">[usp_PhieuXuatKho_SAP]</span>
+    <div>
+
+        <form>
+
+            @*<div style="width: max-content;align-items:center;justify-content:space-between">
+                <div style="width: 200px;background-color:green;text-align:left">
+                    <h3 style="margin-left:-50%; font-size:13px;"><span style="color:black;font-weight:bold">Bộ Phận: </span>CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                    <h3 style="margin-left: -50%;font-size:13px"><span style="color:black;font-weight:bold">Địa chỉ: </span>1017 Hồng Bàng - Phường 12, Quận 6 - Tp.Hồ Chí Minh,TP Hồ Chí Minh</h3>
+                </div>
+
+                <div style="width: 200px;background-color:blue;text-align:right">
+                    <h3 style=" font-size:13px;"><span style="color:black;font-weight:bold">Bộ Phận: </span>CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                    <h3 style="font-size:13px"><span style="color:black;font-weight:bold">Địa chỉ: </span>1017 Hồng Bàng - Phường 12, Quận 6 - Tp.Hồ Chí Minh,TP Hồ Chí Minh</h3>
+                </div>
+
+                </div>*@
+
+            <div style="float: left;text-align:left;width:300px">
+                <div style="font-size: 13px; font-weight: bold;">@chinhanh</div>
+                <div style="font-size: 13px; font-weight: 100;word-wrap:break-word">@diachi1</div>
+            </div>
+
+
+
+            <br />
+            <br />
+            <br />
+            <div>
+
+                <h3 style="font-size:25px">PHIẾU XUẤT KHO</h3>
+
+            </div>
+            <br />
+            <div style="text-align:left;line-height: 20px">
+
+                <h4 style=" font-size: 13px;font-weight:bold">Khách hàng: <span style="color:black;font-weight:bold">@ten</span></h4>
+                <h4 style=" font-size: 13px;font-weight:100">Số phiếu xuất kho: <span style="color:black">@soCtFromUrl</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ngày Xuất: @ngay</h4>
+                <h4 style=" font-size: 13px; font-weight: 100">
+                    Địa chỉ: <span style="color:black">
+                        @diachi
+                    </span>
+                </h4>
+                <h4 style=" font-size: 13px; font-weight: 100">Mã số thuế: <span style="color:black">@mst</span></h4>
+                <h4 style=" font-size: 13px; font-weight: 100">
+                    Diễn giải: <span style="color:black;font-weight:bold">
+
+                    </span>
+                </h4>
+            </div>
+            <div>
+                <table border="1" style="width:700px">
+                    <tr>
+                        <th>STT</th>
+                        <th width="120px">Tên hàng hóa</th>
+                        <th>DVT</th>
+                        <th style="width:50px">Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+
+                        <th>Số lô- Hạn dùng</th>
+                    </tr>
+
+
+
+
+
+
+                    <tbody>
+                        @{
+
+                            int stt = 1; // Đặt biến stt bên ngoài vòng lặp để giữ giá trị tăng dần
+                            foreach (DataRow row3 in Model.Tables[1].Rows)
+                            {
+                                var currentSoCt = row3["So_Ct"].ToString();
+                                if (currentSoCt == soCtFromUrl)
+                                {
+                                    <tr>
+                                        <td>@stt</td>
+                                        <td style="text-align:left">@row3["Ten_Vt"]</td>
+                                        <td>@row3["dvt"]</td>
+
+                                        <td style="text-align:right">@string.Format("{0:#,###}", row3["So_luong"])</td>
+                                        <td style="text-align:right">@string.Format("{0:#,###}", row3["Don_Gia"]).Replace(",", ".")</td>
+                                        <td style="text-align:right">@string.Format("{0:#,###}", row3["tien_truoc_thue"]).Replace(",", ".")</td>
+
+                                        <td>@row3["So_Lo"]</td>
+                                    </tr>
+                                    stt++; // Tăng giá trị của stt sau mỗi lần lặp
+                                    totalThanhTien += Convert.ToDecimal(row3["tien_truoc_thue"]);
+                                    tax += Convert.ToDecimal(row3["tax"]);
+                                    tienST += Convert.ToDecimal(row3["Tien"]);
+                                }
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" style="font-weight: 100;text-align:right">Cộng tiền hàng:(Chưa VAT)</td>
+                            <td style="text-align:right;font-weight:bold">@string.Format("{0:#,###}", totalThanhTien).Replace(",", ".")</td>
+                            <td></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="5" style="font-weight: 100;text-align:right">Tiền Thuế GTGT:</td>
+                            <td style="text-align:right;font-weight:bold">@string.Format("{0:#,###}", tax).Replace(",", ".")</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="font-weight: 100;text-align:right">Tổng cộng tiền thanh toán:</td>
+                            <td style="text-align:right;font-weight:bold"class="para">@string.Format("{0:#,###}", tienST).Replace(",", ".")</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+                <br />
+                <div style="float:left;display:flex"><div style="font-size:13px;font-weight:bold">Số tiền viết bằng chữ: <span id="resultDiv1" style="font-weight:100"></span></div> </div>
+                <br />
+                <br />
+                <div class="header" style="margin-left:20px">
+                    <h4 style="font-size:15px">GIÁM ĐỐC&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                    <h4 style="margin-right: 10px; font-size: 15px">THỦ KHO</h4>
+                    <h4 style="font-size: 15px">NGƯỜI GIAO HÀNG</h4>
+                    <h4 style="margin-right: 35px; font-size: 15px">KHÁCH HÀNG</h4>
+                </div>
+                <div class="header" style="text-align:center;align-content:space-between;display:flex">
+                    <h4 style="text-align:left;margin-left:20px">(Ký, họ tên)</h4>
+                    <h4 style="margin-left:-20px">(Ký, họ tên)</h4>
+                    <h4 style="text-align:center;margin-right:20px">(Ký, họ tên)</h4>
+                    <h4 style="text-align:right;margin-right:20px;margin-right:50px">(Ký, họ tên)</h4>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+        function openNewTab(url) {
+            window.open(url, '_blank');
+        }
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+        });
+
+    </script>
+    <script>
+        // Hàm để đọc giá trị từ cookie
+        function getCookieValue(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Lấy giá trị từ cookie
+        var toDateCookie = getCookieValue("To_date");
+
+        // Tách giá trị thành năm, tháng, ngày
+        var dateParts = toDateCookie.split("-");
+        var year = dateParts[0];
+        var month = dateParts[1];
+        var day = dateParts[2];
+
+         //Hiển thị lên HTML
+        var date = document.getElementById("date");
+        date.innerHTML = " " + day + "/" + month + "/" + year;
+    </script>
+    <script>
+        let tienSTString = document.querySelector('.para').innerText;
+
+        // Thay thế dấu phẩy bằng dấu chấm (nếu có)
+        tienSTString = tienSTString.replace(/\./g, '').replace(/,/g, '.');
+
+        // Chuyển đổi chuỗi thành số
+        let tienSTFromTable = parseFloat(tienSTString);
+
+        console.log("Gia trị tienST: ", tienSTFromTable);
+
+        function readNumberInVietnamese(number) {
+            const numberWords = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+            const unitWords = ["", "nghìn ", "triệu ", "tỷ "];
+
+            function readGroupOfThreeDigits(group) {
+                let result = "";
+                let hundred = Math.floor(group / 100);
+                let remainder = group % 100;
+
+                if (hundred > 0) {
+                    result += numberWords[hundred] + " trăm ";
+                }
+
+                // Xử lý trường hợp đặc biệt khi remainder có 3 chữ số và không cần "mười"
+                if (remainder >= 10 && remainder < 20) {
+                    result += "mười " + numberWords[remainder % 10];
+                } else if (remainder > 0) {
+                    if (remainder < 10) {
+                        result += numberWords[remainder];
+                    } else {
+                        result += numberWords[Math.floor(remainder / 10)] + " mươi ";
+                        if (remainder % 10 > 0) {
+                            result += numberWords[remainder % 10];
+                        }
+                    }
+                }
+
+                return result;
+            }
+
+            function addUnitWords(text, unitIndex) {
+                if (text.trim() !== "") {
+                    return text + " " + unitWords[unitIndex];
+                }
+                return text;
+            }
+
+            if (number === 0) {
+                return "không đồng";
+            }
+
+            let result = "";
+            let numberString = number.toString();
+
+            while (numberString.length % 3 !== 0) {
+                numberString = "0" + numberString;
+            }
+
+            for (let i = 0; i < numberString.length / 3; i++) {
+                let group = parseInt(numberString.substr(i * 3, 3), 10);
+                result += readGroupOfThreeDigits(group);
+                result = addUnitWords(result, numberString.length / 3 - i - 1);
+            }
+
+            return result.trim() + " đồng";
+        }
+
+        // Kiểm tra giá trị của tienSTFromTable
+      /*  console.log("Giá trị của tienSTFromTable:", tienSTFromTable);*/
+
+        // Hiển thị giá trị của tienST trong thẻ div có ID là "resultDiv1"
+        if (!isNaN(tienSTFromTable)) {
+            let vietnameseText = readNumberInVietnamese(tienSTFromTable);
+            vietnameseText = vietnameseText.charAt(0).toUpperCase() + vietnameseText.slice(1);
+            let resultDiv = document.getElementById("resultDiv1");
+
+            if (resultDiv) {
+                resultDiv.innerText = vietnameseText;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
+

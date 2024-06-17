@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "ChangePassWowrd";
+}
+<html>
+<head>
+    <link href="/Styles/style4.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- Custom Theme files -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Sign Up Password Form Widget Responsive, Login form web template, Sign up Web Templates, Flat Web Templates, Login signup Responsive web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <!--google fonts-->
+    <link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <script src="/Scripts/jquery-2.1.4.min.js"></script>
+    <style>
+        .login-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login">
+        <div class="modal-content modal-info">
+            <div class="modal-header">
+                <h3>Đổi Mật Khẩu</h3>
+            </div>
+            <div class="modal-body modal-spa">
+                <div class="login-form">
+                    <center>
+                        <form  action="Check_doipass" method="post">
+                            <input type="password" class="lock" name="OldPassword" placeholder="Mật Khẩu Cũ" required="" />
+                            <input type="password" class="lock" name="NewPassword" placeholder="Mật Khẩu Mới" required="" />
+                            <input type="submit" value="Đổi Mật Khẩu">
+                        </form>
+                    </center>
+                </div>
+        </div>
+   </div>
+        </div>
+        @if (ViewBag.Message != null)
+        {
+            <script type="text/javascript">
+                window.onload = function () {
+                    alert("@ViewBag.Message");
+                };
+            </script>
+        }
+</body>
+</html>

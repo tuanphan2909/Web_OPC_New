@@ -1,0 +1,851 @@
+﻿
+@{ ViewBag.Title = "THEO DÕI BẢNG KÊ NỘP TIỀN ";
+
+}
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>THEO DÕI BẢNG KÊ NỘP TIỀN</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="~/Styles/main.css" rel='stylesheet' type='text/css' media="all">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+            color: black;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            /*                text-align: center;*/
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            /*text-align: center;*/
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        img {
+            width: 70px;
+            height: 40px;
+        }
+
+        tr {
+            page-break-inside: avoid; /* Tránh chuyển trang giữa các dòng */
+        }
+        tbody tr td{
+            padding:10px;
+        }
+        tfoot tr td {
+            padding: 10px;
+        }
+        tfoot {
+            display: table-row-group;
+        }
+    </style>
+</head>
+<body>
+    <div class="forms-container">
+        <form class="data-form" id="data-form">
+            <div>
+                <h3 style="font-size: 25px; color: black; font-weight: bold">THEO DÕI BẢNG KÊ NỘP TIỀN</h3>
+                <h5 id="quarterYear" style="font-style: italic; color: black;text-align:center">
+                    <!-- The content will be dynamically set by JavaScript -->
+                </h5>
+                <br />
+            </div>
+
+
+            <div style="width:700px;justify-content:start">
+                <div style="word-wrap:break-word">
+
+
+                </div>
+            </div>
+
+
+
+
+
+            <div style="margin-top:10px">
+                <table border="1" border-collapse="collapse" style="width:700px" id="example">
+                    <thead stye="display: table-header-group;">
+                        <tr style="font-size:10px;font-weight:bold;color:black">
+                            <th style="padding:10px">MÃ DT</th>
+                            <th>KHÁCH HÀNG</th>
+                            <th>SỐ HÓA ĐƠN</th>
+                            <th>NGÀY HÓA ĐƠN</th>
+                            <th>TIỀN HÓA ĐƠN</th>
+                            <th>TIỀN THANH TOÁN</th>
+                            <th>NGÀY THANH TOÁN</th>
+                            <th>SỐ PHIẾU THU</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+
+
+                            <tr>
+                                <td style="text-align:center">@row2["Ma_Dt"]</td>
+                                <td style="text-align:left">@row2["Ten_Dt"]</td>
+
+                                <td style="text-align:center">@row2["So_HD_InV"]</td>
+                                @*<td>@row2["So_Hop_Dong_Ex"]</td>*@
+                                <td style="text-align:center">@row2["Ngay_HD"]</td>
+                                <td style="text-align:right"> @String.Format("{0:n0}", Convert.ToDecimal(row2["Tien_HD_InV"])).Replace(".", ",")</td>
+                                <td style="text-align:right">@String.Format("{0:#,###}", row2["Tien_TT"]).Replace(".", ",")</td>
+                                <td style="text-align:center">@row2["Ngay_PT"]</td>
+
+                                <td style="text-align:center">@row2["So_PT"]</td>
+
+                                @*<td>@row2["So_External_Sap"]</td>
+                                    <td>@row2["Ngay_PT"]</td>*@
+                                @*<td style="text-align:right">@String.Format("{0:#,###}", row2["Tien_TT"]).Replace(".", ",")</td>*@
+                                @*<td>@row2["Loai_Ct"]</td>
+                                    <td>@row2["So_Ct"]</td>
+                                    <td>@row2["Ma_TDV"]</td>
+                                    <td>@row2["Ten_TDV"]</td>
+                                    <td>@row2["Ma_LKH"]</td>
+                                    <td>@row2["Ten_LKH"]</td>*@
+                            </tr>
+
+
+
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr id="total-row-tong-cong">
+                            <td colspan="4" style="font-weight:bold">Tổng cộng: </td>
+                            <td class="total-tienHD" style="text-align:right"></td>
+                            <td class="total-tienTT" style="text-align:right"></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+
+                </table>
+
+
+
+
+            </div>
+        </form>
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    @*<button id="export-button" onclick="exportExcel()">Xuất Excel</button>*@
+    <input type="file" id="file-input" style="display: none">
+    <script src="src/jquery.table2excel.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#export-button").click(function () {
+                $("#export").table2excel({
+                    filename: "ThongBaoNoQH.xls"
+                });
+            });
+        });
+
+    </script>
+    <!-- Tải jQuery từ CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    @*<script>
+        // Bắt sự kiện click vào nút "Xuất Excel"
+        document.getElementById("export-button").addEventListener("click", function () {
+            // Thực hiện cuộc gọi Ajax đến action trong controller
+            $.ajax({
+                url: '@Url.Action("ExportToExcel", "MauInChungTu")', // Thay thế "Excel" bằng tên controller thực tế
+                type: 'GET', // Hoặc 'POST' tùy theo action trong controller
+                success: function (result) {
+                    // Xử lý kết quả tải xuống tệp Excel (result) ở đây
+                    // Ví dụ: bạn có thể mở tệp Excel hoặc hiển thị thông báo cho người dùng
+                },
+                error: function () {
+                    // Xử lý lỗi ở đây (nếu có)
+                }
+            });
+        });
+        </script>*@
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy tất cả các ô chứa giá trị cột "Tiền TT"
+            var tienTTCells = document.querySelectorAll('#example tbody td:nth-child(5)');
+
+            // Biến để tính tổng
+            var totalTienTT = 0;
+
+            // Lặp qua từng ô và tính tổng
+            tienTTCells.forEach(function (cell) {
+                var valueWithoutCommas = cell.textContent.replace(/,/g, ''); // Loại bỏ dấu phẩy
+                totalTienTT += parseFloat(valueWithoutCommas);
+            });
+
+            // Gán tổng vào ô của hàng tfoot
+            document.querySelector('#total-row-tong-cong .total-tienHD').textContent = formatCurrency(totalTienTT);
+        });
+
+        // Hàm định dạng số tiền thành chuỗi có dấu phẩy
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Lấy tất cả các ô chứa giá trị cột "Tiền TT"
+            var tienTTCells = document.querySelectorAll('#example tbody td:nth-child(6)');
+
+            // Biến để tính tổng
+            var totalTienTT = 0;
+
+            // Lặp qua từng ô và tính tổng
+            tienTTCells.forEach(function (cell) {
+                var valueWithoutCommas = cell.textContent.replace(/,/g, ''); // Loại bỏ dấu phẩy
+                totalTienTT += parseFloat(valueWithoutCommas);
+            });
+
+            // Gán tổng vào ô của hàng tfoot
+            document.querySelector('#total-row-tong-cong .total-tienTT').textContent = formatCurrency(totalTienTT);
+        });
+
+        // Hàm định dạng số tiền thành chuỗi có dấu phẩy
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+    <script>
+
+        // Hàm để đọc giá trị từ cookie
+        function getCookieValue(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Lấy giá trị từ cookie
+        var toDateCookie = getCookieValue("Ngay_Ky");
+
+        // Tách giá trị thành năm, tháng, ngày
+        var dateParts = toDateCookie.split("-");
+        var year = dateParts[0];
+        var month = dateParts[1];
+        var day = dateParts[2];
+
+        // Hiển thị lên HTML
+        var resultDiv = document.getElementById("date");
+        resultDiv.innerHTML = " " + day + "/" + month + "/" + year;
+    </script>
+    <script>
+        // Function to get the value of a cookie by name
+        function getCookieValue(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i].trim();
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return null;
+        }
+
+        // Function to update the content of the <h5> tag
+        function updateQuarterYear() {
+            // Get the value of the 'From_date' and 'To_date' cookies
+            var fromDateCookie = getCookieValue('From_date');
+            var toDateCookie = getCookieValue('To_date');
+
+            // If the cookies are present, extract the months and proceed
+            if (fromDateCookie && toDateCookie) {
+                var fromDateObj = new Date(fromDateCookie);
+                var toDateObj = new Date(toDateCookie);
+
+                var fromMonth = fromDateObj.getMonth() + 1; // Adding 1 since getMonth() returns 0-based index
+                var toMonth = toDateObj.getMonth() + 1; // Adding 1 since getMonth() returns 0-based index
+
+                // Determine the quarter and year for both 'From_date' and 'To_date'
+                var fromQuarter = Math.floor((fromMonth + 2) / 3); // Calculate the quarter for 'From_date'
+                var toQuarter = Math.floor((toMonth + 2) / 3); // Calculate the quarter for 'To_date'
+
+                var fromYear = fromDateObj.getFullYear();
+                var toYear = toDateObj.getFullYear();
+
+                var h5Element = $('#quarterYear'); // Using jQuery to select the <h5> element
+
+                if (fromMonth === toMonth && fromQuarter === toQuarter) {
+                    // Display quarter and year if the months are exactly 2 apart and in the same quarter
+                    h5Element.text('Tháng ' + fromMonth + ' năm ' + fromYear);
+                    var displayText = 'Tháng ' + fromMonth + ' năm ' + fromYear;
+                    setCookie("Time", displayText);
+
+                } else if (Math.abs(toMonth - fromMonth) === 2) {
+                    // Display quarter and year if the months are exactly 2 apart
+                    h5Element.text('Quý ' + fromQuarter + ' năm ' + fromYear);
+                    var displayText = 'Quý ' + fromQuarter + ' năm ' + fromYear;
+                    setCookie("Time", displayText);
+                } else {
+                    var displayText = 'Từ tháng ' + fromMonth + ' năm ' + fromYear + ' đến tháng ' + toMonth + ' năm ' + toYear;
+                    // Display range of months and years if the difference is neither 0 nor 2
+                    h5Element.text('Từ tháng ' + fromMonth + ' năm ' + fromYear + ' đến tháng ' + toMonth + ' năm ' + toYear);
+                    setCookie("Time", displayText);
+                }
+            } else {
+                // Handle the case where either 'From_date' or 'To_date' cookie is not present
+                console.error("The 'From_date' or 'To_date' cookie is not set.");
+            }
+        }
+        function setCookie(name, value) {
+            document.cookie = name + "=" + value + "; path=/";
+        }
+        // Function to be executed when the page is fully loaded
+        $(document).ready(function () {
+            // Call the updateQuarterYear function when the page loads
+            updateQuarterYear();
+        });
+    </script>
+    <script>
+        function showFileInput() {
+            // Sử dụng JavaScript để kích hoạt hộp thoại chọn vị trí lưu tệp
+            var fileInput = document.getElementById("file-input");
+            file.click();
+        }
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var tableData = []; // Mảng lưu dữ liệu
+
+            // Lặp qua từng hàng trong bảng
+            var rows = document.querySelectorAll("#export tbody tr");
+            rows.forEach(function (row) {
+                var rowData = [];
+                var cells = row.querySelectorAll("td");
+
+                // Lặp qua từng ô dữ liệu trong hàng
+                cells.forEach(function (cell) {
+                    rowData.push(cell.textContent);
+                });
+
+                tableData.push(rowData); // Thêm mảng dữ liệu hàng vào mảng tableData
+            });
+
+            // Chuyển mảng tableData thành một chuỗi JSON
+            var jsonData = JSON.stringify(tableData);
+
+            // Lưu chuỗi JSON vào cookie
+            Cookies.set("tableDataCookie", jsonData);
+
+            // Kiểm tra xem dữ liệu đã được lưu vào cookie chưa
+            var retrievedData = Cookies.get("tableDataCookie");
+            console.log("Dữ liệu từ cookie:", retrievedData);
+        });
+    </script>
+    <script>
+        // Đợi cho tài liệu HTML được tải hoàn thành
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy thẻ tbody của bảng
+            var tbody = document.querySelector("#export tbody");
+
+            // Khởi tạo mảng để lưu dữ liệu
+            var tableData = [];
+
+            // Lặp qua từng hàng (tr) trong tbody
+            var rows = tbody.querySelectorAll("tr");
+            rows.forEach(function (row) {
+                // Lấy tất cả các ô dữ liệu trong hàng (td)
+                var rowData = [];
+                var cells = row.querySelectorAll("td");
+                cells.forEach(function (cell) {
+                    // Lấy nội dung của ô dữ liệu và thêm vào mảng rowData
+                    rowData.push(cell.textContent);
+                });
+
+                // Thêm mảng rowData vào mảng tableData
+                tableData.push(rowData);
+            });
+
+            // Xuất mảng tableData lên console
+            console.log(tableData);
+        });
+    </script>
+
+    <script>
+  function exportExcel() {
+    window.location.href = '@Url.Action("ExportToExcel", "MauInChungTu")';
+}
+
+
+    </script>
+
+
+
+    @*<script>
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        $(document).ready(function () {
+            $("#export-button").click(function () {
+                var tableData = [];
+
+                // Lặp qua từng hàng dữ liệu trong tbody
+                $("#export tbody tr").each(function () {
+                    var rowData = [];
+
+                    // Lặp qua từng ô dữ liệu trong hàng
+                    $(this).find("td").each(function () {
+                        rowData.push($(this).text());
+                    });
+
+                    // Thêm hàng dữ liệu vào mảng tableData
+                    tableData.push(rowData);
+                });
+
+                // Gửi dữ liệu lên máy chủ để xử lý tạo tệp Excel
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                })
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ExportToExcel", "MauInChungTu")',
+                    data: JSON.stringify(tableData), // Truyền dữ liệu dưới dạng JSON
+                    contentType: "application/json; charset=utf-8", // Đặt kiểu dữ liệu là JSON
+                    success: function (response) {
+                        console.log("Thành công");
+                    },
+                    error: function () {
+                        console.log("Lỗi");
+                    }
+                });
+            });
+        });
+        </script>*@
+
+
+    <script>
+        function showSuccessAlert() {
+            alert("Thành Công! Vui lòng kiểm tra ngoài màn hình Desktop");
+        }
+    </script>
+
+
+
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+                    break;
+                }
+            }
+        });</script>
+    <script>
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 'p') {
+                // Người dùng nhấn Ctrl+P, ẩn nút xuất Excel
+                document.getElementById('export-button').style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+

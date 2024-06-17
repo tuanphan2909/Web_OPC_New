@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SAP_OPCModel2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SAP_OPC.dbo.B20SPT' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="B20SPT">
+          <Key>
+            <PropertyRef Name="STT" />
+            <PropertyRef Name="Ngay_Ct" />
+            <PropertyRef Name="So_Ct" />
+            <PropertyRef Name="Ma_Dt" />
+            <PropertyRef Name="Ten_Dt" />
+            <PropertyRef Name="Ngay_Bat_Dau" />
+            <PropertyRef Name="Ngay_Ket_Thuc" />
+            <PropertyRef Name="Ma_SP" />
+            <PropertyRef Name="Ten_SP" />
+            <PropertyRef Name="Tien_TB" />
+          </Key>
+          <Property Name="STT" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Ngay_Ct" Type="smalldatetime" Nullable="false" />
+          <Property Name="So_Ct" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ma_Dt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_Dt" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Ngay_Bat_Dau" Type="smalldatetime" Nullable="false" />
+          <Property Name="Ngay_Ket_Thuc" Type="smalldatetime" Nullable="false" />
+          <Property Name="Ma_SP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_SP" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Tien_TB" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SAP_OPC.dbo.B20SPT_Detail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="B20SPT_Detail">
+          <Key>
+            <PropertyRef Name="STT" />
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Ma_Vt" />
+            <PropertyRef Name="Ten_Vt" />
+            <PropertyRef Name="Dvt" />
+            <PropertyRef Name="So_luong" />
+          </Key>
+          <Property Name="STT" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="RowId" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Ma_Vt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_Vt" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Dvt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="So_luong" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SAP_OPCModel2StoreContainer">
+          <EntitySet Name="B20SPT" EntityType="Self.B20SPT" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [B20SPT].[STT] AS [STT], 
+    [B20SPT].[Ngay_Ct] AS [Ngay_Ct], 
+    [B20SPT].[So_Ct] AS [So_Ct], 
+    [B20SPT].[Ma_Dt] AS [Ma_Dt], 
+    [B20SPT].[Ten_Dt] AS [Ten_Dt], 
+    [B20SPT].[Ngay_Bat_Dau] AS [Ngay_Bat_Dau], 
+    [B20SPT].[Ngay_Ket_Thuc] AS [Ngay_Ket_Thuc], 
+    [B20SPT].[Ma_SP] AS [Ma_SP], 
+    [B20SPT].[Ten_SP] AS [Ten_SP], 
+    [B20SPT].[Tien_TB] AS [Tien_TB]
+    FROM [dbo].[B20SPT] AS [B20SPT]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="B20SPT_Detail" EntityType="Self.B20SPT_Detail" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [B20SPT_Detail].[STT] AS [STT], 
+    [B20SPT_Detail].[RowId] AS [RowId], 
+    [B20SPT_Detail].[Ma_Vt] AS [Ma_Vt], 
+    [B20SPT_Detail].[Ten_Vt] AS [Ten_Vt], 
+    [B20SPT_Detail].[Dvt] AS [Dvt], 
+    [B20SPT_Detail].[So_luong] AS [So_luong]
+    FROM [dbo].[B20SPT_Detail] AS [B20SPT_Detail]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SAP_OPCModel2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="B20SPT">
+          <Key>
+            <PropertyRef Name="STT" />
+            <PropertyRef Name="Ngay_Ct" />
+            <PropertyRef Name="So_Ct" />
+            <PropertyRef Name="Ma_Dt" />
+            <PropertyRef Name="Ten_Dt" />
+            <PropertyRef Name="Ngay_Bat_Dau" />
+            <PropertyRef Name="Ngay_Ket_Thuc" />
+            <PropertyRef Name="Ma_SP" />
+            <PropertyRef Name="Ten_SP" />
+            <PropertyRef Name="Tien_TB" />
+          </Key>
+          <Property Name="STT" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ngay_Ct" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="So_Ct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_Dt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_Dt" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ngay_Bat_Dau" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Ngay_Ket_Thuc" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Ma_SP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_SP" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tien_TB" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="B20SPT_Detail">
+          <Key>
+            <PropertyRef Name="STT" />
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Ma_Vt" />
+            <PropertyRef Name="Ten_Vt" />
+            <PropertyRef Name="Dvt" />
+            <PropertyRef Name="So_luong" />
+          </Key>
+          <Property Name="STT" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RowId" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_Vt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_Vt" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dvt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="So_luong" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B20SPT" EntityType="Self.B20SPT" />
+          <EntitySet Name="B20SPT_Detail" EntityType="Self.B20SPT_Detail" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SAP_OPCModel2StoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="B20SPT">
+            <EntityTypeMapping TypeName="SAP_OPCModel2.B20SPT">
+              <MappingFragment StoreEntitySet="B20SPT">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="Ngay_Ct" ColumnName="Ngay_Ct" />
+                <ScalarProperty Name="So_Ct" ColumnName="So_Ct" />
+                <ScalarProperty Name="Ma_Dt" ColumnName="Ma_Dt" />
+                <ScalarProperty Name="Ten_Dt" ColumnName="Ten_Dt" />
+                <ScalarProperty Name="Ngay_Bat_Dau" ColumnName="Ngay_Bat_Dau" />
+                <ScalarProperty Name="Ngay_Ket_Thuc" ColumnName="Ngay_Ket_Thuc" />
+                <ScalarProperty Name="Ma_SP" ColumnName="Ma_SP" />
+                <ScalarProperty Name="Ten_SP" ColumnName="Ten_SP" />
+                <ScalarProperty Name="Tien_TB" ColumnName="Tien_TB" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B20SPT_Detail">
+            <EntityTypeMapping TypeName="SAP_OPCModel2.B20SPT_Detail">
+              <MappingFragment StoreEntitySet="B20SPT_Detail">
+                <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+                <ScalarProperty Name="Ma_Vt" ColumnName="Ma_Vt" />
+                <ScalarProperty Name="Ten_Vt" ColumnName="Ten_Vt" />
+                <ScalarProperty Name="Dvt" ColumnName="Dvt" />
+                <ScalarProperty Name="So_luong" ColumnName="So_luong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

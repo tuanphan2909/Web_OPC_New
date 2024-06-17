@@ -1,0 +1,150 @@
+﻿@{
+    ViewBag.Title = "Lọc Báo Cáo";
+}
+<head>
+    <link rel="stylesheet" href="/Scripts/jquery.datetimepicker.min.css">
+    <script src="/Scripts/jquery.js"></script>
+    <script src="/Scripts/jquery.datetimepicker.full.js"></script>
+
+    <style>
+
+
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-image: url("/Images/Images2.jpg");
+                height: 100vh;
+            }
+
+            form {
+                width: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background-color: honeydew;
+                padding: 20px;
+            }
+
+            .tu_ngay {
+                width: 100%;
+                height: 35px;
+                border-radius: 5px;
+                border: 1px solid #dcdcdc;
+                padding: 0px 10px;
+                outline: none;
+                Format: 'd-m-y';
+            }
+
+            .den_ngay {
+                width: 100%;
+                height: 35px;
+                border-radius: 5px;
+                border: 1px solid #dcdcdc;
+                padding: 0px 10px;
+                outline: none;
+                Format: 'd-m-y';
+            }
+
+            .submit {
+                height: 50px;
+                width: 150px;
+                background-color: aqua;
+                border: none;
+                color: cadetblue;
+                border-radius: 7px;
+                font-size: 18px;
+                font-weight: 600;
+                margin-top: 20px;
+                justify-content: center;
+                align-items: center;
+                transition: all 1s ease-in-out;
+            }
+
+                .submit:hover {
+                    background-color: darkcyan;
+                    color: #ffffff;
+                    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+                }
+
+            /* CSS */
+            /*.button-19 {
+          appearance: button;
+          background-color: #1899D6;
+          border: solid transparent;
+          border-radius: 16px;
+          border-width: 0 0 4px;
+          box-sizing: border-box;
+          color: #FFFFFF;
+          cursor: pointer;
+          display: inline-block;
+          font-family: din-round,sans-serif;
+          font-size: 15px;
+          font-weight: 700;
+          letter-spacing: .8px;
+          line-height: 20px;
+          margin: 0;
+          outline: none;
+          overflow: visible;
+          padding: 13px 16px;
+          text-align: center;
+          text-transform: uppercase;
+          touch-action: manipulation;
+          transform: translateZ(0);
+          transition: filter .2s;
+          user-select: none;
+          -webkit-user-select: none;
+          vertical-align: middle;
+          white-space: nowrap;
+          width: 150px;
+        }
+
+        .button-19:after {
+          background-clip: padding-box;
+          background-color: #1CB0F6;
+          border: solid transparent;
+          border-radius: 16px;
+          border-width: 0 0 4px;
+          bottom: -4px;
+          content: "";
+          left: 0;
+          position: absolute;
+          right: 0;
+          top: 0;
+          z-index: -1;
+        }
+
+        .button-19:main,
+        .button-19:focus {
+          user-select: auto;
+        }
+
+        .button-19:hover:not(:disabled) {
+          filter: brightness(1.1);
+        }
+
+        .button-19:disabled {
+          cursor: auto;
+        }*/
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    
+
+    <div class="container">
+        <form action="baocaocongno_TDV" method="post">
+            <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" readonly="readonly" />
+            <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+            <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" readonly="readonly" />
+            <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+           
+                <button class="submit" type="submit"> submit </button>
+           
+        </form>
+      
+    </div>
+   
+</body>
+

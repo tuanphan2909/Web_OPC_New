@@ -1,0 +1,126 @@
+﻿@using System.Data;
+@{
+    ViewData["Title"] = "BÁO CÁO TIỀN VỀ CHI NHÁNH";
+}
+<style>
+    .container {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        zoom: 70%;
+    }
+
+    h3 {
+        text-align: center;
+    }
+</style>
+<head>
+    <meta name="viewport" content="width=device-with" />
+    <title>BCCN</title>
+
+
+</head>
+<body>
+    @*<table border="1">
+            <tr bgcolor="Yellow">
+
+                <th>Ma Loai KH</th>
+            </tr>
+            @foreach (DataRow row in Model.Rows)
+            {
+        <tr>
+          <td>@row["doanh_thu"]</td>
+        </tr>
+            }
+        </table>*@
+
+
+
+    <div class="container">
+        <h3>
+            BÁO CÁO TIỀN VỀ CHI NHÁNH
+        </h3>
+        <table border="1">
+
+            <tr bgcolor="White">
+
+                <th>MÃ Đơn Vị</th>
+                <th>Tên đơn Vị</th>
+                <th>Điều Chỉnh tháng trước OPC</th>
+                <th>Điều Chỉnh tháng trước HD2</th>
+                <th>Điều Chỉnh tháng trước CỒN</th>
+                <th>Điều Chỉnh tháng trước TW25</th>
+                <th>Điều Chỉnh tháng này OPC</th>
+                <th>Điều Chỉnh tháng này HD2</th>
+                <th>Điều Chỉnh tháng này CỒN</th>
+                <th>Điều Chỉnh tháng này TW25</th>
+                <th>Tiền Về Thực Hiện OPC</th>
+                <th>Tiền Về Sủi OTC</th>
+                <th>Tiền Về Cồn OTC </th>
+                <th>Tiền Về TW25 OTC</th>
+                <th>Tiền Về Tổng OTC</th>
+                <th>Tiền Về Thực Hiện ETC</th>
+                <th>Tiền Về sủi ETC</th>
+                <th>Tiền Về Cồn ETC</th>
+                <th>Tiền Về TW25 ETC</th>
+                <th>Tiền Về Tổng ETC</th>
+                <th>Tiền Về Khoán OTC</th>
+                <th>Tiền Về Khoán Sủi OTC</th>
+                <th>Tiền Về Khoán Cồn OTC </th>
+                <th>Tiền Về Khoán TW25 OTC </th>
+                <th>Tiền Về Tổng khoán OTC</th>
+                <th>Tiền Về Khoán ETC</th>
+                <th>Tiền Về Khoán Sủi ETC</th>
+                <th>Tiền Về Khoán Cồn ETC</th>
+                <th>Tiền Về Khoán TW25 ETC</th>
+                <th>Tiền Về Tổng Khoán ETC</th>
+                <th>Tổng Tiền Về trừ cồn</th>
+                <th>Tổng Cộng Khóan</th>
+                <th>Tỷ Lệ</th>
+                <th>Tiền Về Phiến</th>
+            </tr>
+
+            @foreach (DataRow row in Model.Rows)
+            {
+                <tr>
+                    <td>@row["Ma_DVCS1"]</td>
+                    <td style="width : 30%">@row["Ten_dvcs1"]</td>
+                    <td>@row["Dieu_chinh_thang_Truoc_OPC"]</td>
+                    <td>@row["Dieu_chinh_thang_Truoc_HD"]</td>
+                    <td>@row["Dieu_chinh_thang_Truoc_CON"]</td>
+                    <td>@row["Dieu_chinh_thang_Truoc_TW25"]</td>
+                    <td>@row["Dieu_chinh_thang_Nay_OPC"]</td>
+                    <td>@row["Dieu_chinh_thang_Nay_HD"]</td>
+                    <td>@row["Dieu_chinh_thang_Nay_CON"]</td>
+                    <td>@row["Dieu_chinh_thang_Nay_TW25"]</td>
+                    <td>@row["Tien_Ve_TH_O"]</td>
+                    <td>@row["Tien_Ve_Sui_O"]</td>
+                    <td>@row["Tien_Ve_Con_O"]</td>
+                    <td>@row["Tien_Ve_25_O"]</td>
+                    <td>@row["Tien_Ve_Tong_O"]</td>
+                    <td>@row["Tien_Ve_TH_E"]</td>
+                    <td>@row["Tien_Ve_sui_E"]</td>
+                    <td>@row["Tien_Ve_con_E"]</td>
+                    <td>@row["Tien_Ve_25_E"]</td>
+                    <td>@row["Tien_Ve_Tong_E"]</td>
+                    <td>@row["Tien_Ve_K_O"]</td>
+                    <td>@row["Tien_Ve_K_Sui_O"]</td>
+                    <td>@row["Tien_Ve_K_Con_O"]</td>
+                    <td>@row["Tien_Ve_K_25_O"]</td>
+                    <td>@row["Tien_Ve_Tong_K_O"]</td>
+                    <td>@row["Tien_Ve_K_E"]</td>
+                    <td>@row["Tien_Ve_K_Sui_E"]</td>
+                    <td>@row["Tien_Ve_K_Con_E"]</td>
+                    <td>@row["Tien_Ve_K_25_E"]</td>
+                    <td>@row["Tien_Ve_Tong_K_E"]</td>
+                    <td>@row["Tien_Ve_tru_con"]</td>
+                    <td>@row["Tong_khoan"]</td>
+                    <td>@row["Ti_le"]</td>
+                    <td>@row["Tien_ve_phien"]</td>
+
+                </tr>
+            }
+        </table>
+    </div>
+
+</body>

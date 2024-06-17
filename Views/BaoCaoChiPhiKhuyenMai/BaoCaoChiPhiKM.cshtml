@@ -1,0 +1,1585 @@
+﻿ 
+
+@{ ViewBag.Title = "Báo Cáo Chi Phí KM";
+    Layout = null;
+    var fromDate = Request.QueryString["From_date"];
+    var toDate = Request.QueryString["To_date"];
+    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    var formattedFromDate = fromDateValue.ToString("dd/MM/yyyy");
+    var formattedToDate = toDateValue.ToString("dd/MM/yyyy");
+}
+@using System.Data;
+@using System.Globalization;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 75%;
+            height: 25vh;
+            text-align: center;
+        }
+
+            canvas#barchart {
+                width: 50%;
+                height: 25%;
+            }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            /* justify-content:;*/
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+        width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 50px;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+            color: aliceblue;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .data_table {
+            width: max-content;
+           
+        }
+
+        .bieu_do {
+            padding: 10px;
+            /*    margin: 10%;*/
+            text-align: center;
+            width: 200px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            /*      margin: 20px;*/
+            height: 55px;
+            text-align: center;
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 10px;
+            moz-transition: all .4s ease-in-out;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+        }
+
+            .bieu_do:hover {
+                background-position: 100% 0;
+                moz-transition: all .4s ease-in-out;
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+            .bieu_do:focus {
+                outline: none;
+            }
+
+        .bieu_do {
+            background-image: linear-gradient(to right, #f5ce62, #e43603, #fa7199, #e85a19);
+            box-shadow: 0 4px 15px 0 rgba(229, 66, 10, 0.75);
+        }
+
+        .chart {
+            margin: 40px 0px 0px 0px;
+        }
+
+        .box-chart {
+            flex: 1; /* Chia chiều rộng ngang đều nhau */
+            margin-right: 10px;
+            /*  width: 100px;*/
+            /*height: 25vh;*/
+        }
+
+        .full-row {
+            margin-left: 250px;
+            width: 100%;
+        }
+
+
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .custom-checkbox {
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 2px solid black;
+            background-color: #ffffff;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkContainer {
+            height: 300px;
+            overflow: auto;
+        }
+
+            .checkContainer::-webkit-scrollbar {
+                width: 0.2em;
+                background-color: transparent;
+            }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 90000;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+
+        .tab.selected-tab {
+            pointer-events: none;
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                pointer-events: none;
+                color: white /* Màu nền của tab */
+            }
+
+            .tab.selected-tab .closeTab {
+                pointer-events: auto;
+            }
+        .data_table {
+            max-height: 100%; /* Đặt chiều cao tối đa của container để có thanh cuộn */
+            overflow: auto;
+        }
+        .expandable-icon {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .expanded {
+            transform: rotate(180deg);
+        }
+
+        .expandable-content {
+            display: none;
+        }
+
+        .expandable-content_detail {
+            display: none;
+        }
+
+        .expandable-content_detailDN {
+            display: none;
+        }
+
+        .expandable-content_detailHN {
+            display: none;
+        }
+
+        .expandable-content_detailCT {
+            display: none;
+        }
+
+        .expandable-content_detailNA {
+            display: none;
+        }
+        .expandable-content_detailTG {
+            display: none;
+        }
+        .expandable-content_detailMD {
+            display: none;
+        }
+        .expandable-content_detailTP {
+            display: none;
+        }
+        .expandable-content_detailVT {
+            display: none;
+        }
+        .expandable-content_detailNT {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Báo Cáo Chi Phí KM</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/Logo.png" rel="icon">
+    <link href="~/assets/images/Logo.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+
+
+
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee ">
+    @*<div class="tab-control" style="position:fixed;bottom:50px">
+            <ul class="tabs" style="background-color: #1d1b31">
+                <li class="tab selected"><a href="/Home/About" style="padding-right:5px">Home</a></li>
+
+            </ul>
+        </div>*@
+    <div class="loader" style="z-index:1"></div>
+
+    <div class="sidebar" style="margin-left:10px">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center;display:flex">
+            <li>
+                <form id="dateForm" action="BaoCaoChiPhiKM" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+                        <span id="spanText" class="text-loading">[usp_BaoCaoChiPhiKhuyenMai_SAP]</span>
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.Cookies["From_date"].Value" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.Cookies["To_date"].Value" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                    </div>
+
+                    <div>
+                        <button class="submit" type="submit" onclick="runReport()"> Chạy Báo Cáo </button>
+                    </div>
+                </form>
+                <button style="border-radius: 10px; margin-left: 10px; margin-bottom: 10px; margin-top: 10px; background-color: #aec9e0; color: #3483bd" onclick="exportToExcel()">Xuất Excel</button>
+
+            </li>
+        </ul>
+    </div>
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+        @if (Request.Cookies["UserName"].Value == "admin-cnct" || Request.Cookies["UserName"].Value == "admin-cntg" || Request.Cookies["UserName"].Value == "admin-cnmd" || Request.Cookies["UserName"].Value == "admin-cnh1" || Request.Cookies["UserName"].Value == "admin-cnvt"
+                       || Request.Cookies["UserName"].Value == "admin-cnnt" || Request.Cookies["UserName"].Value == "admin - cndn" || Request.Cookies["UserName"].Value == "admin - cnna" || Request.Cookies["UserName"].Value == "admin - cnhn")
+        {
+
+
+
+            <a href="/Home/About1" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        else
+        {
+            <a href="/Home/About" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        <h4 style="color:#3483bd;font-family:'Times New Roman'">Báo Cáo Chi Phí Khuyến Mãi</h4>
+        <h5 style="color: #3483bd">Từ @formattedFromDate đến @formattedToDate</h5>
+    </header>
+    @*=======  Data-Table  = Start  ==========================*@
+
+    @*<div class="full-row" style="display: flex; max-width: 100%; width: 100%;">
+            <div class="row-container1" style="margin-left: 150px;">
+
+                <div id="chartContainer" style="height: 100%; width: 80%; background-color: transparent;"></div>
+            </div>
+        </div>*@
+
+
+
+
+
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="data_table" style="justify-content:center">
+                    <table id="example" class="table table-striped table-bordered" style="height:max-content">
+                        <thead class="table-dark">
+                            <tr>
+                                <th style="width:180px">Chi Nhánh</th>
+                                <th style="width:180px">KM TP OPC</th>
+                                <th style="width:180px">KM TP HD2</th>
+                                <th style="width:180px">KM HH OPCBD</th>
+                                <th style="width:180px">KM HH TW25</th>
+                                <th style="width:180px">KM Hàng TD</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row3 in Model.Tables[2].Rows)
+                            {
+                                <tr style="background-color:burlywood">
+                                    <th style="text-align:center">Tổng cộng <i class="fa-solid fa-caret-down" onclick="toggleRows(this)" style="cursor:pointer"></i></th>
+                                    <th class="num" style="text-align:right;font-weight:bold">@String.Format("{0:n0}", Convert.ToDecimal(row3["KM_TP_OPC"]))</th>
+                                    <th class="num" style="text-align: right; font-weight: bold">@String.Format("{0:n0}", Convert.ToDecimal(row3["KM_TP_HD2"]))</th>
+                                    <th class="num" style="text-align: right; font-weight: bold">@String.Format("{0:n0}", Convert.ToDecimal(row3["KM_TP_OPCBD"]))</th>
+                                    <th class="num" style="text-align: right; font-weight: bold">@String.Format("{0:n0}", Convert.ToDecimal(row3["KM_TP_TW25"]))</th>
+                                    <th class="num" style="text-align: right; font-weight: bold">@String.Format("{0:n0}", Convert.ToDecimal(row3["KM_TP_TD"]))</th>
+                                </tr>
+                            }
+                            @foreach (DataRow row1 in Model.Tables[1].Rows)
+                            {
+                                if (row1["Ma_Dvcs"].ToString() == "OPC")
+                                {
+
+                                    <tr class="expandable-content" style="background-color:white">
+                                        <td>Công Ty <i class="fa-solid fa-caret-down" onclick="toggleRowsOPC(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detail" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow OPC in Model.Tables[0].Rows)
+                                    {
+                                        if (OPC["Ma_Dvcs"].ToString() == "OPC")
+                                        {
+                                            <tr class="expandable-content_detail" style="background-color:white">
+                                                <td>@OPC["Ma_KM"]</td>
+                                                <td>@OPC["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(OPC["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(OPC["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(OPC["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@OPC["Ma_Vt"] - @OPC["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_CT")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: lightgray">
+                                        <td>Cần Thơ <i class="fa-solid fa-caret-down" onclick="toggleRowsCT(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+
+                                    <tr class="expandable-content_detailCT" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow CT in Model.Tables[0].Rows)
+                                    {
+                                        if (CT["Ma_Dvcs"].ToString() == "OPC_CT")
+                                        {
+                                            <tr class="expandable-content_detailCT" style="background-color: lightgray">
+                                                <td>@CT["Ma_KM"]</td>
+                                                <td>@CT["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(CT["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(CT["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(CT["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@CT["Ma_Vt"] - @CT["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_DN")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: white">
+                                        <td>Đà Nẵng <i class="fa-solid fa-caret-down" onclick="toggleRowsDN(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailDN" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow DN in Model.Tables[0].Rows)
+                                    {
+                                        if (DN["Ma_Dvcs"].ToString() == "OPC_DN")
+                                        {
+                                            <tr class="expandable-content_detailDN" style="background-color: white">
+                                                <td>@DN["Ma_KM"]</td>
+                                                <td>@DN["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(DN["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(DN["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(DN["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@DN["Ma_Vt"] - @DN["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_NA")
+                                {
+
+                                    <tr class="expandable-content" style="background-color:lightgray">
+                                        <td>Nghệ An <i class="fa-solid fa-caret-down" onclick="toggleRowsNA(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailNA" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow NA in Model.Tables[0].Rows)
+                                    {
+                                        if (NA["Ma_Dvcs"].ToString() == "OPC_NA")
+                                        {
+
+                                            <tr class="expandable-content_detailNA" style="background-color: lightgray">
+                                                <td>@NA["Ma_KM"]</td>
+                                                <td>@NA["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(NA["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(NA["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(NA["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@NA["Ma_Vt"] - @NA["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_TG")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: lightgray">
+                                        <td>Tiền Giang <i class="fa-solid fa-caret-down" onclick="toggleRowsTG(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailTG" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow TG in Model.Tables[0].Rows)
+                                    {
+                                        if (TG["Ma_Dvcs"].ToString() == "OPC_TG")
+                                        {
+
+                                            <tr class="expandable-content_detailTG" style="background-color: lightgray">
+                                                <td>@TG["Ma_KM"]</td>
+                                                <td>@TG["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(TG["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(TG["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(TG["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@TG["Ma_Vt"] - @TG["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_MD")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: white">
+                                        <td>Miền Đông <i class="fa-solid fa-caret-down" onclick="toggleRowsMD(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailMD" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow MD in Model.Tables[0].Rows)
+                                    {
+                                        if (MD["Ma_Dvcs"].ToString() == "OPC_MD")
+                                        {
+
+                                            <tr class="expandable-content_detailMD" style="background-color: white">
+                                                <td>@MD["Ma_KM"]</td>
+                                                <td>@MD["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(MD["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(MD["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(MD["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@MD["Ma_Vt"] - @MD["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_TP")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: white">
+                                        <td>Hồ Chí Minh <i class="fa-solid fa-caret-down" onclick="toggleRowsTP(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailTP" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow TP in Model.Tables[0].Rows)
+                                    {
+                                        if (TP["Ma_Dvcs"].ToString() == "OPC_TP")
+                                        {
+
+                                            <tr class="expandable-content_detailTP" style="background-color: white">
+                                                <td>@TP["Ma_KM"]</td>
+                                                <td>@TP["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(TP["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(TP["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(TP["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@TP["Ma_Vt"] - @TP["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_VT")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: lightgray">
+                                        <td>Vũng Tàu <i class="fa-solid fa-caret-down" onclick="toggleRowsVT(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailVT" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow VT in Model.Tables[0].Rows)
+                                    {
+                                        if (VT["Ma_Dvcs"].ToString() == "OPC_VT")
+                                        {
+
+                                            <tr class="expandable-content_detailVT" style="background-color: lightgray">
+                                                <td>@VT["Ma_KM"]</td>
+                                                <td>@VT["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(VT["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(VT["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(VT["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@VT["Ma_Vt"] - @VT["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_NT")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: white ">
+                                        <td>Nha Trang <i class="fa-solid fa-caret-down" onclick="toggleRowsNT(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailNT" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow NT in Model.Tables[0].Rows)
+                                    {
+                                        if (NT["Ma_Dvcs"].ToString() == "OPC_NT")
+                                        {
+
+                                            <tr class="expandable-content_detailNT" style="background-color: white">
+                                                <td>@NT["Ma_KM"]</td>
+                                                <td>@NT["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(NT["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(NT["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(NT["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@NT["Ma_Vt"] - @NT["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                                if (row1["Ma_Dvcs"].ToString() == "OPC_HN")
+                                {
+
+                                    <tr class="expandable-content" style="background-color: lightgray">
+                                        <td>Hà Nội <i class="fa-solid fa-caret-down" onclick="toggleRowsHN(this)" style="cursor:pointer"></i></td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPC"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_HD2"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_OPCBD"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TW25"]))</td>
+                                        <td class="num" style="text-align:right;font-weight:lighter">@String.Format("{0:n0}", Convert.ToDecimal(row1["KM_TP_TD"]))</td>
+                                    </tr>
+                                    <tr class="expandable-content_detailHN" style="background-color: navajowhite; position: sticky; top: 0;">
+                                        <th>Mã KM</th>
+                                        <th>Sale Order</th>
+                                        <th>Giá Trị 6322</th>
+                                        <th>Giá Trị 6321</th>
+                                        <th>Giá Trị 6326</th>
+                                        <th>Mã VT - Loại VT</th>
+
+                                    </tr>
+                                    foreach (DataRow HN in Model.Tables[0].Rows)
+                                    {
+                                        if (HN["Ma_Dvcs"].ToString() == "OPC_HN")
+                                        {
+
+                                            <tr class="expandable-content_detailHN" style="background-color: lightgray">
+                                                <td>@HN["Ma_KM"]</td>
+                                                <td>@HN["Sale_Order"]</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(HN["Gia_Tri_6322"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(HN["Gia_Tri_6321"]))</td>
+                                                <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(HN["Gia_Tri_6326"]))</td>
+                                                <td style="text-align:center">@HN["Ma_Vt"] - @HN["Loai_Vt"]</td>
+                                            </tr>
+                                        }
+
+                                    }
+                                }
+                            }
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> <!-- =======  Data-Table  = End  ===================== --> <!-- ============ Java Script Files  ================== -->
+
+
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> @*<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+
+    <script>
+        function exportToExcel() {
+            // Lấy danh sách cột cần xuất từ bảng gốc
+            var columnsToExport = ['Mã Đối Tượng', 'Tên Đối Tượng', 'ĐVT', 'Số Lượng', 'Kênh BH', 'Mã TDV', 'Tên TDV', 'Tổng tiền'];
+
+            // Tạo bảng tạm thời chỉ chứa cột cần xuất
+            var temporaryTable = $('#example').clone();
+
+            // Lặp qua các cột không nằm trong danh sách cần xuất và ẩn chúng
+            temporaryTable.find('thead th, tbody td').each(function () {
+                var columnHeader = $(this).text();
+                if (!columnsToExport.includes(columnHeader)) {
+                    $(this).hide();
+                }
+            });
+
+            // Format cells with numeric data (assuming 'Tổng tiền' is a numeric column)
+            temporaryTable.find('tbody td:contains("₫")').attr('data-type', 'number'); // This assumes that the 'Tổng tiền' column contains "₫" symbol
+
+            // Xuất Excel từ bảng tạm thời
+            temporaryTable.table2excel({
+                exclude: ".hidden",
+                name: "Sheet 1",
+                filename: "BaoCaoChiPhiKM"
+            });
+        }
+
+    </script>
+    <script>
+        function runReport() {
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+        }</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+            const table = document.getElementById('example');
+
+            checkboxes.forEach((checkbox, index) => {
+                checkbox.addEventListener('change', function () {
+                    const columnIndex = index;
+                    const rows = table.querySelectorAll('tr');
+
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td, th');
+                        cells[columnIndex].style.display = this.checked ? '' : 'none';
+                    });
+                });
+            });
+        });</script>
+    <script>
+        function applyCheckboxAndColumnState() {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+            const table = document.getElementById('example');
+
+            checkboxes.forEach((checkbox, index) => {
+                const columnIndex = index;
+                const rows = table.querySelectorAll('tr');
+
+                if (!checkbox.checked) {
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td, th');
+                        cells[columnIndex].style.display = 'none';
+                    });
+                } else {
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td, th');
+                        cells[columnIndex].style.display = '';
+                    });
+                }
+            });
+        }
+        // Hàm lấy trạng thái checkbox từ Local Storage và ẩn cột
+        function applyUncheckedCheckboxState() {
+            const uncheckedCheckboxIndexes = JSON.parse(localStorage.getItem('uncheckedCheckboxIndexes'));
+            if (uncheckedCheckboxIndexes) {
+
+                const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+                uncheckedCheckboxIndexes.forEach(index => {
+                    checkboxes[index].checked = false;
+                });
+            }
+        }
+
+        // Áp dụng trạng thái checkbox đã bỏ chọn từ Local Storage khi trang được tải
+        document.addEventListener('DOMContentLoaded', function () {
+            // Áp dụng trạng thái của các checkbox đã bỏ chọn
+            applyUncheckedCheckboxState();
+        });</script>
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+            window.location.href = actionUrl;
+        }
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+            applyCheckboxAndColumnState();
+
+        }
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            showLoader();
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+            window.location.href = actionUrl;
+        });
+
+        window.addEventListener("load", () => {
+            hideLoader();
+            applyCheckboxAndColumnState();
+        });</script>
+
+
+
+
+
+
+
+
+    <script>
+        window.onload = function () {
+            var chartData = [];
+
+            var rows = document.querySelectorAll("#example tbody tr");
+            var totalKhoan = 0;
+            var totalThucHien = 0;
+
+            // Duyệt qua các hàng trừ hàng cuối cùng để tính tổng tổng khoán và tổng thực hiện
+            for (var i = 0; i < rows.length; i++) {
+                var khoan = parseFloat(rows[i].cells[2].textContent.replace(/\,/g, ""));
+                totalKhoan += khoan;
+
+                var thucHien = parseFloat(rows[i].cells[1].textContent.replace(/\,/g, ""));
+                totalThucHien += thucHien;
+            }
+
+            // Tính tỷ lệ cho các phần đã thực hiện
+            rows.forEach(function (row) {
+                var label = row.cells[0].textContent.trim();
+                var thucHien = parseFloat(row.cells[1].textContent.replace(/\,/g, ""));
+
+                var tyLe = ((thucHien / totalKhoan) * 100).toFixed(2); // Làm tròn tỷ lệ
+
+                chartData.push({ label: label, y: parseFloat(tyLe) });
+            });
+
+            // Tính tỷ lệ cho phần "Còn lại"
+            var remainingRatio = 100 - chartData.reduce((total, data) => total + parseFloat(data.y), 0);
+
+            // Thêm dữ liệu cho phần "Còn lại" vào biểu đồ
+            chartData.push({ label: "Còn Lại", y: parseFloat(remainingRatio.toFixed(2)) });
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light1",
+                animationEnabled: true,
+                title: {
+                    text: "TỶ TRỌNG ĐÓNG GÓP DOANH THU",
+                    fontFamily: "Times New Roman",
+                },
+                chart: {
+                    backgroundColor: "transparent"
+                },
+                data: [{
+                    type: "pie",
+                    startAngle: 180,
+                    toolTipContent: "<b>{label}</b>: {y}%",
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: chartData
+                }]
+            });
+            chart.render();
+        }</script>
+    <script>
+        function toggleRows(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+
+        function toggleRowsOPC(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detail')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsMD(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailMD')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsCT(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailCT')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsTP(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailTP')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsDN(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailDN')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+
+        function toggleRowsHN(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailHN')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsNA(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailNA')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsTG(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailTG')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsVT(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailVT')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        } function toggleRowsNT(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailNT')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+                //function toggleRowsSUI(cell) {
+                //    var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+                //    var table = document.getElementById('example');
+                //    var rows = table.rows;
+
+                //    for (var i = rowIndex + 1; i < rows.length; i++) {
+                //        var row = rows[i];
+                //        if (row.classList.contains('expandable-content_detailSUI')) {
+                //            row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                //        } else if (row.classList.contains('table-dark')) {
+                //            break;
+                //        }
+                //    }
+                //}
+                //function toggleRowsPHIEN(cell) {
+                //    var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+                //    var table = document.getElementById('example');
+                //    var rows = table.rows;
+
+                //    for (var i = rowIndex + 1; i < rows.length; i++) {
+                //        var row = rows[i];
+                //        if (row.classList.contains('expandable-content_detailPHIEN')) {
+                //            row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                //        } else if (row.classList.contains('table-dark')) {
+                //            break;
+                //        }
+                //    }
+                //}
+                //function toggleRows25(cell) {
+                //    var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+                //    var table = document.getElementById('example');
+                //    var rows = table.rows;
+
+                //    for (var i = rowIndex + 1; i < rows.length; i++) {
+                //        var row = rows[i];
+                //        if (row.classList.contains('expandable-content_detail25')) {
+                //            row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                //        } else if (row.classList.contains('table-dark')) {
+                //            break;
+                //        }
+                //    }
+                //}
+                //window.onload = function () {
+                //    // Ẩn các dòng con có class "expandable-contentOTC"
+                //    var table2 = document.getElementById('example');
+                //    var rows2 = table2.getElementsByClassName('expandable-content_detail');
+
+                //    for (var j = 0; j < rows2.length; j++) {
+                //        rows2[j].style.display = 'none';
+                //    }
+
+                //    // Ẩn các dòng con có class "expandable-contentETC"
+                //    //var rows3 = table2.getElementsByClassName('expandable-contentETC');
+
+                //    //for (var k = 0; k < rows3.length; k++) {
+                //    //    rows3[k].style.display = 'none';
+                //    //}
+                //};
+    </script>
+    @*<script>
+            function toggleRows2(cell) {
+                var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+                var table = document.getElementById('example2');
+                var rows = table.rows;
+
+                for (var i = rowIndex + 1; i < rows.length; i++) {
+                    var row = rows[i];
+                    if (row.classList.contains('expandable-contentOTC')) {
+                        row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                    } else if (row.classList.contains('table-dark')) {
+                        break;
+                    }
+                }
+            }
+        </script>
+        <script>
+            function toggleRows3(cell) {
+                var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+                var table = document.getElementById('example2');
+                var rows = table.rows;
+
+                for (var i = rowIndex + 1; i < rows.length; i++) {
+                    var row = rows[i];
+                    if (row.classList.contains('expandable-contentETC')) {
+                        row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                    } else if (row.classList.contains('table-dark')) {
+                        break;
+                    }
+                }
+            }
+            // Thêm vào sau đoạn script toggleRows2
+            window.onload = function () {
+                // Ẩn các dòng con có class "expandable-contentOTC"
+                var table2 = document.getElementById('example2');
+                var rows2 = table2.getElementsByClassName('expandable-contentOTC');
+
+                for (var j = 0; j < rows2.length; j++) {
+                    rows2[j].style.display = 'none';
+                }
+
+                // Ẩn các dòng con có class "expandable-contentETC"
+                var rows3 = table2.getElementsByClassName('expandable-contentETC');
+
+                for (var k = 0; k < rows3.length; k++) {
+                    rows3[k].style.display = 'none';
+                }
+            };
+
+        </script>*@
+</body>
+
+</html> 

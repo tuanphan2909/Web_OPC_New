@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "TestAPI";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Setting the pages character encoding -->
+    <meta charset="UTF-8">
+
+    <!-- The meta viewport will scale my content to any device width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to my stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <title>Start up</title>
+</head>
+<body>
+    <div class="container">
+        <h3>Mã Đối tượng</h3>
+        <input type="Text" name="" id="myInput" placeholder="Tên Đăng Nhập" onkeyup="searchFun()">
+        <div class="search"></div>
+    </div>
+    <table id="myTable">
+        <thead>
+            <tr class="Header">
+
+                <th>Tên Đăng Nhập</th>
+                <th>Mật khẩu</th>
+                <th>Mã ĐVCS</th>
+
+            </tr>
+        </thead>
+        <tbody id="data-output">
+            <!-- Prodcuts from gavascript file in here. -->
+        </tbody>
+    </table>
+    <script>
+        fetch("http://118.69.225.144/api/user")
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (products) {
+                let placeholder = document.querySelector("#data-output");
+                let out = "";
+                for (let product of products) {
+                    out += `
+                <tr>
+
+                    <td>${product.tendangnhap}</td>
+                    <td>${product.matkhau}</td>
+                    <td>${product.ma_Dvcs}</td>
+
+                </tr>
+            `;
+                }
+
+                placeholder.innerHTML = out;
+            });
+        const searchFun = () => {
+            let filter = document.getElementById('myInput').value.toUpperCase();
+            let myTable = document.getElementById('myTable');
+            let tr = myTable.getElementsByTagName('tr');
+            for (var i = 0; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName('td')[0];
+                if (td) {
+                    let textValue = td.textContent || td.innerHTML;
+                    if (textValue.toLocaleUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+        }
+
+
+    </script>
+
+</body>
+</html>
+
+

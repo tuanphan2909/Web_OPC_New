@@ -1,0 +1,572 @@
+﻿﻿﻿﻿﻿﻿
+@{ ViewBag.Title = "Phiếu Xác Nhận Thanh Toán";
+    string ten_dt = Request.Cookies["ten_dt"] != null ? HttpUtility.UrlDecode(Request.Cookies["ten_dt"].Value) : "";
+    string Dia_Chi = Request.Cookies["Dia_Chi"] != null ? HttpUtility.UrlDecode(Request.Cookies["Dia_Chi"].Value) : "";
+    string Dvcs = Request.Cookies["Dvcs"] != null ? HttpUtility.UrlDecode(Request.Cookies["Dvcs"].Value) : "";
+    string extractedText = "";
+
+    if (Dvcs.Length > 10) // Đảm bảo chuỗi có ít nhất 10 ký tự trước khi cắt
+    {
+        extractedText = Dvcs.Substring(10); // Cắt 10 ký tự đầu tiên
+    }
+
+}
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Phiếu Xác Nhận Thanh Toán</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+            color: black;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="forms-container">
+        <form class="data-form" id="data-form">
+            <div>
+                <h3 style="margin-left:-450px; font-size:13px;">CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                <h3 style="font-weight:bold;color:black; font-size:13px;margin-left:-450px">@Dvcs</h3>
+            </div>
+
+            <br />
+
+            <div>
+                <h3 style="font-size: 25px; color: black; font-weight: bold">XÁC NHẬN THANH TOÁN</h3>
+                <h5>Từ @Request.Cookies["From_date"].Value đến @Request.Cookies["To_date"].Value</h5>
+                <br />
+            </div>
+            <div style="width:600px">
+                <h5 style="text-align:left">-Căn cứ Luật thương mại số 36/2005/QH11 ngày 14/06/2005;</h5>
+                <h5 style="text-align:left">-Căn cứ vào hợp đồng số: ................../thỏa thuận của đôi bên.</h5>
+            </div>
+            <br />
+            <div class="flex-container" style="width:600px">
+                <h5 style="display: inline-block;color:black;font-weight:bold;text-align:left">Khách hàng: <span style="font-size: 15px;">@ten_dt</span></h5>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <h5 style="display: inline-block; color: black; font-weight: bold"></h5>
+            </div>
+            <div style="color:black;font-weight:bold; font-size:15px;width:600px">
+                <h5 style="text-align:left">Địa chỉ: @Dia_Chi</h5>
+            </div>
+
+            <br />
+            <div style="text-align:left;color:black;font-weight:bold;margin-left:-510px">
+                <h5>Điều kiện thanh toán: </h5>
+            </div>
+
+            <div style="width:600px">
+                <h5 style="font-size: 14px;text-align:left">Khi thanh toán ngay, Quý khách hàng được chiết khấu 2% trên giá trị thanh toán của những hóa đơn cụ thể như sau: </h5>
+            </div><br />
+            <div>
+                <table border="1" border-collapse="collapse" style="width:600px">
+                    <thead stye="display: table-header-group;">
+                        <tr style="font-size: 10px; font-weight: bold; color: black; page-break-inside:avoid">
+                            <th style="padding:10px">SỐ</th>
+                            <th style="width:100px">NGÀY HĐ</th>
+                            <th style="width:100px">NGÀY ĐẾN HẠN</th>
+                            <th style="width:120px">TIỀN HĐ</th>
+                            <th style="width:120px">CKTT</th>
+                            <th styl="width:100px">TIỀN THANH TOÁN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row3 in Model.Tables[0].Rows)
+                        {
+                            <tr data-soct="@row3["So_Ct"]">
+                                <td style="padding:10px">@row3["So_Ct"]</td>
+                                <td style="padding:10px">
+                                    @row3["Ngay_Ct1"]
+                                </td>
+                                <td style="padding:10px">
+                                    @row3["Han_Thanh_Toan"]
+                                </td>
+                                <td style="padding:10px;text-align:right">@row3["Tong_Tien"]</td>
+                                <td style="padding:10px;text-align:right">@row3["CKTT"]</td>
+                                <td style="padding:10px;text-align:right">@row3["Tien_TT"]</td>
+
+
+                            </tr>
+
+                        }
+                        @foreach (DataRow row3 in Model.Tables[1].Rows)
+                        {
+
+
+                        <td style="padding:10px;color:black;font-weight:bold" colspan="3">Tổng Cộng</td>
+                        <td style="padding:10px;text-align:right;color:black;font-weight:bold">@row3["Tong_Tien"]</td>
+                        <td style="padding:10px;text-align:right;color:black;font-weight:bold">@row3["CKTT"]</td>
+                        <td style="padding:10px;text-align:right;color:black;font-weight:bold">@row3["Tong_TienTT"]</td>
+                    }
+                        </tbody>
+
+                    </table>
+                    <br />
+                    <div style="text-align:left">
+                        <h5 style="word-wrap: break-word;font-size:15px">Khách hàng đã thanh toán số tiền:...................., nhận chiết khấu thanh toán số tiền:...................</h5>
+                    </div><br />
+                    <div style="text-align:right">
+                        <h4 class="branch">@extractedText, ngày&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tháng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;năm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+
+                    </div>
+                    @*<h4 style="margin-left:auto">P. KHCU &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thủ kho&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xưởng sản xuất</h4>*@
+                    <div style="display:inline-block">
+                        <h4 style="display:inline-block">Khách Hàng</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h4 style="display:inline-block">Nhân viên thu tiền </h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h4 style="display:inline-block">Người lập bảng</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div><br />
+                    <div>
+                        <h5 style="font-style:italic;text-align:left;margin-left:10px">(Ký, ghi họ tên)</h5>
+                    </div>
+                </div>
+                <button class="print-button" onclick="printDataForm()" id="print">In Data</button>
+            </form>
+        </div>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+        <script>
+            document.getElementById("dropdownInput").addEventListener("input", function () {
+                var inputValue = this.value;
+                var options = document.querySelectorAll("#dropdownList option");
+
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].getAttribute("value") === inputValue) {
+                        document.getElementById("selectedOption").value = inputValue;
+                        break;
+                    }
+                }
+            });
+
+            function displaySelectedDate() {
+                // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+                const fromDate = document.getElementById('tu_ngay').value;
+                const toDate = document.getElementById('den_ngay').value;
+
+                // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+                const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+                selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+                window.location.href = selectedDateDisplay;
+            }
+        </script>
+
+        <script>
+            // Lấy tất cả các phần tử có class "branch"
+            var branches = document.querySelectorAll('.branch');
+
+            // Duyệt qua từng phần tử và xử lý chuỗi dữ liệu
+            branches.forEach(function (branch) {
+                var text = branch.textContent;
+
+                // Tìm và loại bỏ phần "Chi nhánh"
+                var branchName = text.replace('Chi nhánh', '').trim();
+
+                // Tạo một thẻ <a> mới và gán nội dung
+                var newLink = document.createElement('a');
+                newLink.textContent = branchName;
+
+                // Thêm thẻ <a> vào trước phần tử hiện tại
+                branch.parentNode.insertBefore(newLink, branch);
+
+                // Loại bỏ phần tử hiện tại
+                branch.remove();
+            });
+        </script>
+    </body>
+
+</html>
+

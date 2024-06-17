@@ -1,0 +1,1704 @@
+﻿@media screen and (min-width:200px) and (max-width: 300px) {
+    .left-sidebar {
+        width: 200px;
+    }
+    .text {
+        font-size: 18px;
+    }
+
+    .num {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .row-chart {
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+
+    @media screen and (min-width:300px) and (max-width: 400px) {
+        
+        .left-sidebar {
+            width: 250px;
+            z-index:1000;
+            position:fixed;
+        }
+        .main-container{
+        
+        }
+        .row-chart-1{
+     
+            flex-direction:column;
+            justify-content:center;
+        }
+        #myPieChart{
+            left:0;
+        }
+        #myPieChart2{
+            left:0;
+        }
+        .row-chart-1 .percent-chart {
+            width: 100%;
+        }
+        .line-chart{
+            width:100%;
+        }
+            .left-sidebar.expand {
+                transition: transform 0.3s ease;
+                position: fixed;
+                top: 0;
+                left: 0;
+                /*            width: 100%;*/
+                height: 100%;
+                z-index: 1000;
+                background-color: rgba(0, 0, 0, 0.5); /* Một lớp mờ để tạo hiệu ứng nền khi sidebar mở ra */
+            }
+
+
+            .left-sidebar.expand {
+                transform: translateX(0);
+            }
+
+            .left-sidebar.hide {
+                transform: translateX(-100%);
+            }
+        .text {
+            font-size: 15px;
+        }
+
+        .num {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .row-chart {
+            padding-bottom:20px;
+            display:flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .chart-1{
+            width:85%;
+            margin-bottom:20px;
+        }
+        .chart-2 {
+            width: 85%;
+            margin-bottom: 20px;
+        }
+        .chart-3 {
+            width: 85%;
+           
+        }
+        .text-chart{
+            font-size:15px;
+            color:red;
+        }
+        .left-chart {
+            width: 100%;
+        }
+        .right-chart {
+            width: 100%;
+            height:100%;
+        }
+        .row-table{
+            width:100%;
+        }
+        .row-chart-2{
+            height:max-content;
+            display:flex;
+            flex-direction:column;
+        }
+        table{
+            width:300px;
+            border:1px solid black;
+            border-radius:10px;
+        }
+        .table{
+            width:100%;
+            height:400px;
+            overflow:auto;
+        }
+        th, td {
+    
+    text-align: left;
+}
+        #container{
+            width:100%;
+            height:300px;
+        }
+        .row-chart{
+          justify-content:center;
+          align-items:center;
+          align-items:center
+        }
+    }
+
+    @media screen and (min-width:400px) and (max-width: 500px) {
+        .left-sidebar {
+            width: 270px;
+        }
+
+        .text {
+            font-size: 18px;
+        }
+
+        .num {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .row-chart {
+            display:flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .chart-1{
+            width:80%;
+        }
+        .chart-2 {
+            width: 85%;
+            margin-bottom: 20px;
+        }
+
+        .chart-3 {
+            width: 85%;
+        }
+            .row-chart-2 {
+            height: max-content;
+            display: flex;
+            flex-direction: column;
+        }
+        .left-chart{
+            width:100%;
+        }
+        .row-chart-2{
+            display:flex;
+        }
+    }
+@media screen and (min-width:514px) {
+    section {
+        background-color: yellow;
+    }
+
+}
+@media screen and (min-width:500px) and (max-width: 600px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .main-content .box .box-1 {
+        height: 80px;
+    }
+
+    .main-content .box .box-2 {
+        height: 80px;
+    }
+
+    .main-content .box .box-3 {
+        height: 80px;
+    }
+
+    .main-content .box .box-4 {
+        height: 80px;
+    }
+    .text {
+        font-size: 18px;
+    }
+
+    .num {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .row-chart {
+        justify-content: center;
+        flex-direction: column;
+       display:flex;
+        align-items:center
+    }
+    .chart-1{
+        width:80%;
+        margin-bottom:20px;
+        height:max-content;
+    }
+    .chart-2 {
+        width: 80%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+    .chart-3 {
+        width: 80%;
+        
+        height: max-content;
+    }
+
+}
+@media screen and (min-width:600px) and (max-width: 700px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .text {
+        font-size: 18px;
+    }
+
+    .num {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    .main-content .box {
+        flex-direction: column;
+    }
+        .main-content .box .box-1 {
+            height: 80px;
+        }
+
+        .main-content .box .box-2 {
+            height: 80px;
+        }
+
+        .main-content .box .box-3 {
+            height: 80px;
+        }
+
+        .main-content .box .box-4 {
+            height: 80px;
+        }
+    .row-chart {
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+        align-items: center
+    }
+
+    .chart-1 {
+        width: 80%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 80%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 80%;
+        height: max-content;
+    }
+}
+@media screen and (min-width:700px) and (max-width: 800px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .main-content .box .box-1{
+        width:45%;
+    }
+        .main-content .box .box-2{
+            width:45%;
+        }
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+        .box-row {
+            justify-content:space-between;
+            display: flex;
+            height:100px;
+            margin-bottom:10px;
+        }
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+        font-weight: bold;
+    }
+    .row-chart {
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+        align-items: center
+    }
+
+    .chart-1 {
+        width: 90%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 90%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 90%;
+        height: max-content;
+    }
+   /* #gaugeChart1{
+        width:400px;
+        height:100%;
+    }*/
+   .line-chart{
+       width:70%;
+   }
+   .row-chart-1{
+       display:flex;
+   }
+   .percent-chart{
+       width:30%;
+   }
+}
+@media screen and (min-width:800px) and (max-width: 900px) {
+    .left-sidebar {
+        width: 270px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+    .text{
+        font-size:22px;
+    }
+    .num{
+        font-size:25px;
+    }
+    .box-row {
+        justify-content: space-between;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+    .row-chart {
+        display: flex;
+        flex-direction:column;
+        justify-content:center;
+    }
+    .chart-1 {
+        width: 90%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 90%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 90%;
+        height: max-content;
+    }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+}
+@media screen and (min-width:900px) and (max-width: 1000px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 22px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+
+    .box-row {
+        justify-content: space-between;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+    .row-chart {
+        display: flex;
+        flex-direction:column;
+        justify-content: space-around;
+    }
+    .chart-1 {
+        width: 90%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 90%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 90%;
+        height: max-content;
+    }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    
+}
+@media screen and (min-width:1000px) and (max-width: 1100px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box{
+      
+        display:flex;
+       justify-content:space-evenly
+    }
+    .box-row {
+        width:50%;
+        justify-content: space-evenly;
+        display:flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .chart-1 {
+        width: 30%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        margin-bottom: 20px;
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+        .row-chart-2 .left-chart {
+            width: 70%;
+        }
+
+        .row-chart-2 .right-chart {
+            width: 30%;
+        }
+
+  
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section{
+        padding-left:270px;
+    }
+    section.expand{
+        padding-left:0;
+    }
+    canvas {
+        margin-left: 25px;
+    }
+}
+@media screen and (min-width:1100px) and (max-width: 1200px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 { 
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+     /*   width: 100%;*/
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 45px;
+    }
+}
+@media screen and (min-width:1200px) and (max-width: 1300px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 55px;
+    }
+}
+@media screen and (max-width:1300px){
+   /* .mobile-menu-overlay{
+        display:block;
+        opacity:0;
+        visibility:hidden;
+    }
+    .mobile-menu-overlay.show {
+   
+        opacity: .6;
+        visibility: visible;
+    }*/
+}
+@media screen and (min-width:1300px) and (max-width: 1400px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .chart-table{
+        height:100%;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+      
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            margin-left: 20px;
+            height: max-content;
+            width: 30%;
+            border-radius: 10px;
+        }
+    table {
+        width: 100%;
+        /* height:100%;*/
+        height: 200px;
+    }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 70px;
+    }
+}
+@media screen and (min-width:1400px) and (max-width: 1500px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .chart-1 {
+        width: 30%;
+      /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+       /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+       .row-chart-2 .left-chart{
+        width:70%;
+    }
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+    .row-chart-2{
+      display:flex;
+      width:100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            margin-left: 20px;
+            height: max-content;
+            width: 30%;
+            border-radius: 10px;
+        }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 80px;
+    }
+}
+@media screen and (min-width:1500px) and (max-width: 1600px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+
+    .row-chart {
+        width:100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            margin-left: 20px;
+            height: max-content;
+            width: 30%;
+            border-radius: 10px;
+        }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+        canvas{
+            margin-left:80px;
+        }
+}
+@media screen and (min-width:1600px) and (max-width: 1700px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .row-chart {
+     
+        display: flex;
+        justify-content: space-between;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            margin-left: 20px;
+            height: max-content;
+            width: 30%;
+            border-radius: 10px;
+        }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 80px;
+    }
+}
+@media screen and (min-width:1700px) and (max-width: 1800px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            margin-left: 20px;
+            height: max-content;
+            width: 30%;
+            border-radius: 10px;
+        }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 100px;
+    }
+}
+@media screen and (min-width:1800px) and (max-width: 1900px) {
+    .left-sidebar {
+        width: 270px;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            height: max-content;
+            margin-left:20px;
+            width: 30%;
+            border-radius: 10px;
+        }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 100px;
+    }
+}
+@media screen and (min-width:1900px) and (max-width: 2000px) {
+    .left-sidebar {
+        width: 270px;
+    }
+
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content:space-between;
+    }
+    .row-table .table{
+        width:70%;
+
+    }
+    .row-table .chart-table{
+        background-color:white;
+        padding:10px;
+        margin-left:20px;
+        height:max-content;
+        width:30%;
+        border-radius:10px;
+    }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    canvas {
+        margin-left: 120px;
+    }
+}
+@media screen and (min-width:2001px){
+    .left-sidebar{
+        width:270px;
+    }
+    section{
+        background-color:pink;
+    }
+    .box {
+        display: flex;
+        justify-content: space-evenly
+    }
+
+    .box-row {
+        width: 50%;
+        justify-content: space-evenly;
+        display: flex;
+        height: 120px;
+        margin-bottom: 10px;
+    }
+
+    .main-content .box .box-1 {
+        width: 45%;
+    }
+
+    .main-content .box .box-2 {
+        width: 45%;
+    }
+
+    .main-content .box .box-3 {
+        width: 45%;
+    }
+
+    .main-content .box .box-4 {
+        width: 45%;
+    }
+
+    .text {
+        font-size: 20px;
+    }
+
+    .num {
+        font-size: 25px;
+    }
+    .row-chart {
+        display: flex;
+        justify-content: space-around;
+    }
+    .chart-1 {
+        width: 30%;
+        /*  margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-2 {
+        width: 30%;
+        /* margin-bottom: 20px;*/
+        height: max-content;
+    }
+
+    .chart-3 {
+        width: 30%;
+        height: max-content;
+    }
+
+    .row-chart-2 .left-chart {
+        width: 70%;
+    }
+
+    .row-chart-2 .right-chart {
+        width: 30%;
+    }
+
+    .row-chart-2 {
+        display: flex;
+        width: 100%;
+    }
+    .row-table {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .row-table .table {
+            width: 70%;
+        }
+
+        .row-table .chart-table {
+            background-color: white;
+            padding: 10px;
+            margin-left: 20px;
+            height: max-content;
+            width: 30%;
+            border-radius: 10px;
+        }
+    .line-chart {
+        width: 70%;
+    }
+
+    .row-chart-1 {
+        display: flex;
+    }
+
+    .percent-chart {
+        width: 30%;
+    }
+    section {
+        padding-left: 270px;
+    }
+
+        section.expand {
+            padding-left: 0;
+        }
+    
+    canvas {
+        margin-left: 120px;
+    }
+}
+ 

@@ -1,0 +1,1087 @@
+﻿﻿﻿﻿﻿
+@{ ViewBag.Title = "SỔ CHI TIẾT PHẢI THU CỦA KHÁCH HÀNG";
+
+  
+
+
+    var fromDate = Request.Cookies["From_date"].Value;
+    var toDate = Request.Cookies["To_date"].Value;
+    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    var formattedFromDate = fromDateValue.ToString("dd/MM/yyyy");
+    var formattedToDate = toDateValue.ToString("dd/MM/yyyy");
+    decimal no = 0;
+    decimal du = 0;
+    decimal co = 0;
+    decimal duCK = 0;
+    foreach (DataRow row2 in Model.Tables[0].Rows)
+    {
+        du = Convert.ToDecimal(row2["No_DauKy"]);
+        no = Convert.ToDecimal(row2["PS_No"]);
+        co = Convert.ToDecimal(row2["PS_Co"]);
+    }
+    duCK = du + no - co;
+    string Dvcs = Request.Cookies["MA_DVCS"] != null ? HttpUtility.UrlDecode(Request.Cookies["MA_DVCS"].Value) : "";
+
+    if (Request.Cookies["MA_DVCS"].Value == "OPC_CT")
+    {
+        Dvcs = "Chi Nhánh Cần Thơ";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_DN")
+    {
+        Dvcs = "Chi Nhánh Đà Nẵng";
+
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TG")
+    {
+        Dvcs = "Chi Nhánh Tiền Giang";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_MD")
+    {
+        Dvcs = "Chi Nhánh Miền Đông";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_VT")
+    {
+        Dvcs = "Chi Nhánh Vũng Tàu";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NT")
+    {
+        Dvcs = "Chi Nhánh Nha Trang";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_TP")
+    {
+        Dvcs = "Chi Nhánh Hồ Chí Minh";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_NA")
+    {
+        Dvcs = "Chi Nhánh Nghệ An";
+
+    }
+    else if (Request.Cookies["MA_DVCS"].Value == "OPC_HN")
+    {
+        Dvcs = "Chi Nhánh Hà Nội";
+
+    }
+}
+@using System.Data;
+@using System.Diagnostics;
+@using System.Globalization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Sổ tồn nợ phải thu</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            text-align: center;
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+          
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+                left: 0;
+                right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 1;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+
+        .closeTab {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px; /* Điều chỉnh khoảng cách với h4 */
+        }
+
+        .closeIcon {
+            display: inline-block;
+            width: 30px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: white;
+            color: black; /* Màu chữ x */
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .tab.active {
+            background-color: cornflowerblue; /* Màu nền tab khi active */
+            color: #fff; /* Màu chữ khi active */
+        }
+
+        tr {
+            page-break-inside: avoid; /* Tránh chuyển trang giữa các dòng */
+        }
+        table tbody tr td{
+            font-size:11px;
+            color:black;
+            padding:5px
+        }
+        table thead tr th {
+            font-size: 11px;
+            color: black;
+            font-weight: bold;
+            padding: 5px
+        }
+        table tfoot tr td {
+            font-size: 11px;
+            padding: 5px
+        }
+    </style>
+</head>
+<body>
+    @*<div class="tab-control" style="position:fixed;bottom:0">
+            <ul class="tabs" style="background-color: #1d1b31; bottom: 0; left: 0; right: 0;">
+                <li class="tab selected"><a href="/Home/About" style="padding-right:5px">Home</a></li>
+
+            </ul>
+        </div>*@
+
+    <div class="forms-container">
+        <ul class="nav-links" style="display: flex; justify-content: center;">
+
+            @*<form class="locBC-form" id="dateForm" action="PhieuNhapXNTT" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+
+                        <a>Từ Ngày</a><br /><br />
+
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.QueryString["From_date"]" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                        <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm danh mục">
+
+                        <input type="hidden" name="Ma_Dt" id="selectedOption">
+
+
+                        <div>
+                            <button class="submit" type="submit" id="runReportButton" onclick="runReport()"> Chạy Báo Cáo </button>
+                        </div>
+                    </div>
+                </form>*@
+
+        </ul>
+
+
+        <form class="data-form" id="data-form">
+            <div>
+                    <h3 style="font-size:13px;text-align:left;color:black">CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                    <h3 style="font-weight:bold;color:black; font-size:13px;margin-left:-500px">@Dvcs</h3>
+                </div>
+
+
+
+            <div>
+                <h3 style="font-size: 25px; color: black; font-weight: bold">SỔ CHI TIẾT PHẢI THU CỦA KHÁCH HÀNG</h3>
+
+            </div>
+            <div style="text-align:center;color:black">
+                <h5>Từ ngày @formattedFromDate đến ngày @formattedToDate</h5>
+
+            </div>
+            <br />
+            @*<div class="flex-container" style="text-align:left;line-height:20px">
+                <h5 style="color: black; font-weight: bold; text-align: left">Trình Dược Viên: @ma_TDV - @Ten_TDV<span style="font-size: 15px;"></span></h5>
+                <h5 style="color: black; font-weight: bold; text-align: left">Nhân Viên Giao Nhận: <span style="font-size: 15px;"></span></h5>
+                <h5 style="color: black; font-weight: bold; text-align: left">Kế Toán Công Nợ: <span style="font-size: 15px;"></span></h5>
+
+            </div>*@
+
+            <br />
+            <div>
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th colspan="3">Chứng từ</th>
+                            <th rowspan="2">Số hợp đồng</th>
+                            <th rowspan="2">Số hợp đồng EX</th>
+                            <th rowspan="2">Diễn giải</th>
+                            <th rowspan="2">Mã Đối Tượng</th>
+                            <th rowspan="2">Tên Đối Tượng</th>
+                            <th rowspan="2">Tài Khoản đối ứng</th>
+                            <th colspan="2">Phát Sinh</th>
+
+                            @*<th rowspan="2">Tổng tiền</th>
+                                <th rowspan="2">Ngày đến hạn TT</th>
+                                <th rowspan="2">Số Ngày nợ quá hạn TT</th>
+                                <th colspan="4">Số tiền nợ quá hạn</th>*@
+                        </tr>
+                        <tr>
+                            <th>Mã </th>
+                            <th>Ngày</th>
+                            <th>Số</th>
+                            <th>Nợ</th>
+                            <th>Có</th>
+                            @*<th>Từ 7 đến 12 tháng</th>
+                                <th>> 1 năm</th>*@
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+                            var noDauKy = (decimal)row2["No_DauKy"];
+                            if (noDauKy > 0 || noDauKy < 0)
+                            {
+                                <tr>
+                                    <td colspan="9" style="font-weight:bold">Dư Đầu Kỳ</td>
+                                    @if (noDauKy > 0)
+                                    {
+                                        <td style="text-align:right">@String.Format("{0:n0}", noDauKy).Replace(",", ".")</td>
+                                        <!-- dương -->
+                                        <td></td>
+                                        <!-- trống cột số âm -->
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                        <!-- trống cột số dương -->
+                                        <td style="text-align:right">@String.Format("{0:n0}", Math.Abs(noDauKy)).Replace(",", ".")</td>
+                                        <!-- âm -->
+                                    }
+                                </tr>
+                            }
+                        }
+
+                        @foreach (DataRow row2 in Model.Tables[1].Rows)
+                        {
+
+
+
+                            <tr>
+                                <td>@row2["Ghi_Chu1"]</td>
+                                <td>@row2["Ngay_Ct_hd"]</td>
+                                <td>@row2["So_Ct"]</td>
+
+                                <td>@row2["So_Hop_Dong"]</td>
+                                <td style="text-align:left">@row2["So_Hop_Dong_Ex"]</td>
+                                <td style="text-align:left">@*@row2["Ten_Dt"]*@</td>
+                                <td>@row2["Ma_Dt"]</td>
+                                <td style="text-align:left">@row2["Ten_Dt"]</td>
+                                <td></td>
+                                <td style="text-align:right">@String.Format("{0:n0}", row2["Tien_HD"]).Replace(",", ".")</td>
+                                <td style="text-align:right"> @String.Format("{0:n0}", row2["Tong_Tien"]).Replace(",", ".")</td>
+                              
+
+                            </tr>
+
+
+
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr >
+                            <td colspan="9" style="font-weight:bold;color:black">Tổng phát sinh:</td>
+                            @foreach (DataRow row1 in Model.Tables[0].Rows)
+                            {
+                                <td style="font-weight:bold;color:black;text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row1["PS_No"])).Replace(",", ".")</td>
+                                <td style="font-weight: bold; color: black; text-align: right">@String.Format("{0:n0}", Convert.ToDecimal(row1["PS_Co"])).Replace(",", ".")</td>
+                            }
+                        </tr>
+                        <tr >
+                            <td colspan="10" style="font-weight:bold;color:black">Dư cuối kỳ:</td>
+                            <td style="font-weight:bold;color:black;text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(@duCK)).Replace(",", ".")</td>
+                            @*@foreach (DataRow row in Model.Tables[2].Rows)
+                                {
+                                    //<td style="font-weight:bold;color:black">@String.Format("{0:n0}",row["Du_Cuoi_Ky"]).Replace(",", ".")</td>
+
+                                }*@
+                        </tr>
+
+                    </tfoot>
+                </table>
+
+            </div>
+
+        </form>
+    </div>
+    @*<button id="export-button" onclick="exportExcel()">Xuất Excel</button>*@
+    <input type="file" id="file-input" style="display: none">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        // Lấy giá trị từ các trường input
+        var fromDate = document.getElementById("tu_ngay").value;
+        var toDate = document.getElementById("den_ngay").value;
+
+        // Đặt Cookies với giá trị từ người dùng
+        document.cookie = "From_date=" + fromDate;
+        document.cookie = "To_date=" + toDate;
+    </script>
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+
+                    break;
+                }
+            }
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.text.toString();
+                        var selectedDiaChi = selectedOption.getAttribute('data-diachi');
+                        var selectedDvcs = selectedOption.getAttribute('data-Dvcs');
+                        document.cookie = `Ten_Dt=${encodeURIComponent(tenDt)}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+                        document.cookie = 'Dia_Chi=' + selectedDiaChi;
+                        document.cookie = 'Dvcs=' + selectedDvcs;
+                    }
+                });
+            }
+        });
+
+
+    </script>
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault(); // Ngăn mặc định nộp biểu mẫu
+
+            // Lấy giá trị từ các trường input
+            var fromDate = document.getElementById("tu_ngay").value;
+            var toDate = document.getElementById("den_ngay").value;
+
+            // Định dạng và lưu giá trị vào Cookie
+            setFormattedCookie("From_date", fromDate);
+            setFormattedCookie("To_date", toDate);
+
+            // Gửi biểu mẫu sau khi đã lưu Cookie
+            event.target.submit();
+        }
+
+        function setFormattedCookie(cookieName, dateString) {
+            var date = new Date(dateString);
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            var formattedDate = day + "/" + month + "/" + year;
+            document.cookie = cookieName + "=" + formattedDate;
+        }
+    </script>
+
+    <script>
+          function exportExcel() {
+    window.location.href = '@Url.Action("ExportSoTonNo", "MauInChungTu")';
+}
+        // Set the "Từ Ngày" input to the first day of the current month
+        function setFirstDayOfCurrentMonth() {
+            const currentDate = new Date();
+            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const formattedDate = formatDate(firstDayOfMonth);
+
+            document.getElementById("tu_ngay").value = formattedDate;
+        }
+        function setCurrentDate() {
+            const currentDate = new Date();
+            const formattedToDate = formatDate(currentDate);
+            document.getElementById("den_ngay").value = formattedToDate;
+        }
+        // Format the date as "yyyy-mm-dd" for input type="date"
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        // Call the function to set the "Từ Ngày" input on page load
+        setFirstDayOfCurrentMonth();
+        setCurrentDate();
+    </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var tableData = []; // Mảng lưu dữ liệu
+
+            // Lặp qua từng hàng trong bảng
+            var rows = document.querySelectorAll("#export tbody tr");
+            rows.forEach(function (row) {
+                var rowData = [];
+                var cells = row.querySelectorAll("td");
+
+                // Lặp qua từng ô dữ liệu trong hàng
+                cells.forEach(function (cell) {
+                    rowData.push(cell.textContent);
+                });
+
+                tableData.push(rowData); // Thêm mảng dữ liệu hàng vào mảng tableData
+            });
+
+            // Chia mảng thành 5 phần (hoặc số phần bạn muốn)
+            var partSize = 30;
+            var parts = [];
+            for (var i = 0; i < 3; i++) {
+                var start = i * partSize;
+                var end = (i === 2) ? tableData.length : start + partSize;
+                var part = tableData.slice(start, end);
+                parts.push(part);
+            }
+
+            // Chuyển mỗi phần thành chuỗi JSON và lưu vào các cookie riêng rẽ
+            for (var i = 0; i < parts.length; i++) {
+                var partJSON = JSON.stringify(parts[i]);
+                var cookieName = "tableDataCookie" + (i + 1);
+                if (partJSON.length > 0) {
+                    Cookies.set(cookieName, partJSON);
+                }
+            }
+
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Hàm để đọc giá trị từ cookie dựa trên tên
+            function getCookieValue(cookieName) {
+                var name = cookieName + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var cookieArray = decodedCookie.split(';');
+                for (var i = 0; i < cookieArray.length; i++) {
+                    var cookie = cookieArray[i].trim();
+                    if (cookie.indexOf(name) === 0) {
+                        return cookie.substring(name.length, cookie.length);
+                    }
+                }
+                return null;
+            }
+
+            // Lấy giá trị từ cookie với tên là "sumRow"
+            var sumRowCookie = getCookieValue("sumRow");
+
+            // Kiểm tra xem cookie có tồn tại không
+            if (sumRowCookie !== null) {
+                // Chuyển đổi giá trị cookie từ chuỗi JSON thành đối tượng JavaScript
+                var sumRowData = JSON.parse(decodeURIComponent(sumRowCookie));
+
+                // Làm bất cứ điều gì bạn muốn với dữ liệu đã lấy được
+                console.log("Dữ liệu từ cookie:", sumRowData);
+            }
+        });
+    </script>
+    <script>
+        // Lấy tất cả các hàng trong tbody của bảng
+        var rows = document.querySelectorAll("#export tbody tr");
+
+        // Khởi tạo mảng cho từng cột
+        var tienTruocThueArray = [];
+        var tienThueArray = [];
+        var tongTienArray = [];
+
+        // Lặp qua từng hàng
+        rows.forEach(function (row) {
+            // Lấy giá trị từng ô của hàng
+            var tienTruocThueCell = row.cells[7];
+            var tienThueCell = row.cells[8];
+            var tongTienCell = row.cells[9];
+
+            // Log để kiểm tra giá trị từ ô
+            console.log("tienTruocThueCell.innerText:", tienTruocThueCell.innerText);
+            console.log("tienThueCell.innerText:", tienThueCell.innerText);
+            console.log("tongTienCell.innerText:", tongTienCell.innerText);
+
+            var tienTruocThue = tienTruocThueCell.innerText.replace(/\D/g, ''); // Cột Tiền trước thuế
+            var tienThue = tienThueCell.innerText.replace(/\D/g, ''); // Cột Tiền thuế
+            var tongTien = tongTienCell.innerText.replace(/\D/g, ''); // Cột Tổng tiền
+
+            // Log để kiểm tra giá trị sau khi xử lý
+            console.log("tienTruocThue:", tienTruocThue);
+            console.log("tienThue:", tienThue);
+            console.log("tongTien:", tongTien);
+
+            // Thêm giá trị vào mảng tương ứng
+            tienTruocThueArray.push(tienTruocThue);
+            tienThueArray.push(tienThue);
+            tongTienArray.push(tongTien);
+        });
+
+        // Log để kiểm tra mảng sau khi lặp
+        console.log("tienTruocThueArray:", tienTruocThueArray);
+        console.log("tienThueArray:", tienThueArray);
+        console.log("tongTienArray:", tongTienArray);
+
+        // Đặt các mảng vào cookie
+        document.cookie = "tienTruocThueArray=" + encodeURIComponent(JSON.stringify(tienTruocThueArray));
+        document.cookie = "tienThueArray=" + encodeURIComponent(JSON.stringify(tienThueArray));
+        document.cookie = "tongTienArray=" + encodeURIComponent(JSON.stringify(tongTienArray));
+
+
+    </script>
+
+    <script>
+        $("#export-button").click(function () {
+            // Lấy dữ liệu từ Local Storage hoặc từ nguồn dữ liệu khác
+            var localStorageData = localStorage.getItem("data");
+
+            // Kiểm tra xem có dữ liệu không
+            if (localStorageData) {
+                // Gửi dữ liệu lên server thông qua AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "/MauInChungTu/ExportSoTonNo",
+                    contentType: "application/json",  // Thiết lập loại nội dung
+                    data: JSON.stringify({ localStorageData: localStorageData }),  // Chuyển đổi thành chuỗi JSON
+                    success: function (response) {
+                        // Xử lý phản hồi từ server nếu cần
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.error("Lỗi khi gửi dữ liệu lên server.", error);
+                    }
+                });
+            } else {
+                // Hiển thị thông báo hoặc thực hiện hành động khác nếu không có dữ liệu
+                console.log("Không có dữ liệu trong Local Storage.");
+            }
+        });
+    </script>
+
+
+    <script>
+
+        // Đợi cho tài liệu HTML được tải hoàn thành
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy thẻ tbody của bảng
+            var tbody = document.querySelector("#export tbody");
+
+            // Khởi tạo mảng để lưu dữ liệu
+            var tableData = [];
+
+            // Lặp qua từng hàng (tr) trong tbody
+            var rows = tbody.querySelectorAll("tr");
+            rows.forEach(function (row) {
+                // Lấy tất cả các ô dữ liệu trong hàng (td)
+                var rowData = [];
+                var cells = row.querySelectorAll("td");
+                cells.forEach(function (cell) {
+                    // Lấy nội dung của ô dữ liệu và thêm vào mảng rowData
+                    rowData.push(cell.textContent);
+                });
+
+                // Thêm mảng rowData vào mảng tableData
+                tableData.push(rowData);
+            });
+            localStorage.setItem("data", JSON.stringify(tableData));
+            // Xuất mảng tableData lên console
+            console.log("Gia tri mang:", tableData);
+
+            document.getElementById("export-button").addEventListener("click", function () {
+                // Gửi dữ liệu lên server
+                sendTableDataToServer(tableData);
+
+
+            });
+        });
+        function sendTableDataToServer(tableData) {
+            // Sử dụng AJAX để gửi dữ liệu lên server
+            $.ajax({
+                type: "POST",
+                url: "/MauInChungTu/ExportSoTonNo", // Điều chỉnh đúng đường dẫn tới action của bạn
+                contentType: "application/json; charset=utf-8",
+                /* dataType: "text",*/
+                data: JSON.stringify(tableData),
+                success: function (response) {
+                    // Xử lý phản hồi từ server nếu cần
+                    console.log("Received response from server:", response);
+                    console.log("Received tableData from server:", response.tableData);
+                    console.log("Thành công");
+                },
+                error: function (error) {
+                    // Xử lý lỗi nếu có
+                    console.error(error);
+                }
+            });
+        }
+
+    </script>
+
+    <script>
+
+        document.addEventListener('keydown', function (event) {
+            if (event.ctrlKey && event.key === 'p') {
+                // Người dùng nhấn Ctrl+P, ẩn nút xuất Excel
+                document.getElementById('export-button').style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+

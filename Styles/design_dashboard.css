@@ -1,0 +1,617 @@
+﻿
+
+
+
+
+@media screen and (max-width: 1920px) {
+    .data_table3 {
+        margin-left: 80px;
+    }
+    .menu-btn span {
+        font-size: 35px;
+        font-weight: bold;
+        color: #427cac;
+    }
+    .main nav .search-box {
+        width: 60%;
+    }
+    .main .container .row-1 .row-1-1 {
+        height: 70%;
+        width: 20%;
+    }
+
+    .main .container .row-1 .row-1-2 {
+        height: 70%;
+        width: 25%;
+    }
+
+    .main .container .row-1 .row-1-3 {
+        height: 70%;
+        width: 25%;
+    }
+
+    .main .container .row-1 .row-1-4 {
+        height: 70%;
+        width: 25%;
+    }
+
+    .main .container .row-1 .row-1-1 .icon div i {
+        font-size: 35px;
+    }
+    @media screen and (max-width: 1600px) {
+        .data_table3 {
+            margin-left: 150px;
+        }
+        .menu-btn span {
+            font-size: 35px;
+            font-weight: bold;
+            color: #427cac;
+        }
+
+        .main .container .row-1 .row-1-1 {
+            height: 70%;
+            width: 20%;
+        }
+
+        .main .container .row-1 .row-1-2 {
+            height: 70%;
+            width: 25%;
+        }
+
+        .main .container .row-1 .row-1-3 {
+            height: 70%;
+            width: 25%;
+        }
+
+        .main .container .row-1 .row-1-4 {
+            height: 70%;
+            width: 25%;
+        }
+
+        .main .container .row-1 .row-1-1 .icon div i {
+            font-size: 35px;
+        }
+
+        @media screen and (max-width: 1366px) {
+            .menu-btn span {
+                font-size: 35px;
+                font-weight: bold;
+                color: #427cac;
+            }
+           .data_table3{
+                margin-left:150px;
+            }
+            .main .container .row-1 .row-1-1 {
+                height: 70%;
+                width: 20%;
+            }
+
+            .main .container .row-1 .row-1-2 {
+                height: 70%;
+                width: 25%;
+            }
+
+            .main .container .row-1 .row-1-3 {
+                height: 70%;
+                width: 25%;
+            }
+
+            .main .container .row-1 .row-1-4 {
+                height: 70%;
+                width: 25%;
+            }
+
+            .main .container .row-1 .row-1-1 .icon div i {
+                font-size: 35px;
+            }
+
+            @media screen and (max-width: 1024px) {
+                .data_table3 {
+                    margin-left: 180px;
+                }
+                .menu-btn span {
+                    font-size: 35px;
+                    font-weight: bold;
+                    color: #427cac;
+                }
+
+                .main .container .row-1 .row-1-1 {
+                    height: 70%;
+                    width: 20%;
+                }
+
+                .main .container .row-1 .row-1-2 {
+                    height: 70%;
+                    width: 25%;
+                }
+
+                .main .container .row-1 .row-1-3 {
+                    height: 70%;
+                    width: 25%;
+                }
+
+                .main .container .row-1 .row-1-4 {
+                    height: 70%;
+                    width: 25%;
+                }
+
+                .main .container .row-1 .row-1-1 .icon div i {
+                    font-size: 35px;
+                }
+
+                @media screen and (max-width:821px) {
+                    .data_table3 {
+                        margin-left: 150px;
+                    }
+                    .menu-btn span {
+                        font-size: 35px;
+                        font-weight: bold;
+                        color: #427cac;
+                    }
+
+                    .main .container .row-1 .row-1-1 {
+                        height: 70%;
+                        width: 20%;
+                    }
+
+                    .main .container .row-1 .row-1-2 {
+                        height: 70%;
+                        width: 25%;
+                    }
+
+                    .main .container .row-1 .row-1-3 {
+                        height: 70%;
+                        width: 25%;
+                    }
+
+                    .main .container .row-1 .row-1-4 {
+                        height: 70%;
+                        width: 25%;
+                    }
+
+                    .main .container .row-1 .row-1-1 .icon div i {
+                        font-size: 35px;
+                    }
+
+                    @media screen and (max-width: 769px) {
+                        .data_table3 {
+                            margin-left: 180px;
+                        }
+                        .menu-btn span {
+                            font-size: 30px;
+                            font-weight: bold;
+                            color: #427cac;
+                        }
+
+                        .main .container .row-1 .row-1-1 {
+                            height: 70%;
+                            width: 20%;
+                        }
+
+                        .main .container .row-1 .row-1-2 {
+                            height: 70%;
+                            width: 25%;
+                        }
+
+                        .main .container .row-1 .row-1-3 {
+                            height: 70%;
+                            width: 25%;
+                        }
+
+                        .main .container .row-1 .row-1-4 {
+                            height: 70%;
+                            width: 25%;
+                        }
+
+                        .main .container .row-1 .row-1-1 .icon div i {
+                            font-size: 35px;
+                        }
+
+                        @media screen and (max-width: 481px) {
+                            .data_table3 {
+                                margin-left: 180px;
+                            }
+                            .menu-btn span {
+                                font-size: 30px;
+                                font-weight: bold;
+                                color: #427cac;
+                            }
+
+                            .main .container .row-1 {
+                                height: 500px;
+                                justify-content: center;
+                                flex-direction: column;
+                            }
+
+                            .main nav .search-box {
+                                width: 50%;
+                            }
+
+                            .main .container .row-1 .row-1-1 .icon div i {
+                                font-size: 40px;
+                            }
+
+                            .main .container .row-1 .row-1-1 {
+                                width: 80%;
+                                height: 60%;
+                                margin-bottom: 10px;
+                            }
+
+                            .main .container .row-1 .row-1-2 {
+                                width: 80%;
+                                height: 60%;
+                                margin-bottom: 10px;
+                            }
+
+                            .main .container .row-1 .row-1-3 {
+                                width: 80%;
+                                height: 60%;
+                                margin-bottom: 10px;
+                            }
+
+                            .main .container .row-1 .row-1-4 {
+                                width: 80%;
+                                height: 60%;
+                                margin-bottom: 10px;
+                            }
+
+                            .main .container .row-2 {
+                                margin-top: 10px;
+                                margin-left: 40px;
+                                height: 700px;
+                                width: 500px;
+                                margin-top: 50px;
+                                justify-content: center;
+                                flex-direction: column;
+                            }
+
+                                .main .container .row-2 .chart-1 {
+                                    width: 380px;
+                                    margin-bottom: 20px;
+                                }
+
+                                .main .container .row-2 .chart-2 {
+                                    width: 380px;
+                                }
+
+                            @media screen and (max-width: 431px) {
+                                .data_table3 {
+                                    margin-left: 180px;
+                                }
+                                .menu-btn span {
+                                    font-size: 25px;
+                                    font-weight: bold;
+                                    color: #427cac;
+                                }
+
+                                .main .container .row-1 {
+                                    height: 500px;
+                                    justify-content: center;
+                                    flex-direction: column;
+                                    margin-bottom: 50px;
+                                }
+
+                                .main nav .search-box {
+                                    width: 50%;
+                                }
+
+                                .main .container .row-1 .row-1-1 .icon div i {
+                                    font-size: 40px;
+                                }
+
+                                .main .container .row-1 .row-1-1 {
+                                    width: 80%;
+                                    height: 60%;
+                                    margin-bottom: 10px;
+                                }
+
+                                .main .container .row-1 .row-1-2 {
+                                    width: 80%;
+                                    height: 60%;
+                                    margin-bottom: 10px;
+                                }
+
+                                .main .container .row-1 .row-1-3 {
+                                    width: 80%;
+                                    height: 60%;
+                                    margin-bottom: 10px;
+                                }
+
+                                .main .container .row-1 .row-1-4 {
+                                    width: 80%;
+                                    height: 60%;
+                                    margin-bottom: 10px;
+                                }
+
+                                .main .container .row-2 {
+                                    margin-top: 10px;
+                                    margin-left: 40px;
+                                    height: 700px;
+                                    width: 400px;
+                                    justify-content: center;
+                                    flex-direction: column;
+                                }
+
+                                    .main .container .row-2 .chart-1 {
+                                        width: 320px;
+                                        margin-bottom: 20px;
+                                    }
+
+                                    .main .container .row-2 .chart-2 {
+                                        width: 320px;
+                                    }
+
+                                @media(max-width: 415px) {
+                                    .menu-btn span {
+                                        visibility: hidden;
+                                    }
+                                    .home-section .main .home-content1 .overview-boxes .box{
+                                        margin-left: 200px;
+                                        width:200px;
+                                    }
+                                    .main .container .row-1 {
+                                        height: 500px;
+                                        justify-content: center;
+                                        flex-direction: column;
+                                    }
+
+                                    .main nav .search-box {
+                                        width: 50%;
+                                    }
+
+                                    .main .container .row-1 .row-1-1 .icon div i {
+                                        font-size: 40px;
+                                    }
+
+                                    .main .container .row-1 .row-1-1 {
+                                        width: 80%;
+                                        height: 60%;
+                                        margin-bottom: 10px;
+                                    }
+
+                                    .main .container .row-1 .row-1-2 {
+                                        width: 80%;
+                                        height: 60%;
+                                        margin-bottom: 10px;
+                                    }
+
+                                    .main .container .row-1 .row-1-3 {
+                                        width: 80%;
+                                        height: 60%;
+                                        margin-bottom: 10px;
+                                    }
+
+                                    .main .container .row-1 .row-1-4 {
+                                        width: 80%;
+                                        height: 60%;
+                                        margin-bottom: 10px;
+                                    }
+
+                                    .main .container .row-2 {
+                                        margin-top: 10px;
+                                        margin-left: 40px;
+                                        height: 700px;
+                                        width: 400px;
+                                        justify-content: center;
+                                        flex-direction: column;
+                                    }
+
+                                        .main .container .row-2 .chart-1 {
+                                            width: 320px;
+                                            margin-bottom: 20px;
+                                        }
+
+                                        .main .container .row-2 .chart-2 {
+                                            width: 320px;
+                                        }
+
+                                    @media screen and (max-width: 376px) {
+                                        /* .main nav {
+        width: 100%;
+    }*/
+
+                                        .main .container .row-1 {
+                                            height: 500px;
+                                            justify-content: center;
+                                            flex-direction: column;
+                                        }
+
+                                        .menu-btn span {
+                                            visibility: hidden;
+                                        }
+
+                                        .main nav .search-box {
+                                            width: 50%;
+                                        }
+
+                                        .main .container .row-1 .row-1-1 .icon div i {
+                                            font-size: 40px;
+                                        }
+
+                                        .main .container .row-1 .row-1-1 {
+                                            width: 80%;
+                                            height: 60%;
+                                            margin-bottom: 10px;
+                                        }
+
+                                        .main .container .row-1 .row-1-2 {
+                                            width: 80%;
+                                            height: 60%;
+                                            margin-bottom: 10px;
+                                        }
+
+                                        .main .container .row-1 .row-1-3 {
+                                            width: 80%;
+                                            height: 60%;
+                                            margin-bottom: 10px;
+                                        }
+
+                                        .main .container .row-1 .row-1-4 {
+                                            width: 80%;
+                                            height: 60%;
+                                            margin-bottom: 10px;
+                                        }
+
+                                        .main .container .row-2 {
+                                            margin-left: 20px;
+                                            height: 700px;
+                                            width: 500px;
+                                            justify-content: center;
+                                            flex-direction: column;
+                                        }
+
+                                            .main .container .row-2 .chart-1 {
+                                                width: 300px;
+                                                margin-bottom: 20px;
+                                            }
+
+                                            .main .container .row-2 .chart-2 {
+                                                width: 300px;
+                                            }
+
+                                        @media screen and (max-width: 321px) {
+                                           
+                                            .main nav {
+                                                width: 100%;
+                                                width: 500px;
+                                            }
+
+                                            .main .container .row-1 {
+                                                margin-left: 20px;
+                                                height: 500px;
+                                                justify-content: center;
+                                                flex-direction: column;
+                                            }
+
+                                            .menu-btn span {
+                                                visibility: hidden;
+                                            }
+
+                                            .main nav .search-box {
+                                                width: 50%;
+                                            }
+
+                                            .main .container .row-1 .row-1-1 .icon div i {
+                                                font-size: 40px;
+                                            }
+
+                                            .main .container .row-1 .row-1-1 {
+                                                width: 80%;
+                                                height: 60%;
+                                                margin-bottom: 10px;
+                                            }
+
+                                            .main .container .row-1 .row-1-2 {
+                                                width: 80%;
+                                                height: 60%;
+                                                margin-bottom: 10px;
+                                            }
+
+                                            .main .container .row-1 .row-1-3 {
+                                                width: 80%;
+                                                height: 60%;
+                                                margin-bottom: 10px;
+                                            }
+
+                                            .main .container .row-1 .row-1-4 {
+                                                width: 80%;
+                                                height: 60%;
+                                                margin-bottom: 10px;
+                                            }
+
+                                            .main .container .row-2 {
+                                                height: 700px;
+                                                width: 500px;
+                                                justify-content: center;
+                                                flex-direction: column;
+                                            }
+
+                                                .main .container .row-2 .chart-1 {
+                                                    width: 300px;
+                                                    margin-bottom: 20px;
+                                                }
+
+                                                .main .container .row-2 .chart-2 {
+                                                    width: 300px;
+                                                }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.home-section {
+    position: relative;
+    background: #f5f5f5;
+    min-height: 100vh;
+    width: calc(100% - 240px);
+    left: 240px;
+    transition: all 0.5s ease;
+}
+
+    .home-section nav {
+        justify-content: space-between;
+        transition: all 0.5s ease;
+        display: flex;
+        align-items: center;
+        height: 80px;
+        background: #fff;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+        .home-section nav .home-content {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+nav .home-content i {
+    font-size: 35px;
+    margin-right: 10px;
+}
+
+.home-section nav .search-box {
+    display: flex;
+    position: relative;
+    height: 50px;
+    max-width: 550px;
+    width: 100%;
+    margin: 0 20px;
+}
+
+    .home-section nav .search-box input {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        background: #F5F6FA;
+        border: 2px solid #EFEEF1;
+        border-radius: 6px;
+        font-size: 18px;
+        padding: 0 15px;
+    }
+
+    .home-section nav .search-box .bx-search {
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        background: #2697FF;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        border-radius: 4px;
+        line-height: 40px;
+        text-align: center;
+        color: #fff;
+        font-size: 22px;
+        transition: all 0.4 ease;
+    }
+

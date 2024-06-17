@@ -1,0 +1,41 @@
+﻿@*@model List<ASPNET_MVC_ChartsDemo.Models.B20DmDvt>*@
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Page Title</title>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Đvcs</th>
+                <th>Tên Đvcs</th>
+                <th>Hinh anh</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dvcs in Model)
+            {
+
+                <tr>
+                    <td>@dvcs.tendangnhap</td>
+                    <td>@dvcs.hoten</td>
+                    <td>@dvcs.Hinh_Anh2</td>
+                    @*<td>
+                        @if (dvcs.Hinh_Anh != null)
+                        {
+                            //string imageBase64 = Convert.ToBase64String(dvcs.Hinh_Anh);
+                            <img style="max-width:100px; max-height:100px;" src="data:image/*;base64,@(Convert.ToBase64String(dvcs.Hinh_Anh))">
+                        }
+                    </td>*@
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>
+

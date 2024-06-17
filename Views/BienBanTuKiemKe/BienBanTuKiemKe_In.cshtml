@@ -1,0 +1,575 @@
+﻿
+@using System.Data;
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        * {
+            font-family: 'Times New Roman';
+            color: black;
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            /*                text-align: center;*/
+            padding: 50px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+        width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+             
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            /*text-align: center;*/
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        img {
+            width: 70px;
+            height: 40px;
+        }
+
+        tr {
+            page-break-inside: avoid; /* Tránh chuyển trang giữa các dòng */
+        }
+
+            tr td {
+                padding: 5px;
+            }
+
+        thead th {
+            padding: 10px;
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Biên Bản Tự Kiểm Kê Tháng</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/logo.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+
+
+
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+
+
+
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body>
+    <div style="width:700px;height:120px;border:2px solid black;display:flex;justify-content:space-between">
+        <div style="border-right:2px solid black;width:200px;flex-direction:column">
+            <h3 style="font-size:13px;padding:5px">CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+            <div>  <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:65px"></div>
+        </div>
+        <div style="text-align:center;align-content:center">
+            <div id="title" style="color:black;font-weight:bold"></div>
+        </div>
+        <div style="border-left: 2px solid black; width: 200px; flex-direction: column; display: flex; text-align: center; align-content: center;padding:40px">
+            <h3 style="font-size:15px">PHỤ LỤC 2</h3>
+            <h3 style="font-size:15px">DD0.617.6</h3>
+        </div>
+
+    </div>
+    <br />
+    <div style="display:flex;margin-left:60px">
+        <h3>Mã Kho: @Request.Cookies["Ma_Kho"].Value</h3>
+    </div>
+    <br />
+
+
+
+
+    <div>
+        <table id="example" class="table table-striped table-bordered" style="width:700px">
+            <thead class="table-dark" style="background-color:white">
+                <tr>
+
+                    <th>Mã SP</th>
+                    <th>Tên sản phẩm - Quy cách</th>
+                    <th>Số lô</th>
+                    <th>Hạn dùng</th>
+                    <th>ĐVT</th>
+                    <th>Tồn cuối kỳ</th>
+                    <th>Quy đổi thùng</th>
+                    <th>Hộp lẻ</th>
+                    <th>SL thực tế</th>
+                    <th>Thừa</th>
+                    <th>Thiếu</th>
+                    <th>Nhận xét chất lượng</th>
+                    <th>Nguyên nhân</th>
+
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    <tr>
+                        <td>@row2["Ma_Vt"]</td>
+                        <td style="text-align:left">@row2["Ten_Vt"]</td>
+                        <td style="text-align:center">@row2["So_Lo"]</td>
+                        <td style="text-align:center">@row2["Han_Dung"]</td>
+                        <td style="text-align:center">@row2["Dvt"]</td>
+                        <td style="text-align:right">@row2["So_Luong_CK"]</td>
+                        <td style="text-align:right">@row2["So_Luong_Quy_Doi"]</td>
+                        <td style="text-align:right">@row2["So_Luong_quy_Doi_Hop"]</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+    <br />
+    <div style="text-align:right;margin-right:60px">Ngày............/............/...........</div>
+
+    <div style="text-align:center;justify-content:space-between;display:flex;margin:0px 60px 0px 60px;font-weight:bold">
+        <div>Thủ Kho</div>
+        <div>Phụ Trách Đơn Vị Quản Kho</div>
+    </div>
+    <button id="export-button" onclick="exportExcel()">Xuất Excel</button>
+    <!-- =======  Data-Table  = End  ===================== -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Giả sử biến To_Date là giá trị của cookie "To_date"
+            var To_Date = getCookie("To_date");
+
+            if (To_Date) {
+                // Tách tháng và năm từ biến To_Date
+                var dateParts = To_Date.split("-");
+                var year = dateParts[0];
+                var month = dateParts[1];
+
+                // Tạo nội dung cho thẻ h3
+                var h3Content = "BIÊN BẢN TỰ KIỂM KÊ THÁNG " + month + "/" + year;
+                setCookie("Month", month);
+                setCookie("Year", year);
+                // Gắn nội dung vào thẻ title
+                document.getElementById("title").innerHTML = h3Content;
+            } else {
+                console.log("Cookie 'To_date' không tồn tại hoặc không có giá trị hợp lệ.");
+            }
+        });
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+        }
+        function setCookie(name, value) {
+            document.cookie = name + "=" + (value || "") + "; path=/";
+        }
+    </script>
+    <script>
+  function exportExcel() {
+    window.location.href = '@Url.Action("ExportToExcel", "BienBanTuKiemKe")';
+}
+
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var exportButton = document.getElementById("export-button");
+
+            // Ẩn nút khi người dùng nhấn Ctrl + P
+            window.addEventListener("beforeprint", function () {
+                exportButton.style.display = "none";
+            });
+
+            // Hiển thị lại nút sau khi in xong
+            window.addEventListener("afterprint", function () {
+                exportButton.style.display = "block";
+            });
+        });
+
+    </script>
+</body>
+
+</html>

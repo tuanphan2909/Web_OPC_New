@@ -1,0 +1,688 @@
+﻿
+@{ ViewBag.Title = "Thông Báo Nợ QH";
+    string ten_dt = Request.Cookies["ten_dt"] != null ? HttpUtility.UrlDecode(Request.Cookies["ten_dt"].Value) : "";
+
+
+}
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Phiếu Xác Nhận Thanh Toán</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            /*                text-align: center;*/
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+          font-weight:bold;
+          color:black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            /*text-align: center;*/
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+        img {
+            width:70px;
+            height:40px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="forms-container">
+        <ul class="nav-links" style="display: flex; justify-content: center;">
+            <li>
+                <form class="locBC-form" id="dateForm" action="ThongBaoNoQH_In" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.QueryString["From_date"]" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                        <a>Ngày Ký</a><br /><br />
+                        <input class="den_ngay" id="Ngay_Ky" placeholder=" Đến Ngày" name="Ngay_ky" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                        <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm danh mục">
+                        <datalist id="dropdownList">
+                            @foreach (var item in ViewBag.DataItems)
+                            {
+                                <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-maDt="@item.Ma_Dt" data-diachi="@item.Dia_Chi" data-dvcs="@item.Dvcs" data-dvcs1="@item.Dvcs1">@item.Ten_Dt</option>
+}
+                        </datalist>
+                        <input type="hidden" name="Ma_Dt" id="selectedOption">
+
+
+                        <div>
+                            <button class="submit" type="submit" id="runReportButton" onclick="saveNgay();runReport()"> Chạy Báo Cáo </button>
+                        </div>
+                    </div>
+                </form>
+            </li>
+        </ul>
+
+
+        <div class="forms-container">
+            <form class="data-form" id="data-form">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div style=" display: flex; justify-content: space-between; align-items: center;text-align:left">
+                        <div style="text-align: left;">
+                            <img src="~/assets/images/logo.png" alt="" class="img-fluid">
+                        </div>
+                        <div style="text-align: right;">
+                            <h3 style="font-size: 13px;">CTY CỔ PHẦN DƯỢC PHẨM OPC</h3>
+                            <h5>Chi Nhánh Cần Thơ</h5>
+                            <h5>Số:................/KT-OPCCNCT</h5>
+                        </div>
+
+                    </div>
+                    <div style="text-align:right">
+                        <h5>Cộng Hòa Xã Hội Chủ Nghĩa Việt Nam</h5>
+                        <h5 style="text-decoration:underline">Độc lập - Tự do - Hạnh Phúc</h5>
+                        <br />
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <h3 style="font-size: 25px; color: black; font-weight: bold">THÔNG BÁO NỢ QUÁ HẠN</h3>
+                    <br />
+                </div>
+                <div style="justify-content:start;display:flex">
+                    <div style="text-align:left">
+                        <h5 style="color:black;font-weight:bold">Kính gửi: QUẦY THUỐC MINH CHI</h5>
+                    </div>
+                </div>
+                <br />
+                <div style="width:700px;justify-content:start">
+                    <div style="word-wrap:break-word">
+                        <h5 style="text-align:left">Công Ty Cổ Phần Dược Phẩm OPC - Chi Nhánh Cần Thơ trân trọng thông báo đến quý khách hàng có số dư nợ mà Quý Khách hàng chưa thanh toán cho chúng tôi tính đến ngày 24/07/2023 là: <span style="color: black;font-weight:bold">66.666.666 đồng</span></h5>
+
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <h5 style="margin-left:20px;text-align:left">Trong đó nợ quá hạn là: <span style="color:black;font-weight:bold">66.666.666 đồng</span>, bao gồm các hóa đơn sau:</h5>
+                </div>
+
+                <!--<div style="margin-left:-250px;text-align:left">
+            <h5>Đơn vị xuất hàng: Kho thành phẩm Cửa hàng Quận 10</h5>
+            <h5 style="margin-left:-5px">Địa chỉ: 134/1 Tô Hiến Thành, P15, Quận 10, TP.HCM</h5>-->
+                @*<h5 style="margin-left: 40px">Đơn vị nhận hàng:@Request.Cookies["Ten_dt"].Value</h5>*@
+                <!--<h5 style="margin-left: -120px">Diễn giải: Xuất hàng giao cho khách</h5>
+            </div>-->
+
+
+                <div style="margin-top:10px">
+                    <table border="1" border-collapse="collapse" style="width:700px">
+                        <tr style="font-size:10px;font-weight:bold;color:black">
+                            <th style="padding:10px">STT</th>
+                            <th>SỐ HÓA ĐƠN</th>
+                            <th>NGÀY XUẤT</th>
+                            <th>TIỀN NỢ</th>
+                            <th>HẠN THANH TOÁN</th>
+                            <th>NGÀY QUÁ HẠN</th>
+                        </tr>
+                        <tbody>
+
+                            @*@foreach (DataRow row3 in Model.Tables[1].Rows)
+                            {
+                                <tr class="table2-data hidden-row" data-soct="@row3["So_Ct"]">
+
+
+                                    <td>@row3["so_Line_Id"]</td>
+                                    <td>@row3["Ten_vt"]</td>
+                                    <td>@row3["Dvt"]</td>
+                                    <td>@row3["so_luong"]</td>
+                                </tr>
+                            }*@
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" style="font-weight:bold;color:black;text-align:center">Tổng cộng</td>
+                                <td style="font-weight:bold;color:black"></td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                    <br />
+                    <div style="width:700px;word-wrap:break-word">
+                        <h5>Kính đề nghị Quý Khách Hàng vui lòng đối chiếu và xác nhận số liệu gửi về Công Ty Cố Phần Dược Phẩm OPC - Chi Nhánh Cần Thơ trước ngày <span style="color:black;font-weight:bold">26/06/2023</span>. Đồng thời sớm thanh toán số dư nợ quá hạn trên cho Chi Nhánh chúng tôi bằng tiền mặt hoặc chuyển vào tài khoản: Công Ty Cố Phẩn Dược Phẩm OPC - Chi Nhánh Cần Thơ.</h5>
+                    </div>
+
+                    <div>
+                        <h5>Số tài khoản:  1890201002962 tại Ngân Hàng Nông Nghiệp và Phát Triển Nông Thôn Việt Nam - Chi nhánh Cần Thơ II.</h5>
+
+
+                    </div>
+                    <div style="display:flex;justify-content:start;text-align:center">
+                        <div style="text-align:left">
+                            <h5>Khi cần đối chiếu xin liên hệ:</h5>
+                            <br />
+                        </div>
+                        <div style="text-align:right;margin-left:10px">
+                            <h5>- Hoàng Ngọc (KTCN): 0932 856849</h5>
+                            <h5>- Minh Tùng (KTCN): 0989 146322</h5>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 style="font-style:italic">Trân trọng!</h5>
+                    </div>
+                    <br />
+                    @*<h4 style="margin-left:auto">P. KHCU &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thủ kho&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xưởng sản xuất</h4>*@
+                    <div style="display:inline-block">
+                        <h4 style="display:inline-block;margin-left:50px">Khách Hàng Xác Nhận</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h4 style="display:inline-block;margin-left:80px">Giám Đốc</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h4 style="display:inline-block;margin-left:100px">Kế Toán</h4>
+                    </div><br />
+                    <div style="display:flex">
+                        <h5 style="font-style:italic;text-align:left;margin-left:50px">(Ký, đóng dấu, ghi rõ họ tên)</h5>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+      <script>
+          document.getElementById("dropdownInput").addEventListener("input", function () {
+              var inputValue = this.value;
+              var options = document.querySelectorAll("#dropdownList option");
+
+              for (var i = 0; i < options.length; i++) {
+                  if (options[i].getAttribute("value") === inputValue) {
+                      document.getElementById("selectedOption").value = inputValue;
+
+                      break;
+                  }
+              }
+          });
+          document.addEventListener("DOMContentLoaded", function () {
+              var runReportButton = document.getElementById("runReportButton");
+
+              if (runReportButton) {
+                  runReportButton.addEventListener("click", function () {
+                      var dropdownInput = document.getElementById("dropdownInput");
+                      var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                      if (selectedOption) {
+                          var tenDt = selectedOption.getAttribute('data-maDt');
+                          document.cookie = 'Ma_Dt=' + tenDt;
+                      } else {
+                          var selected = "";
+                          document.cookie = 'Ma_Dt=' + selected;
+                      }
+                  });
+              }
+          });
+          function saveNgay() {
+              var from_date = document.getElementById("tu_ngay").value;
+              var to_date = document.getElementById("den_ngay").value;
+              document.cookie = "From_date=" + from_date;
+              document.cookie = "To_date=" + to_date;
+          }
+      </script>
+        <script>
+            document.getElementById("dropdownInput").addEventListener("input", function () {
+                var inputValue = this.value;
+                var options = document.querySelectorAll("#dropdownList option");
+
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].getAttribute("value") === inputValue) {
+                        document.getElementById("selectedOption").value = inputValue;
+
+                        break;
+                    }
+                }
+            });
+
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                var runReportButton = document.getElementById("runReportButton");
+
+                if (runReportButton) {
+                    runReportButton.addEventListener("click", function () {
+                        var dropdownInput = document.getElementById("dropdownInput");
+                        var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                        if (selectedOption) {
+                            var tenDt = selectedOption.text.toString();
+                            var selectedDiaChi = selectedOption.getAttribute('data-diachi');
+                            var selectedDvcs = selectedOption.getAttribute('data-Dvcs');
+                            var selectedDvcs1 = selectedOption.getAttribute('data-dvcs1');
+                            document.cookie = `Ten_Dt=${encodeURIComponent(tenDt)}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                            document.cookie = 'Dia_Chi=' + selectedDiaChi;
+                            document.cookie = 'Dvcs=' + selectedDvcs;
+                            document.cookie = 'Dvcs1=' + selectedDvcs1;
+                        }
+                    });
+                }
+            });
+
+
+        </script>
+        <script>
+            // Set the "Từ Ngày" input to the first day of the current month
+            function setFirstDayOfCurrentMonth() {
+                const currentDate = new Date();
+                const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+                const formattedDate = formatDate(firstDayOfMonth);
+
+                document.getElementById("tu_ngay").value = formattedDate;
+            }
+            function setCurrentDate() {
+                const currentDate = new Date();
+                const formattedToDate = formatDate(currentDate);
+                document.getElementById("den_ngay").value = formattedToDate;
+                document.getElementById("Ngay_Ky").value = formattedToDate;
+            }
+            // Format the date as "yyyy-mm-dd" for input type="date"
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, "0");
+                const day = date.getDate().toString().padStart(2, "0");
+                return `${year}-${month}-${day}`;
+            }
+
+            // Call the function to set the "Từ Ngày" input on page load
+            setFirstDayOfCurrentMonth();
+            setCurrentDate();
+        </script>
+        <script>
+            function runReport() {
+                // Get values from date inputs
+               
+                var ngayKy = document.getElementById("Ngay_Ky").value;
+                // Save values in cookies 
+               
+                document.cookie = "Ngay_Ky=" + ngayKy;
+                const spanElement = document.getElementById("spanText");
+                spanElement.style.display = "block";
+            }
+        </script>
+</body >
+
+</html >
+

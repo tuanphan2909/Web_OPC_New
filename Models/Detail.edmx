@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SAP_OPCModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="B30CTV">
+          <Key>
+            <PropertyRef Name="CTVId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CTVId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Ma_dvcs" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Ma_CbNv" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ngay_Ct" Type="smalldatetime" Nullable="false" />
+          <Property Name="So_CT" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ma_dt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ma_DT_SAP" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ma_KHC2" Type="nvarchar" MaxLength="50" />
+          <Property Name="Loai_TP" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Loai_KH" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Create At" Type="smalldatetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="B30CTVDetail">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CTVId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RowId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Ma_vt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ma_Vt_SAP" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ten_Vt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Dvt" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="So_Luong" Type="int" Nullable="false" />
+          <Property Name="Han_Muc" Type="int" Nullable="false" />
+          <Property Name="DocumentDoc" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Ma_dvcs" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_B30CTVDetail_B30CTV">
+          <End Role="B30CTV" Type="Self.B30CTV" Multiplicity="1" />
+          <End Role="B30CTVDetail" Type="Self.B30CTVDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="B30CTV">
+              <PropertyRef Name="CTVId" />
+            </Principal>
+            <Dependent Role="B30CTVDetail">
+              <PropertyRef Name="CTVId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SAP_OPCModelStoreContainer">
+          <EntitySet Name="B30CTV" EntityType="Self.B30CTV" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B30CTVDetail" EntityType="Self.B30CTVDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_B30CTVDetail_B30CTV" Association="Self.FK_B30CTVDetail_B30CTV">
+            <End Role="B30CTV" EntitySet="B30CTV" />
+            <End Role="B30CTVDetail" EntitySet="B30CTVDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SAP_OPCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="B30CTV">
+          <Key>
+            <PropertyRef Name="CTVId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CTVId" Type="Guid" Nullable="false" />
+          <Property Name="Ma_dvcs" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ma_CbNv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ngay_Ct" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="So_CT" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_dt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_DT_SAP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ma_KHC2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Loai_TP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Loai_KH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Create_At" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="B30CTVDetail" Relationship="Self.FK_B30CTVDetail_B30CTV" FromRole="B30CTV" ToRole="B30CTVDetail" />
+        </EntityType>
+        <EntityType Name="B30CTVDetail">
+          <Key>
+            <PropertyRef Name="RowId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CTVId" Type="Guid" Nullable="false" />
+          <Property Name="RowId" Type="Guid" Nullable="false" />
+          <Property Name="Ma_vt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_Vt_SAP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ten_Vt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dvt" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="So_Luong" Type="Int32" Nullable="false" />
+          <Property Name="Han_Muc" Type="Int32" Nullable="false" />
+          <Property Name="DocumentDoc" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_dvcs" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="B30CTV" Relationship="Self.FK_B30CTVDetail_B30CTV" FromRole="B30CTVDetail" ToRole="B30CTV" />
+        </EntityType>
+        <Association Name="FK_B30CTVDetail_B30CTV">
+          <End Role="B30CTV" Type="Self.B30CTV" Multiplicity="1" />
+          <End Role="B30CTVDetail" Type="Self.B30CTVDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="B30CTV">
+              <PropertyRef Name="CTVId" />
+            </Principal>
+            <Dependent Role="B30CTVDetail">
+              <PropertyRef Name="CTVId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SAP_OPCEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B30CTV" EntityType="Self.B30CTV" />
+          <EntitySet Name="B30CTVDetail" EntityType="Self.B30CTVDetail" />
+          <AssociationSet Name="FK_B30CTVDetail_B30CTV" Association="Self.FK_B30CTVDetail_B30CTV">
+            <End Role="B30CTV" EntitySet="B30CTV" />
+            <End Role="B30CTVDetail" EntitySet="B30CTVDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SAP_OPCModelStoreContainer" CdmEntityContainer="SAP_OPCEntities3">
+          <EntitySetMapping Name="B30CTV">
+            <EntityTypeMapping TypeName="SAP_OPCModel.B30CTV">
+              <MappingFragment StoreEntitySet="B30CTV">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CTVId" ColumnName="CTVId" />
+                <ScalarProperty Name="Ma_dvcs" ColumnName="Ma_dvcs" />
+                <ScalarProperty Name="Ma_CbNv" ColumnName="Ma_CbNv" />
+                <ScalarProperty Name="Ngay_Ct" ColumnName="Ngay_Ct" />
+                <ScalarProperty Name="So_CT" ColumnName="So_CT" />
+                <ScalarProperty Name="Ma_dt" ColumnName="Ma_dt" />
+                <ScalarProperty Name="Ma_DT_SAP" ColumnName="Ma_DT_SAP" />
+                <ScalarProperty Name="Ma_KHC2" ColumnName="Ma_KHC2" />
+                <ScalarProperty Name="Loai_TP" ColumnName="Loai_TP" />
+                <ScalarProperty Name="Loai_KH" ColumnName="Loai_KH" />
+                <ScalarProperty Name="Create_At" ColumnName="Create At" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B30CTVDetail">
+            <EntityTypeMapping TypeName="SAP_OPCModel.B30CTVDetail">
+              <MappingFragment StoreEntitySet="B30CTVDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CTVId" ColumnName="CTVId" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+                <ScalarProperty Name="Ma_vt" ColumnName="Ma_vt" />
+                <ScalarProperty Name="Ma_Vt_SAP" ColumnName="Ma_Vt_SAP" />
+                <ScalarProperty Name="Ten_Vt" ColumnName="Ten_Vt" />
+                <ScalarProperty Name="Dvt" ColumnName="Dvt" />
+                <ScalarProperty Name="So_Luong" ColumnName="So_Luong" />
+                <ScalarProperty Name="Han_Muc" ColumnName="Han_Muc" />
+                <ScalarProperty Name="DocumentDoc" ColumnName="DocumentDoc" />
+                <ScalarProperty Name="Ma_dvcs" ColumnName="Ma_dvcs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

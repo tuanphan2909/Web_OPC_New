@@ -1,0 +1,2956 @@
+﻿
+
+
+
+
+@{ ViewBag.Title = "BÁO CÁO DOANH THU GIÁ VỐN LÃI GỘP";
+    var fromDate = Request.Cookies["From_date"].Value;
+    var toDate = Request.Cookies["To_date"].Value;
+    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    var formattedFromDate = fromDateValue.ToString("dd/MM/yyyy");
+    var formattedToDate = toDateValue.ToString("dd/MM/yyyy");
+
+    decimal totalCTY = 0, totalPKD = 0, totalCNHCM = 0, totalCNCT = 0, totalCNTG = 0, totalCNMD = 0, totalCNVT = 0, totalCNNT = 0, totalCNDN = 0, totalCNNA = 0, totalCNHN = 0;
+
+    decimal totalCTY2 = 0, totalPKD2 = 0, totalCNHCM2 = 0, totalCNCT2 = 0, totalCNTG2 = 0, totalCNMD2 = 0, totalCNVT2 = 0, totalCNNT2 = 0, totalCNDN2 = 0, totalCNNA2 = 0, totalCNHN2 = 0;
+
+    decimal totalCTY3 = 0, totalPKD3 = 0, totalCNHCM3 = 0, totalCNCT3 = 0, totalCNTG3 = 0, totalCNMD3 = 0, totalCNVT3 = 0, totalCNNT3 = 0, totalCNDN3 = 0, totalCNNA3 = 0, totalCNHN3 = 0;
+
+    decimal totalCTY4 = 0, totalPKD4 = 0, totalCNHCM4 = 0, totalCNCT4 = 0, totalCNTG4 = 0, totalCNMD4 = 0, totalCNVT4 = 0, totalCNNT4 = 0, totalCNDN4 = 0, totalCNNA4 = 0, totalCNHN4 = 0;
+
+
+    decimal totalCTY5 = 0, totalPKD5 = 0, totalCNHCM5 = 0, totalCNCT5 = 0, totalCNTG5 = 0, totalCNMD5 = 0, totalCNVT5 = 0, totalCNNT5 = 0, totalCNDN5 = 0, totalCNNA5 = 0, totalCNHN5 = 0;
+
+
+    decimal totalCTY6 = 0, totalPKD6 = 0, totalCNHCM6 = 0, totalCNCT6 = 0, totalCNTG6 = 0, totalCNMD6 = 0, totalCNVT6 = 0, totalCNNT6 = 0, totalCNDN6 = 0, totalCNNA6 = 0, totalCNHN6 = 0;
+
+
+    decimal totalCTY7 = 0, totalPKD7 = 0, totalCNHCM7 = 0, totalCNCT7 = 0, totalCNTG7 = 0, totalCNMD7 = 0, totalCNVT7 = 0, totalCNNT7 = 0, totalCNDN7 = 0, totalCNNA7 = 0, totalCNHN7 = 0;
+
+
+    decimal totalCTY8 = 0, totalPKD8 = 0, totalCNHCM8 = 0, totalCNCT8 = 0, totalCNTG8 = 0, totalCNMD8 = 0, totalCNVT8 = 0, totalCNNT8 = 0, totalCNDN8 = 0, totalCNNA8 = 0, totalCNHN8 = 0;
+
+
+    decimal totalCTY9 = 0, totalPKD9 = 0, totalCNHCM9 = 0, totalCNCT9 = 0, totalCNTG9 = 0, totalCNMD9 = 0, totalCNVT9 = 0, totalCNNT9 = 0, totalCNDN9 = 0, totalCNNA9 = 0, totalCNHN9 = 0;
+
+
+    decimal totalCTY10 = 0, totalPKD10 = 0, totalCNHCM10 = 0, totalCNCT10 = 0, totalCNTG10 = 0, totalCNMD10 = 0, totalCNVT10 = 0, totalCNNT10 = 0, totalCNDN10 = 0, totalCNNA10 = 0, totalCNHN10 = 0;
+
+
+    decimal totalCTY11 = 0, totalPKD11 = 0, totalCNHCM11 = 0, totalCNCT11 = 0, totalCNTG11 = 0, totalCNMD11 = 0, totalCNVT11 = 0, totalCNNT11 = 0, totalCNDN11 = 0, totalCNNA11 = 0, totalCNHN11 = 0;
+
+
+    decimal totalCTY12 = 0, totalPKD12 = 0, totalCNHCM12 = 0, totalCNCT12 = 0, totalCNTG12 = 0, totalCNMD12 = 0, totalCNVT12 = 0, totalCNNT12 = 0, totalCNDN12 = 0, totalCNNA12 = 0, totalCNHN12 = 0;
+
+    foreach (DataRow row3 in Model.Tables[0].Rows)
+    {
+        if (!Convert.IsDBNull(row3["CTY"]))
+        {
+            totalCTY += Convert.ToDecimal(row3["CTY"]);
+        }
+        if (!Convert.IsDBNull(row3["PKD"]))
+        {
+            totalPKD += Convert.ToDecimal(row3["PKD"]);
+        }
+        if (!Convert.IsDBNull(row3["CNHCM"]))
+        {
+            totalCNHCM += Convert.ToDecimal(row3["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row3["CNCT"]))
+        {
+            totalCNCT += Convert.ToDecimal(row3["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row3["CNTG"]))
+        {
+            totalCNTG += Convert.ToDecimal(row3["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row3["CNMD"]))
+        {
+            totalCNMD += Convert.ToDecimal(row3["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row3["CNVT"]))
+        {
+            totalCNVT += Convert.ToDecimal(row3["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row3["CNNT"]))
+        {
+            totalCNNT += Convert.ToDecimal(row3["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row3["CNDN"]))
+        {
+            totalCNDN += Convert.ToDecimal(row3["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row3["CNNA"]))
+        {
+            totalCNNA += Convert.ToDecimal(row3["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row3["CNHN"]))
+        {
+            totalCNHN += Convert.ToDecimal(row3["CNHN"]);
+        }
+    }
+
+    foreach (DataRow row in Model.Tables[1].Rows)
+    {
+        if (!Convert.IsDBNull(row["CTY"]))
+        {
+            totalCTY2 += Convert.ToDecimal(row["CTY"]);
+        }
+        if (!Convert.IsDBNull(row["PKD"]))
+        {
+            totalPKD2 += Convert.ToDecimal(row["PKD"]);
+        }
+        if (!Convert.IsDBNull(row["CNHCM"]))
+        {
+            totalCNHCM2 += Convert.ToDecimal(row["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row["CNCT"]))
+        {
+            totalCNCT2 += Convert.ToDecimal(row["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row["CNTG"]))
+        {
+            totalCNTG2 += Convert.ToDecimal(row["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row["CNMD"]))
+        {
+            totalCNMD2 += Convert.ToDecimal(row["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row["CNVT"]))
+        {
+            totalCNVT2 += Convert.ToDecimal(row["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row["CNNT"]))
+        {
+            totalCNNT2 += Convert.ToDecimal(row["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row["CNDN"]))
+        {
+            totalCNDN2 += Convert.ToDecimal(row["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row["CNNA"]))
+        {
+            totalCNNA2 += Convert.ToDecimal(row["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row["CNHN"]))
+        {
+            totalCNHN2 += Convert.ToDecimal(row["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row1 in Model.Tables[2].Rows)
+    {
+        if (!Convert.IsDBNull(row1["CTY"]))
+        {
+            totalCTY3 += Convert.ToDecimal(row1["CTY"]);
+        }
+        if (!Convert.IsDBNull(row1["PKD"]))
+        {
+            totalPKD3 += Convert.ToDecimal(row1["PKD"]);
+        }
+        if (!Convert.IsDBNull(row1["CNHCM"]))
+        {
+            totalCNHCM3 += Convert.ToDecimal(row1["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row1["CNCT"]))
+        {
+            totalCNCT3 += Convert.ToDecimal(row1["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row1["CNTG"]))
+        {
+            totalCNTG3 += Convert.ToDecimal(row1["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row1["CNMD"]))
+        {
+            totalCNMD3 += Convert.ToDecimal(row1["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row1["CNVT"]))
+        {
+            totalCNVT3 += Convert.ToDecimal(row1["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row1["CNNT"]))
+        {
+            totalCNNT3 += Convert.ToDecimal(row1["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row1["CNDN"]))
+        {
+            totalCNDN3 += Convert.ToDecimal(row1["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row1["CNNA"]))
+        {
+            totalCNNA3 += Convert.ToDecimal(row1["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row1["CNHN"]))
+        {
+            totalCNHN3 += Convert.ToDecimal(row1["CNHN"]);
+        }
+    }
+
+
+
+    foreach (DataRow row2 in Model.Tables[3].Rows)
+    {
+        if (!Convert.IsDBNull(row2["CTY"]))
+        {
+            totalCTY4 += Convert.ToDecimal(row2["CTY"]);
+        }
+        if (!Convert.IsDBNull(row2["PKD"]))
+        {
+            totalPKD4 += Convert.ToDecimal(row2["PKD"]);
+        }
+        if (!Convert.IsDBNull(row2["CNHCM"]))
+        {
+            totalCNHCM4 += Convert.ToDecimal(row2["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row2["CNCT"]))
+        {
+            totalCNCT4 += Convert.ToDecimal(row2["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row2["CNTG"]))
+        {
+            totalCNTG4 += Convert.ToDecimal(row2["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row2["CNMD"]))
+        {
+            totalCNMD4 += Convert.ToDecimal(row2["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row2["CNVT"]))
+        {
+            totalCNVT4 += Convert.ToDecimal(row2["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row2["CNNT"]))
+        {
+            totalCNNT4 += Convert.ToDecimal(row2["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row2["CNDN"]))
+        {
+            totalCNDN4 += Convert.ToDecimal(row2["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row2["CNNA"]))
+        {
+            totalCNNA4 += Convert.ToDecimal(row2["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row2["CNHN"]))
+        {
+            totalCNHN4 += Convert.ToDecimal(row2["CNHN"]);
+        }
+    }
+
+    foreach (DataRow row5 in Model.Tables[4].Rows)
+    {
+        if (!Convert.IsDBNull(row5["CTY"]))
+        {
+            totalCTY5 += Convert.ToDecimal(row5["CTY"]);
+        }
+        if (!Convert.IsDBNull(row5["PKD"]))
+        {
+            totalPKD5 += Convert.ToDecimal(row5["PKD"]);
+        }
+        if (!Convert.IsDBNull(row5["CNHCM"]))
+        {
+            totalCNHCM5 += Convert.ToDecimal(row5["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row5["CNCT"]))
+        {
+            totalCNCT5 += Convert.ToDecimal(row5["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row5["CNTG"]))
+        {
+            totalCNTG5 += Convert.ToDecimal(row5["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row5["CNMD"]))
+        {
+            totalCNMD5 += Convert.ToDecimal(row5["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row5["CNVT"]))
+        {
+            totalCNVT5 += Convert.ToDecimal(row5["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row5["CNNT"]))
+        {
+            totalCNNT5 += Convert.ToDecimal(row5["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row5["CNDN"]))
+        {
+            totalCNDN5 += Convert.ToDecimal(row5["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row5["CNNA"]))
+        {
+            totalCNNA5 += Convert.ToDecimal(row5["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row5["CNHN"]))
+        {
+            totalCNHN5 += Convert.ToDecimal(row5["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row6 in Model.Tables[5].Rows)
+    {
+        if (!Convert.IsDBNull(row6["CTY"]))
+        {
+            totalCTY6 += Convert.ToDecimal(row6["CTY"]);
+        }
+        if (!Convert.IsDBNull(row6["PKD"]))
+        {
+            totalPKD6 += Convert.ToDecimal(row6["PKD"]);
+        }
+        if (!Convert.IsDBNull(row6["CNHCM"]))
+        {
+            totalCNHCM6 += Convert.ToDecimal(row6["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row6["CNCT"]))
+        {
+            totalCNCT6 += Convert.ToDecimal(row6["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row6["CNTG"]))
+        {
+            totalCNTG6 += Convert.ToDecimal(row6["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row6["CNMD"]))
+        {
+            totalCNMD6 += Convert.ToDecimal(row6["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row6["CNVT"]))
+        {
+            totalCNVT6 += Convert.ToDecimal(row6["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row6["CNNT"]))
+        {
+            totalCNNT6 += Convert.ToDecimal(row6["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row6["CNDN"]))
+        {
+            totalCNDN6 += Convert.ToDecimal(row6["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row6["CNNA"]))
+        {
+            totalCNNA6 += Convert.ToDecimal(row6["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row6["CNHN"]))
+        {
+            totalCNHN6 += Convert.ToDecimal(row6["CNHN"]);
+        }
+    }
+    foreach (DataRow row6 in Model.Tables[6].Rows)
+    {
+        if (!Convert.IsDBNull(row6["CTY"]))
+        {
+            totalCTY7 += Convert.ToDecimal(row6["CTY"]);
+        }
+        if (!Convert.IsDBNull(row6["PKD"]))
+        {
+            totalPKD7 += Convert.ToDecimal(row6["PKD"]);
+        }
+        if (!Convert.IsDBNull(row6["CNHCM"]))
+        {
+            totalCNHCM7 += Convert.ToDecimal(row6["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row6["CNCT"]))
+        {
+            totalCNCT7 += Convert.ToDecimal(row6["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row6["CNTG"]))
+        {
+            totalCNTG7 += Convert.ToDecimal(row6["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row6["CNMD"]))
+        {
+            totalCNMD7 += Convert.ToDecimal(row6["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row6["CNVT"]))
+        {
+            totalCNVT7 += Convert.ToDecimal(row6["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row6["CNNT"]))
+        {
+            totalCNNT7 += Convert.ToDecimal(row6["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row6["CNDN"]))
+        {
+            totalCNDN7 += Convert.ToDecimal(row6["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row6["CNNA"]))
+        {
+            totalCNNA7 += Convert.ToDecimal(row6["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row6["CNHN"]))
+        {
+            totalCNHN7 += Convert.ToDecimal(row6["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row7 in Model.Tables[7].Rows)
+    {
+        if (!Convert.IsDBNull(row7["CTY"]))
+        {
+            totalCTY8 += Convert.ToDecimal(row7["CTY"]);
+        }
+        if (!Convert.IsDBNull(row7["PKD"]))
+        {
+            totalPKD8 += Convert.ToDecimal(row7["PKD"]);
+        }
+        if (!Convert.IsDBNull(row7["CNHCM"]))
+        {
+            totalCNHCM8 += Convert.ToDecimal(row7["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row7["CNCT"]))
+        {
+            totalCNCT8 += Convert.ToDecimal(row7["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row7["CNTG"]))
+        {
+            totalCNTG8 += Convert.ToDecimal(row7["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row7["CNMD"]))
+        {
+            totalCNMD8 += Convert.ToDecimal(row7["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row7["CNVT"]))
+        {
+            totalCNVT8 += Convert.ToDecimal(row7["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row7["CNNT"]))
+        {
+            totalCNNT8 += Convert.ToDecimal(row7["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row7["CNDN"]))
+        {
+            totalCNDN8 += Convert.ToDecimal(row7["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row7["CNNA"]))
+        {
+            totalCNNA8 += Convert.ToDecimal(row7["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row7["CNHN"]))
+        {
+            totalCNHN8 += Convert.ToDecimal(row7["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row8 in Model.Tables[8].Rows)
+    {
+        if (!Convert.IsDBNull(row8["CTY"]))
+        {
+            totalCTY9 += Convert.ToDecimal(row8["CTY"]);
+        }
+        if (!Convert.IsDBNull(row8["PKD"]))
+        {
+            totalPKD9 += Convert.ToDecimal(row8["PKD"]);
+        }
+        if (!Convert.IsDBNull(row8["CNHCM"]))
+        {
+            totalCNHCM9 += Convert.ToDecimal(row8["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row8["CNCT"]))
+        {
+            totalCNCT9 += Convert.ToDecimal(row8["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row8["CNTG"]))
+        {
+            totalCNTG9 += Convert.ToDecimal(row8["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row8["CNMD"]))
+        {
+            totalCNMD9 += Convert.ToDecimal(row8["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row8["CNVT"]))
+        {
+            totalCNVT9 += Convert.ToDecimal(row8["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row8["CNNT"]))
+        {
+            totalCNNT9 += Convert.ToDecimal(row8["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row8["CNDN"]))
+        {
+            totalCNDN9 += Convert.ToDecimal(row8["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row8["CNNA"]))
+        {
+            totalCNNA9 += Convert.ToDecimal(row8["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row8["CNHN"]))
+        {
+            totalCNHN9 += Convert.ToDecimal(row8["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row9 in Model.Tables[9].Rows)
+    {
+        if (!Convert.IsDBNull(row9["CTY"]))
+        {
+            totalCTY10 += Convert.ToDecimal(row9["CTY"]);
+        }
+        if (!Convert.IsDBNull(row9["PKD"]))
+        {
+            totalPKD10 += Convert.ToDecimal(row9["PKD"]);
+        }
+        if (!Convert.IsDBNull(row9["CNHCM"]))
+        {
+            totalCNHCM10 += Convert.ToDecimal(row9["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row9["CNCT"]))
+        {
+            totalCNCT10 += Convert.ToDecimal(row9["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row9["CNTG"]))
+        {
+            totalCNTG10 += Convert.ToDecimal(row9["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row9["CNMD"]))
+        {
+            totalCNMD10 += Convert.ToDecimal(row9["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row9["CNVT"]))
+        {
+            totalCNVT10 += Convert.ToDecimal(row9["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row9["CNNT"]))
+        {
+            totalCNNT10 += Convert.ToDecimal(row9["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row9["CNDN"]))
+        {
+            totalCNDN10 += Convert.ToDecimal(row9["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row9["CNNA"]))
+        {
+            totalCNNA10 += Convert.ToDecimal(row9["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row9["CNHN"]))
+        {
+            totalCNHN10 += Convert.ToDecimal(row9["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row10 in Model.Tables[10].Rows)
+    {
+        if (!Convert.IsDBNull(row10["CTY"]))
+        {
+            totalCTY11 += Convert.ToDecimal(row10["CTY"]);
+        }
+        if (!Convert.IsDBNull(row10["PKD"]))
+        {
+            totalPKD11 += Convert.ToDecimal(row10["PKD"]);
+        }
+        if (!Convert.IsDBNull(row10["CNHCM"]))
+        {
+            totalCNHCM11 += Convert.ToDecimal(row10["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row10["CNCT"]))
+        {
+            totalCNCT11 += Convert.ToDecimal(row10["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row10["CNTG"]))
+        {
+            totalCNTG11 += Convert.ToDecimal(row10["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row10["CNMD"]))
+        {
+            totalCNMD11 += Convert.ToDecimal(row10["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row10["CNVT"]))
+        {
+            totalCNVT11 += Convert.ToDecimal(row10["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row10["CNNT"]))
+        {
+            totalCNNT11 += Convert.ToDecimal(row10["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row10["CNDN"]))
+        {
+            totalCNDN11 += Convert.ToDecimal(row10["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row10["CNNA"]))
+        {
+            totalCNNA11 += Convert.ToDecimal(row10["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row10["CNHN"]))
+        {
+            totalCNHN11 += Convert.ToDecimal(row10["CNHN"]);
+        }
+    }
+
+
+    foreach (DataRow row11 in Model.Tables[11].Rows)
+    {
+        if (!Convert.IsDBNull(row11["CTY"]))
+        {
+            totalCTY12 += Convert.ToDecimal(row11["CTY"]);
+        }
+        if (!Convert.IsDBNull(row11["PKD"]))
+        {
+            totalPKD12 += Convert.ToDecimal(row11["PKD"]);
+        }
+        if (!Convert.IsDBNull(row11["CNHCM"]))
+        {
+            totalCNHCM12 += Convert.ToDecimal(row11["CNHCM"]);
+        }
+        if (!Convert.IsDBNull(row11["CNCT"]))
+        {
+            totalCNCT12 += Convert.ToDecimal(row11["CNCT"]);
+        }
+        if (!Convert.IsDBNull(row11["CNTG"]))
+        {
+            totalCNTG12 += Convert.ToDecimal(row11["CNTG"]);
+        }
+        if (!Convert.IsDBNull(row11["CNMD"]))
+        {
+            totalCNMD12 += Convert.ToDecimal(row11["CNMD"]);
+        }
+        if (!Convert.IsDBNull(row11["CNVT"]))
+        {
+            totalCNVT12 += Convert.ToDecimal(row11["CNVT"]);
+        }
+        if (!Convert.IsDBNull(row11["CNNT"]))
+        {
+            totalCNNT12 += Convert.ToDecimal(row11["CNNT"]);
+        }
+        if (!Convert.IsDBNull(row11["CNDN"]))
+        {
+            totalCNDN12 += Convert.ToDecimal(row11["CNDN"]);
+        }
+        if (!Convert.IsDBNull(row11["CNNA"]))
+        {
+            totalCNNA12 += Convert.ToDecimal(row11["CNNA"]);
+        }
+        if (!Convert.IsDBNull(row11["CNHN"]))
+        {
+            totalCNHN12 += Convert.ToDecimal(row11["CNHN"]);
+        }
+    }
+
+}
+@using System.Data;
+@using System.Globalization;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+
+    <style>
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        * {
+            font-family: "Times New Roman";
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            /*         justify-content:;*/
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            height: 50px;
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 50px;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .data_table {
+            width: max-content;
+        }
+
+        .bieu_do {
+            padding: 10px;
+            margin: 10%;
+            text-align: center;
+            width: 200px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            margin: 20px;
+            height: 55px;
+            text-align: center;
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 10px;
+            moz-transition: all .4s ease-in-out;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+        }
+
+            .bieu_do:hover {
+                background-position: 100% 0;
+                moz-transition: all .4s ease-in-out;
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+            .bieu_do:focus {
+                outline: none;
+            }
+
+        .bieu_do {
+            background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+            box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+        }
+
+        .chart {
+            margin: 20px 0px 0px 0px;
+        }
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .custom-checkbox {
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 2px solid black;
+            background-color: #ffffff;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkContainer {
+            height: 300px;
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+            .checkContainer::-webkit-scrollbar {
+                width: 0.2em;
+                background-color: transparent;
+            }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 1;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+
+        .closeTab {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px; /* Điều chỉnh khoảng cách với h4 */
+        }
+
+        .closeIcon {
+            display: inline-block;
+            width: 30px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: white;
+            color: black; /* Màu chữ x */
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .tab.active {
+            background-color: cornflowerblue; /* Màu nền tab khi active */
+            color: #fff; /* Màu chữ khi active */
+        }
+
+        .tab.selected-tab {
+            pointer-events: none;
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                color: white /* Màu nền của tab */
+            }
+
+            .tab.selected-tab .closeTab {
+                pointer-events: auto;
+            }
+
+        .first-row-gray {
+            background-color: #ccc;
+            font-weight: bold;
+            color: black;
+        }
+
+        .custom-button {
+            margin-top: 10px;
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: blue;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+            .custom-button:hover {
+                background-color: darkblue;
+            }
+
+        .data_table {
+            max-height: 100%;
+            overflow: auto;
+        }
+
+            .data_table thead th {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+      /*  .expandable-content {
+            display: none;
+        }*/
+        .expandable-content_detail {
+            display: none;
+        }
+
+    /*    .expandable-contentETC {
+            display: none;
+        }*/
+
+
+        .expandable-content_detailETC {
+            display: none;
+        }
+
+     /*   .expandable-contentKhac {
+            display: none;
+        }*/
+
+        .expandable-content_detailKhac {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>BÁO CÁO DOANH THU GIÁ VỐN LÃI GỘP</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee">
+    <div class="loader" style="z-index:1"></div>
+
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center; display:flex;margin-left:10px">
+            <li>
+                <form id="dateForm" action="BaoCaoDTGVLG" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+                        <span id="spanText" class="text-loading">[usp_BaoCaoDTGVLG_SAP]</span>
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.Cookies["From_date"].Value" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.Cookies["To_date"].Value" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                    </div>
+
+                    @*<h6>Chọn Đối Tượng:</h6>
+
+                        <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm đối tượng">
+                        <datalist id="dropdownList">
+                            @foreach (var item in ViewBag.DataItems)
+                            {
+                                <option value="@item.Ma_Dt" data-ten="@item.Ma_Dt" data-diachi="@item.Dia_Chi" data-dvcs="@item.Dvcs" data-dvcs1="@item.Dvcs1">@item.Ten_Dt</option>
+                            }
+                        </datalist>
+                        <input type="hidden" name="Ma_Dt" id="selectedOption">*@
+                    @if (Request.Cookies["UserName"].Value == "Admin" || Request.Cookies["UserName"].Value == "ADMIN" || Request.Cookies["UserName"].Value == "opctckt001" || Request.Cookies["UserName"].Value == "OPCTCKT001" || Request.Cookies["UserName"].Value == "VPCT-NHATANH" || Request.Cookies["UserName"].Value == "vpct-nhatanh")
+                    {
+                        <h6>Chọn chi nhánh</h6>
+                        <div class="select-btn" style="width:100px;margin-top:10px">
+                            <select name="Chitiet" id="chitietselect" onchange="saveSelectedValueToCookie()">
+                                <option value="" style="background-color: #020024;color:white">Chọn giá trị</option>
+                                <option value="OPC_CT">OPC_CT Chi Nhánh Cần Thơ</option>
+                                <option value="OPC_TG">OPC_TG Chi Nhánh Tiền Giang</option>
+                                <option value="OPC_MD">OPC_MD Chi Nhánh Miền Đông</option>
+                                <option value="OPC_TP">OPC_TP Chi Nhánh Hồ Chí Minh</option>
+                                <option value="OPC_VT">OPC_VT Chi Nhánh Vũng Tàu</option>
+                                <option value="OPC_NT">OPC_NT Chi Nhánh Nha Trang</option>
+                                <option value="OPC_DN">OPC_DN Chi Nhánh Đà Nẵng</option>
+                                <option value="OPC_NA">OPC_NA Chi Nhánh Nghệ An</option>
+                                <option value="OPC_HN">OPC_HN Chi Nhánh Hà Nội</option>
+                                <option value="">OPC Công Ty</option>
+                            </select>
+                        </div>
+                    }
+
+
+                    <div>
+                        <button class="submit" type="submit" id="runReportButton" onclick="runReport(); saveNgay();runReportAndSaveCookie()">
+                            Chạy Báo Cáo
+                        </button>
+
+                    </div>
+
+                </form>
+                @*<button style="border-radius: 10px; margin-left: 10px; margin-bottom: 10px;margin-top:10px; background-color: #aec9e0; color: #3483bd ">
+                        <a onclick="return ExcellentExport.excel(this, 'example', 'Sheet 1');" download="TongHopCongNoPhaiTra.xls" style="color: #3483bd">Xuất Excel </a>
+                    </button>
+                    <div class="custom-button">
+                        <a target="_blank" href="/TongHopPhaiTra/TongHopCongNoPhaiTra_In" style="color:white;padding:5px">Print</a>
+                    </div>*@
+            </li>
+        </ul>
+    </div>
+
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+        @if (Request.Cookies["UserName"].Value == "Admin-cnct" || Request.Cookies["UserName"].Value == "Admin-cntg" || Request.Cookies["UserName"].Value == "Admin-cnmd" || Request.Cookies["UserName"].Value == "Admin-cnh1" || Request.Cookies["UserName"].Value == "Admin-cnvt"
+|| Request.Cookies["UserName"].Value == "Admin-cnnt" || Request.Cookies["UserName"].Value == "Admin - cndn" || Request.Cookies["UserName"].Value == "Admin - cnna" || Request.Cookies["UserName"].Value == "Admin - cnhn")
+        {
+
+
+
+            <a href="/Home/AboutCN" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        else
+        {
+            <a href="/Home/About" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        <h4 style="color: #3483bd">BÁO CÁO DOANH THU GIÁ VỐN LÃI GỘP</h4>
+        <h4 style="color: #3483bd">Từ @formattedFromDate đến @formattedToDate </h4>
+
+
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+
+    <div class="container" style="margin-left:200px">
+
+
+        <div class="row">
+            <div class="col-12">
+                <h6 style="text-align:left;margin-left:150px;width:100%;font-size:22px">I.DOANH THU THUẦN VỀ BÁN HÀNG VÀ CUNG CẤP DỊCH VỤ</h6>
+                <div class="data_table">
+                    <h6 style="text-align:left">1.Doanh Thu Thuần Theo Gam Hàng</h6>
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Loại TP</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @functions {
+                                private string FormatValue(object value)
+                                {
+                                    if (Convert.IsDBNull(value))
+                                    {
+                                        return string.Empty;
+                                    }
+                                    else
+                                    {
+                                        decimal decimalValue = Convert.ToDecimal(value);
+                                        return String.Format("{0:n0}", decimalValue).Replace(",", ".");
+                                    }
+                                }
+
+                                private decimal GetDecimalValue(object value)
+                                {
+                                    if (Convert.IsDBNull(value))
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return Convert.ToDecimal(value);
+                                    }
+                                }
+                            }
+
+
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow = 0;
+
+
+                                foreach (DataRow row3 in Model.Tables[0].Rows)
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row3["CTY"]) + GetDecimalValue(row3["PKD"]) + GetDecimalValue(row3["CNHCM"]) + GetDecimalValue(row3["CNCT"]) +
+                                                   GetDecimalValue(row3["CNTG"]) + GetDecimalValue(row3["CNMD"]) + GetDecimalValue(row3["CNVT"]) + GetDecimalValue(row3["CNNT"]) +
+                                                   GetDecimalValue(row3["CNDN"]) + GetDecimalValue(row3["CNNA"]) + GetDecimalValue(row3["CNHN"]);
+
+                                    // Cộng dồn vào tổng của cột TỔNG
+                                    grandTotalRow += totalRow;
+
+                                                        <tr>
+                                                            <td style="text-align:center;color:black">@row3["STT"]</td>
+                                                            @if (row3["Loai_TP"].ToString() == "OPC")
+                                                            {
+                                                                <td style="text-align:left;color:black">OPC</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "TP07")
+                                                            {
+                                                                <td style="text-align:left;color:black">SỦI</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "HH04")
+                                                            {
+                                                                <td style="text-align:left;color:black">OPC BD</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "HH25")
+                                                            {
+                                                                <td style="text-align:left;color:black">TW25</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "TP08")
+                                                            {
+                                                                <td style="text-align:left;color:black">PHIẾN</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "GC")
+                                                            {
+                                                                <td style="text-align:left;color:black">GIA CÔNG</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "CD")
+                                                            {
+                                                                <td style="text-align:left;color:black">TPGC OPC BD</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "KH")
+                                                            {
+                                                                <td style="text-align:left;color:black">KHÁC(DV + NVL + TM KHÁC)</td>
+                                                            }else{
+                                                                <td></td>
+                                                            }
+
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CTY"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["PKD"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNHCM"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNCT"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNTG"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNMD"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNVT"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNNT"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNDN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNNA"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+                                                        </tr>
+                                } }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="2" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCTY)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalPKD)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNHCM)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNCT)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNTG)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNMD)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNVT)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNNT)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNDN)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNNA)</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalCNHN)</td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+                </div>
+
+
+                <div class="data_table" style="margin-top:30px">
+                    <h6 style="text-align:left">2.Doanh Thu Thuần Theo Nhóm Hàng</h6>
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Nhóm Hàng</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <td>Chuỗi Nhà Thuốc</td>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow2 = 0;
+                                foreach (DataRow row3 in Model.Tables[1].Rows)
+                                {
+
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row3["CTY"]) + GetDecimalValue(row3["PKD"]) + GetDecimalValue(row3["CNHCM"]) + GetDecimalValue(row3["CNCT"]) +
+                                                   GetDecimalValue(row3["CNTG"]) + GetDecimalValue(row3["CNMD"]) + GetDecimalValue(row3["CNVT"]) + GetDecimalValue(row3["CNNT"]) +
+                                                   GetDecimalValue(row3["CNDN"]) + GetDecimalValue(row3["CNNA"]) + GetDecimalValue(row3["CNHN"]);
+
+                                    // Cộng dồn vào tổng của cột TỔNG
+                                    grandTotalRow2 += totalRow;
+                                                        <tr>
+                                                            <td style="text-align:center;color:black">@row3["Stt"]</td>
+                                                            <td style="text-align:left;color:black">@row3["Nhom_Hang"]</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CTY"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["PKD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNT"])</td>
+                                                            <td style="text-align: right; color: black ">@FormatValue(row3["CNHCM"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNCT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNTG"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNMD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNVT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNNT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNDN"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNNA"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                        </tr>
+
+                                }
+                                }
+                            </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="2" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY2) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA2) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN2) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow2)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+
+                <div class="data_table" style="margin-top:30px">
+                    <h6 style="text-align:left">3.Doanh Thu Thuần Theo Kênh Bán Hàng</h6>
+                    <table id="example3" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                              
+                                <th>Kênh</th>
+                                <th>Industry ID</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                var stt = 1;
+                                var stt1 = 1;
+                                var stt2 = 1;
+                                decimal grandTotalRow3 = 0;
+
+                                // Tổng các cột theo loại mã kênh
+                                decimal[] totalsOTC = new decimal[12];
+                                decimal[] totalsETC = new decimal[12];
+                                decimal[] totalsKhac = new decimal[12];
+
+                                // Tính tổng cho từng loại mã kênh
+                                foreach (DataRow row in Model.Tables[2].Rows)
+                                {
+                                    var totalRow = GetDecimalValue(row["CTY"]) + GetDecimalValue(row["PKD"]) + GetDecimalValue(row["CNHCM"]) + GetDecimalValue(row["CNCT"]) +
+                                                   GetDecimalValue(row["CNTG"]) + GetDecimalValue(row["CNMD"]) + GetDecimalValue(row["CNVT"]) + GetDecimalValue(row["CNNT"]) +
+                                                   GetDecimalValue(row["CNDN"]) + GetDecimalValue(row["CNNA"]) + GetDecimalValue(row["CNHN"]);
+                                    grandTotalRow3 += totalRow;
+
+                                    if (row["Ma_Kenh"].ToString() == "OTC")
+                                    {
+                                        totalsOTC[0] += GetDecimalValue(row["CTY"]);
+                                        totalsOTC[1] += GetDecimalValue(row["PKD"]);
+                                        totalsOTC[2] += GetDecimalValue(row["CNHCM"]);
+                                        totalsOTC[3] += GetDecimalValue(row["CNCT"]);
+                                        totalsOTC[4] += GetDecimalValue(row["CNTG"]);
+                                        totalsOTC[5] += GetDecimalValue(row["CNMD"]);
+                                        totalsOTC[6] += GetDecimalValue(row["CNVT"]);
+                                        totalsOTC[7] += GetDecimalValue(row["CNNT"]);
+                                        totalsOTC[8] += GetDecimalValue(row["CNDN"]);
+                                        totalsOTC[9] += GetDecimalValue(row["CNNA"]);
+                                        totalsOTC[10] += GetDecimalValue(row["CNHN"]);
+                                        totalsOTC[11] += totalRow;
+                                    }
+                                    else if (row["Ma_Kenh"].ToString() == "ETC")
+                                    {
+                                        totalsETC[0] += GetDecimalValue(row["CTY"]);
+                                        totalsETC[1] += GetDecimalValue(row["PKD"]);
+                                        totalsETC[2] += GetDecimalValue(row["CNHCM"]);
+                                        totalsETC[3] += GetDecimalValue(row["CNCT"]);
+                                        totalsETC[4] += GetDecimalValue(row["CNTG"]);
+                                        totalsETC[5] += GetDecimalValue(row["CNMD"]);
+                                        totalsETC[6] += GetDecimalValue(row["CNVT"]);
+                                        totalsETC[7] += GetDecimalValue(row["CNNT"]);
+                                        totalsETC[8] += GetDecimalValue(row["CNDN"]);
+                                        totalsETC[9] += GetDecimalValue(row["CNNA"]);
+                                        totalsETC[10] += GetDecimalValue(row["CNHN"]);
+                                        totalsETC[11] += totalRow;
+                                    }
+                                    else
+                                    {
+                                        totalsKhac[0] += GetDecimalValue(row["CTY"]);
+                                        totalsKhac[1] += GetDecimalValue(row["PKD"]);
+                                        totalsKhac[2] += GetDecimalValue(row["CNHCM"]);
+                                        totalsKhac[3] += GetDecimalValue(row["CNCT"]);
+                                        totalsKhac[4] += GetDecimalValue(row["CNTG"]);
+                                        totalsKhac[5] += GetDecimalValue(row["CNMD"]);
+                                        totalsKhac[6] += GetDecimalValue(row["CNVT"]);
+                                        totalsKhac[7] += GetDecimalValue(row["CNNT"]);
+                                        totalsKhac[8] += GetDecimalValue(row["CNDN"]);
+                                        totalsKhac[9] += GetDecimalValue(row["CNNA"]);
+                                        totalsKhac[10] += GetDecimalValue(row["CNHN"]);
+                                        totalsKhac[11] += totalRow;
+                                    }
+                                }
+                            }
+
+                            <tr class="expandable-content">
+                                <td  style="font-weight:bold">OTC  <span class="material-symbols-outlined expandable-icon noExl" onclick="toggleRowsOTC(this)"><i class="fa-solid fa-caret-down"></i></span></td>
+                                <td></td>
+                                <td></td>
+                                @for (int i = 0; i < totalsOTC.Length; i++)
+                                {
+                                    <td style='text-align:right;mso-number-format:" #,##0.00"'>@FormatValue(totalsOTC[i])</td>
+                                }
+                            </tr>
+
+                            @foreach (DataRow row in Model.Tables[2].Rows)
+                            {
+                                var totalRow = GetDecimalValue(row["CTY"]) + GetDecimalValue(row["PKD"]) + GetDecimalValue(row["CNHCM"]) + GetDecimalValue(row["CNCT"]) +
+                                                                      GetDecimalValue(row["CNTG"]) + GetDecimalValue(row["CNMD"]) + GetDecimalValue(row["CNVT"]) + GetDecimalValue(row["CNNT"]) +
+                                                                      GetDecimalValue(row["CNDN"]) + GetDecimalValue(row["CNNA"]) + GetDecimalValue(row["CNHN"]);
+                              
+                                if (row["Ma_Kenh"].ToString() == "OTC")
+                                {
+                                    <tr class="expandable-content_detail">
+                                        <td style="text-align:center;color:black">@stt</td>
+                                      
+                                        <td style="text-align:left;color:black">@row["Kenh"]</td>
+                                        <td style="text-align:center;color:black">@row["IndustryId"]</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CTY"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["PKD"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNHCM"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNCT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNTG"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNMD"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNVT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNNT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNDN"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNNA"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNHN"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+                                    </tr>
+                                    stt++;
+                                }
+                            }
+
+                        <tr class="expandable-content">
+                            <td style="font-weight:bold">ETC  <span class="material-symbols-outlined expandable-icon noExl" onclick="toggleRowsETC(this)"><i class="fa-solid fa-caret-down"></i></span></td>
+                            <td></td>
+                            <td></td>
+                            @for (int i = 0; i < totalsETC.Length; i++)
+                            {
+                                <td style='text-align:right;mso-number-format:" #,##0.00"'>@FormatValue(totalsETC[i])</td>
+                            }
+                        </tr>
+
+                            @foreach (DataRow row in Model.Tables[2].Rows)
+                            {
+                                var totalRow = GetDecimalValue(row["CTY"]) + GetDecimalValue(row["PKD"]) + GetDecimalValue(row["CNHCM"]) + GetDecimalValue(row["CNCT"]) +
+                                                 GetDecimalValue(row["CNTG"]) + GetDecimalValue(row["CNMD"]) + GetDecimalValue(row["CNVT"]) + GetDecimalValue(row["CNNT"]) +
+                                                 GetDecimalValue(row["CNDN"]) + GetDecimalValue(row["CNNA"]) + GetDecimalValue(row["CNHN"]);
+                               
+                                if (row["Ma_Kenh"].ToString() == "ETC")
+                                {
+                                    <tr class="expandable-content_detailETC">
+                                        <td style="text-align:center;color:black">@stt1</td>
+                                       
+                                        <td style="text-align:left;color:black">@row["Kenh"]</td>
+                                        <td style="text-align:center;color:black">@row["IndustryId"]</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CTY"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["PKD"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNHCM"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNCT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNTG"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNMD"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNVT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNNT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNDN"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNNA"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNHN"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+                                    </tr>
+                                    stt1++;
+                                }
+                            }
+
+                        <tr class="expandable-content">
+                            <td style="font-weight:bold">KHÁC  <span class="material-symbols-outlined expandable-icon noExl" onclick="toggleRowsKHAC(this)"><i class="fa-solid fa-caret-down"></i></span></td>
+                            <td></td>
+                            <td></td>
+                            @for (int i = 0; i < totalsKhac.Length; i++)
+                            {
+                                <td style='text-align:right;mso-number-format:" #,##0.00"'>@FormatValue(totalsKhac[i])</td>
+                            }
+                        </tr>
+
+                            @foreach (DataRow row in Model.Tables[2].Rows)
+                            {
+                                var totalRow = GetDecimalValue(row["CTY"]) + GetDecimalValue(row["PKD"]) + GetDecimalValue(row["CNHCM"]) + GetDecimalValue(row["CNCT"]) +
+                                                   GetDecimalValue(row["CNTG"]) + GetDecimalValue(row["CNMD"]) + GetDecimalValue(row["CNVT"]) + GetDecimalValue(row["CNNT"]) +
+                                                   GetDecimalValue(row["CNDN"]) + GetDecimalValue(row["CNNA"]) + GetDecimalValue(row["CNHN"]);
+                               
+                                if (row["Ma_Kenh"].ToString() == "")
+                                {
+                                    <tr class="expandable-content_detailKhac">
+                                        <td style="text-align:center;color:black">@stt2</td>
+                                        
+                                        <td style="text-align:left;color:black">@row["Kenh"]</td>
+                                        <td style="text-align:center;color:black">@row["IndustryId"]</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CTY"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["PKD"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNHCM"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNCT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNTG"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNMD"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNVT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNNT"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNDN"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNNA"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(row["CNHN"])</td>
+                                        <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+                                    </tr>
+                                    stt2++;
+                                }
+                            }
+                        </tbody>
+
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="3" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY3) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA3) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN3) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow3)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+
+                @*Bang 4*@   <h6 style="text-align: left; margin-left: 150px; width: 100%; font-size: 22px; margin-top: 30px">II.DOANH THU BÁN HÀNG</h6>
+                <div class="data_table" style="">
+                    <h6 style="text-align:left">1.Doanh Thu Thuần Theo Gam Hàng</h6>
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Loại TP</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow4 = 0;
+
+                                foreach (DataRow row3 in Model.Tables[3].Rows)
+
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row3["CTY"]) + GetDecimalValue(row3["PKD"]) + GetDecimalValue(row3["CNHCM"]) + GetDecimalValue(row3["CNCT"]) +
+                                                   GetDecimalValue(row3["CNTG"]) + GetDecimalValue(row3["CNMD"]) + GetDecimalValue(row3["CNVT"]) + GetDecimalValue(row3["CNNT"]) +
+                                                   GetDecimalValue(row3["CNDN"]) + GetDecimalValue(row3["CNNA"]) + GetDecimalValue(row3["CNHN"]);
+                                    grandTotalRow4 += totalRow;
+                                                        <tr>
+                                                            <td style="text-align:center;color:black">@row3["STT"]</td>
+                                                            @if (row3["Loai_TP"].ToString() == "OPC")
+                                                            {
+                                                                <td style="text-align:left;color:black">OPC</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "TP07")
+                                                            {
+                                                                <td style="text-align:left;color:black">SỦI</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "HH04")
+                                                            {
+                                                                <td style="text-align:left;color:black">OPC BD</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "HH25")
+                                                            {
+                                                                <td style="text-align:left;color:black">TW25</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "TP08")
+                                                            {
+                                                                <td style="text-align:left;color:black">PHIẾN</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "GC")
+                                                            {
+                                                                <td style="text-align:left;color:black">GIA CÔNG</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "CD")
+                                                            {
+                                                                <td style="text-align:left;color:black">TPGC OPC BD</td>
+                                                            }
+                                                            else if (row3["Loai_TP"].ToString() == "KH")
+                                                            {
+                                                                <td style="text-align:left;color:black">KHÁC(DV + NVL + TM KHÁC)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
+                                                            <td style="text-align:right;color:black">@FormatValue(row3["CTY"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["PKD"])</td>
+                                                            <td style="text-align: right; color: black ">@FormatValue(row3["CNHCM"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNCT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNTG"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNMD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNVT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNNT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNDN"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNNA"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row3["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                        </tr>
+
+                                }
+                                }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="2" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY4) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA4) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN4) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow4)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+
+                @*Bang 5*@
+                <div class="data_table" style="margin-top:30px">
+                    <h6 style="text-align:left">2.Doanh Thu Thuần Theo Kênh Bán Hàng</h6>
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Kênh</th>
+                                <th>Industry ID</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow5 = 0;
+                                foreach (DataRow row4 in Model.Tables[4].Rows)
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row4["CTY"]) + GetDecimalValue(row4["PKD"]) + GetDecimalValue(row4["CNHCM"]) + GetDecimalValue(row4["CNCT"]) +
+                                                   GetDecimalValue(row4["CNTG"]) + GetDecimalValue(row4["CNMD"]) + GetDecimalValue(row4["CNVT"]) + GetDecimalValue(row4["CNNT"]) +
+                                                   GetDecimalValue(row4["CNDN"]) + GetDecimalValue(row4["CNNA"]) + GetDecimalValue(row4["CNHN"]);
+                                    grandTotalRow5 += totalRow;
+                                                        <tr>
+                                                            <td style="text-align:center;color:black">@row4["STT"]</td>
+                                                            <td style="text-align:left;color:black">@row4["Kenh"]</td>
+                                                            <td style="text-align:left;color:black">@row4["IndustryId"]</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(row4["CTY"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["PKD"])</td>
+                                                            <td style="text-align: right; color: black ">@FormatValue(row4["CNHCM"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNCT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNTG"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNMD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNVT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNNT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNDN"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNNA"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row4["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                        </tr>
+
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="3" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY5) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA5) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN5) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow5)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+                @*Bang 6*@
+                <div class="data_table" style="margin-top:30px">
+                    <h6 style="text-align:left">3.Doanh Thu Thuần Theo Nhóm Hàng</h6>
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Nhóm Hàng</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow6 = 0;
+                                foreach (DataRow row6 in Model.Tables[5].Rows)
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row6["CTY"]) + GetDecimalValue(row6["PKD"]) + GetDecimalValue(row6["CNHCM"]) + GetDecimalValue(row6["CNCT"]) +
+                                                   GetDecimalValue(row6["CNTG"]) + GetDecimalValue(row6["CNMD"]) + GetDecimalValue(row6["CNVT"]) + GetDecimalValue(row6["CNNT"]) +
+                                                   GetDecimalValue(row6["CNDN"]) + GetDecimalValue(row6["CNNA"]) + GetDecimalValue(row6["CNHN"]);
+                                    grandTotalRow6 += totalRow;
+                                                        <tr>
+                                                            <td style="text-align:center;color:black">@row6["STT"]</td>
+                                                            <td style="text-align:left;color:black">@row6["Nhom_Hang"]</td>
+
+                                                            <td style="text-align:right;color:black">@FormatValue(row6["CTY"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["PKD"])</td>
+                                                            <td style="text-align: right; color: black ">@FormatValue(row6["CNHCM"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNCT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNTG"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNMD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNVT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNNT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNDN"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNNA"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row6["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                        </tr>
+
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="2" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY6) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA6) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN6) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow6)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+                <h6 style="text-align: left; margin-left: 150px; width: 100%; font-size: 22px; margin-top: 30px">III.CÁC KHOẢN GIẢM TRỪ DOANH THU</h6>
+                @*Bang 7*@
+            <div class="data_table" style="">
+                <h6 style="text-align:left">1.Doanh Thu Thuần Theo Gam Hàng</h6>
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark" id="head">
+                        <tr>
+                            <th>Loại TP</th>
+
+                            <th>CTY</th>
+                            <th>PKD</th>
+                            <th>CNHCM</th>
+                            <th>CNCT</th>
+                            <th>CNTG</th>
+                            <th>CNMD</th>
+                            <th>CNVT</th>
+                            <th>CNNT</th>
+                            <th>CNDN</th>
+                            <th>CNNA</th>
+                            <th>CNHN</th>
+                            <th>TỔNG</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @{
+                            // Biến để lưu tổng của cột TỔNG
+                            decimal grandTotalRow7 = 0;
+                            foreach (DataRow row7 in Model.Tables[6].Rows)
+                            {
+                                // Tính tổng cho mỗi hàng
+                                var totalRow = GetDecimalValue(row7["CTY"]) + GetDecimalValue(row7["PKD"]) + GetDecimalValue(row7["CNHCM"]) + GetDecimalValue(row7["CNCT"]) +
+                                               GetDecimalValue(row7["CNTG"]) + GetDecimalValue(row7["CNMD"]) + GetDecimalValue(row7["CNVT"]) + GetDecimalValue(row7["CNNT"]) +
+                                               GetDecimalValue(row7["CNDN"]) + GetDecimalValue(row7["CNNA"]) + GetDecimalValue(row7["CNHN"]);
+                                grandTotalRow7 += totalRow;
+                                                <tr>
+                                                    @if (row7["Loai_TP"].ToString() == "OPC")
+                                                    {
+                                                        <td style="text-align:left;color:black">OPC</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "TP07")
+                                                    {
+                                                        <td style="text-align:left;color:black">SỦI</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "HH04")
+                                                    {
+                                                        <td style="text-align:left;color:black">OPC BD</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "HH25")
+                                                    {
+                                                        <td style="text-align:left;color:black">TW25</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "TP08")
+                                                    {
+                                                        <td style="text-align:left;color:black">PHIẾN</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "GC")
+                                                    {
+                                                        <td style="text-align:left;color:black">GIA CÔNG</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "CD")
+                                                    {
+                                                        <td style="text-align:left;color:black">TPGC OPC BD</td>
+                                                    }
+                                                    else if (row7["Loai_TP"].ToString() == "KH")
+                                                    {
+                                                        <td style="text-align:left;color:black">KHÁC(DV + NVL + TM KHÁC)</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td></td>
+                                                    }
+                                                    <td style="text-align:right;color:black">@FormatValue(row7["CTY"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["PKD"])</td>
+                                                    <td style="text-align: right; color: black ">@FormatValue(row7["CNHCM"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNCT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNTG"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNMD"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNVT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNNT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNDN"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNNA"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row7["CNHN"])</td>
+                                                    <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+                                                </tr>
+
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: burlywood">
+                            <td style="font-weight:bold">Tổng Cộng:</td>
+                            <td style="text-align: right; color: black">@FormatValue(totalCTY7) </td>
+                            <td style="text-align: right; color: black">@FormatValue(totalPKD7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNHCM7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNCT7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNTG7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNMD7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNVT7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNNT7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNDN7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNNA7) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNHN7) </td>
+                            <td style="text-align:right;color:black">@FormatValue(grandTotalRow7)</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+
+                @*Bang 8*@
+            <div class="data_table" style="margin-top:30px">
+                <h6 style="text-align:left">2.Doanh Thu Thuần Theo Nhóm Hàng</h6>
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark" id="head">
+                        <tr>
+
+                            <th>Nhóm Hàng</th>
+                            <th>CTY</th>
+                            <th>PKD</th>
+                            <th>CNHCM</th>
+                            <th>CNCT</th>
+                            <th>CNTG</th>
+                            <th>CNMD</th>
+                            <th>CNVT</th>
+                            <th>CNNT</th>
+                            <th>CNDN</th>
+                            <th>CNNA</th>
+                            <th>CNHN</th>
+                            <th>TỔNG</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @{
+                            // Biến để lưu tổng của cột TỔNG
+                            decimal grandTotalRow8 = 0;
+                            foreach (DataRow row8 in Model.Tables[7].Rows)
+                            {
+                                // Tính tổng cho mỗi hàng
+                                var totalRow = GetDecimalValue(row8["CTY"]) + GetDecimalValue(row8["PKD"]) + GetDecimalValue(row8["CNHCM"]) + GetDecimalValue(row8["CNCT"]) +
+                                               GetDecimalValue(row8["CNTG"]) + GetDecimalValue(row8["CNMD"]) + GetDecimalValue(row8["CNVT"]) + GetDecimalValue(row8["CNNT"]) +
+                                               GetDecimalValue(row8["CNDN"]) + GetDecimalValue(row8["CNNA"]) + GetDecimalValue(row8["CNHN"]);
+                                grandTotalRow8 += totalRow;
+                                                <tr>
+
+                                                    <td style="text-align:left;color:black">@row8["Nhom_Hang"]</td>
+
+                                                    <td style="text-align:right;color:black">@FormatValue(row8["CTY"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["PKD"])</td>
+                                                    <td style="text-align: right; color: black ">@FormatValue(row8["CNHCM"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNCT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNTG"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNMD"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNVT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNNT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNDN"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNNA"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row8["CNHN"])</td>
+                                                    <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                </tr>
+
+                            }
+                            }
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: burlywood">
+                            <td style="font-weight:bold">Tổng Cộng:</td>
+                            <td style="text-align: right; color: black">@FormatValue(totalCTY8) </td>
+                            <td style="text-align: right; color: black">@FormatValue(totalPKD8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNHCM8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNCT8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNTG8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNMD8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNVT8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNNT8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNDN8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNNA8) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNHN8) </td>
+                            <td style="text-align:right;color:black">@FormatValue(grandTotalRow8)</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+
+
+                @*Bang 9*@
+            <div class="data_table" style="margin-top:30px">
+                <h6 style="text-align:left">3.Doanh Thu Thuần Theo Kênh Bán Hàng</h6>
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark" id="head">
+                        <tr>
+
+                            <th>Kênh</th>
+                            <th>CTY</th>
+                            <th>PKD</th>
+                            <th>CNHCM</th>
+                            <th>CNCT</th>
+                            <th>CNTG</th>
+                            <th>CNMD</th>
+                            <th>CNVT</th>
+                            <th>CNNT</th>
+                            <th>CNDN</th>
+                            <th>CNNA</th>
+                            <th>CNHN</th>
+                            <th>TỔNG</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @{
+                            // Biến để lưu tổng của cột TỔNG
+                            decimal grandTotalRow9 = 0;
+                            foreach (DataRow row9 in Model.Tables[8].Rows)
+                            {
+                                // Tính tổng cho mỗi hàng
+                                var totalRow = GetDecimalValue(row9["CTY"]) + GetDecimalValue(row9["PKD"]) + GetDecimalValue(row9["CNHCM"]) + GetDecimalValue(row9["CNCT"]) +
+                                               GetDecimalValue(row9["CNTG"]) + GetDecimalValue(row9["CNMD"]) + GetDecimalValue(row9["CNVT"]) + GetDecimalValue(row9["CNNT"]) +
+                                               GetDecimalValue(row9["CNDN"]) + GetDecimalValue(row9["CNNA"]) + GetDecimalValue(row9["CNHN"]);
+                                grandTotalRow9 += totalRow;
+                                                <tr>
+
+                                                    <td style="text-align:left;color:black">@row9["Kenh"]</td>
+
+                                                    <td style="text-align:right;color:black">@FormatValue(row9["CTY"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["PKD"])</td>
+                                                    <td style="text-align: right; color: black ">@FormatValue(row9["CNHCM"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNCT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNTG"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNMD"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNVT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNNT"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNDN"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNNA"])</td>
+                                                    <td style="text-align: right; color: black">@FormatValue(row9["CNHN"])</td>
+                                                    <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                </tr>
+
+                            } }
+
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: burlywood">
+                            <td style="font-weight:bold">Tổng Cộng:</td>
+                            <td style="text-align: right; color: black">@FormatValue(totalCTY9) </td>
+                            <td style="text-align: right; color: black">@FormatValue(totalPKD9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNHCM9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNCT9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNTG9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNMD9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNVT9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNNT9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNDN9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNNA9) </td>
+                            <td style="text-align: right; color: black"> @FormatValue(totalCNHN9) </td>
+                            <td style="text-align:right;color:black">@FormatValue(grandTotalRow9)</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+
+                @*Bang 10*@
+                <div class="data_table" style="margin-top:30px">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Loại TP</th>
+
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{  // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow10 = 0;
+                                foreach (DataRow row10 in Model.Tables[9].Rows)
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row10["CTY"]) + GetDecimalValue(row10["PKD"]) + GetDecimalValue(row10["CNHCM"]) + GetDecimalValue(row10["CNCT"]) +
+                                                   GetDecimalValue(row10["CNTG"]) + GetDecimalValue(row10["CNMD"]) + GetDecimalValue(row10["CNVT"]) + GetDecimalValue(row10["CNNT"]) +
+                                                   GetDecimalValue(row10["CNDN"]) + GetDecimalValue(row10["CNNA"]) + GetDecimalValue(row10["CNHN"]);
+                                    grandTotalRow10 += totalRow;
+                                                        <tr>
+
+                                                            <td style="text-align:center;color:black">@row10["STT"]</td>
+                                                            @if (row10["Loai_TP"].ToString() == "OPC")
+                                                            {
+                                                                <td style="text-align:left;color:black">OPC</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "TP07")
+                                                            {
+                                                                <td style="text-align:left;color:black">SỦI</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "HH04")
+                                                            {
+                                                                <td style="text-align:left;color:black">OPC BD</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "HH25")
+                                                            {
+                                                                <td style="text-align:left;color:black">TW25</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "TP08")
+                                                            {
+                                                                <td style="text-align:left;color:black">PHIẾN</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "GC")
+                                                            {
+                                                                <td style="text-align:left;color:black">GIA CÔNG</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "CD")
+                                                            {
+                                                                <td style="text-align:left;color:black">TPGC OPC BD</td>
+                                                            }
+                                                            else if (row10["Loai_TP"].ToString() == "KH")
+                                                            {
+                                                                <td style="text-align:left;color:black">KHÁC(DV + NVL + TM KHÁC)</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td></td>
+                                                            }
+
+                                                            <td style="text-align:right;color:black">@FormatValue(row10["CTY"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["PKD"])</td>
+                                                            <td style="text-align: right; color: black ">@FormatValue(row10["CNHCM"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNCT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNTG"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNMD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNVT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNNT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNDN"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNNA"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row10["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                        </tr>
+
+                                }
+                                }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="2" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY10) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA10) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN10) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow10)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+                @*Bang 11*@
+                <div class="data_table" style="margin-top:30px">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Kênh</th>
+                                <th>Industry ID</th>
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{  // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow11 = 0;
+                                foreach (DataRow row11 in Model.Tables[10].Rows)
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row11["CTY"]) + GetDecimalValue(row11["PKD"]) + GetDecimalValue(row11["CNHCM"]) + GetDecimalValue(row11["CNCT"]) +
+                                                   GetDecimalValue(row11["CNTG"]) + GetDecimalValue(row11["CNMD"]) + GetDecimalValue(row11["CNVT"]) + GetDecimalValue(row11["CNNT"]) +
+                                                   GetDecimalValue(row11["CNDN"]) + GetDecimalValue(row11["CNNA"]) + GetDecimalValue(row11["CNHN"]);
+                                    grandTotalRow11 += totalRow;
+                                                        <tr>
+
+                                                            <td style="text-align:center;color:black">@row11["STT"]</td>
+                                                            <td style="text-align:center;color:black">@row11["Kenh"]</td>
+                                                            <td style="text-align:center;color:black">@row11["IndustryId"]</td>
+
+                                                            <td style="text-align:right;color:black">@FormatValue(row11["CTY"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["PKD"])</td>
+                                                            <td style="text-align: right; color: black ">@FormatValue(row11["CNHCM"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNCT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNTG"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNMD"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNVT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNNT"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNDN"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNNA"])</td>
+                                                            <td style="text-align: right; color: black">@FormatValue(row11["CNHN"])</td>
+                                                            <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                                                        </tr>
+
+                                }
+                                }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="3" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY11) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA11) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN11) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow11)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+                @*Bang 12*@
+                <div class="data_table" style="margin-top:30px">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark" id="head">
+                            <tr>
+                                <th>STT</th>
+                                <th>Nhóm Hàng</th>
+
+                                <th>CTY</th>
+                                <th>PKD</th>
+                                <th>CNHCM</th>
+                                <th>CNCT</th>
+                                <th>CNTG</th>
+                                <th>CNMD</th>
+                                <th>CNVT</th>
+                                <th>CNNT</th>
+                                <th>CNDN</th>
+                                <th>CNNA</th>
+                                <th>CNHN</th>
+                                <th>TỔNG</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{
+                                // Biến để lưu tổng của cột TỔNG
+                                decimal grandTotalRow12 = 0;
+                                foreach (DataRow row12 in Model.Tables[11].Rows)
+                                {
+                                    // Tính tổng cho mỗi hàng
+                                    var totalRow = GetDecimalValue(row12["CTY"]) + GetDecimalValue(row12["PKD"]) + GetDecimalValue(row12["CNHCM"]) + GetDecimalValue(row12["CNCT"]) +
+                                                   GetDecimalValue(row12["CNTG"]) + GetDecimalValue(row12["CNMD"]) + GetDecimalValue(row12["CNVT"]) + GetDecimalValue(row12["CNNT"]) +
+                                                   GetDecimalValue(row12["CNDN"]) + GetDecimalValue(row12["CNNA"]) + GetDecimalValue(row12["CNHN"]);
+                                    grandTotalRow12 += totalRow;
+                            <tr>
+
+                                <td style="text-align:center;color:black">@row12["Stt"]</td>
+                                <td style="text-align:left;color:black">@row12["Nhom_Hang"]</td>
+
+                                <td style="text-align:right;color:black">@FormatValue(row12["CTY"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["PKD"])</td>
+                                <td style="text-align: right; color: black ">@FormatValue(row12["CNHCM"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNCT"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNTG"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNMD"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNVT"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNNT"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNDN"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNNA"])</td>
+                                <td style="text-align: right; color: black">@FormatValue(row12["CNHN"])</td>
+                                <td style="text-align:right;color:black">@FormatValue(totalRow)</td>
+
+
+
+                            </tr>
+
+                                    }
+                                }
+                        </tbody>
+                        <tfoot>
+                            <tr style="background-color: burlywood">
+                                <td colspan="2" style="font-weight:bold">Tổng Cộng:</td>
+                                <td style="text-align: right; color: black">@FormatValue(totalCTY12) </td>
+                                <td style="text-align: right; color: black">@FormatValue(totalPKD12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHCM12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNCT12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNTG12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNMD12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNVT12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNT12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNDN12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNNA12) </td>
+                                <td style="text-align: right; color: black"> @FormatValue(totalCNHN12) </td>
+                                <td style="text-align:right;color:black">@FormatValue(grandTotalRow12)</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    @*<script src="~/assets/js/datatables.min.js"></script>*@
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <script src="https://unpkg.com/excellentexport@4.0.0/dist/excellentexport.min.js"></script>
+
+    <script src="~/Scripts/excellentexport.js"></script>
+    <script>
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+        function saveSelectedValueToCookie() {
+            var selectedValue = $("#chitietselect").val();
+
+            // Lấy giá trị của cookie hiện tại
+            var existingCookieValue = getCookie('Ma_Dvcs_2');
+
+            // Thời gian sống của cookie (đơn vị là giây, 30 ngày trong ví dụ này)
+            var expirationTime = 30 * 24 * 60 * 60;
+
+            // Tạo một object Date để thiết lập thời gian hết hạn của cookie
+            var expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (expirationTime * 1000));
+
+            if (existingCookieValue) {
+                // Nếu cookie đã tồn tại, cập nhật giá trị của nó và thiết lập thời gian hết hạn
+                document.cookie = 'Ma_Dvcs_2=' + selectedValue;
+            } else {
+                // Nếu cookie chưa tồn tại, tạo một cookie mới với thời gian hết hạn
+                document.cookie = 'Ma_Dvcs_2=' + selectedValue;
+            }
+        }
+        function runReportAndSaveCookie() {
+            var selectedValue = $("#chitietselect").val();
+            var maDvcsValue = getCookie('MA_DVCS');
+
+            if (!selectedValue) {
+                selectedValue = maDvcsValue;
+            }
+
+            // Thời gian sống của cookie (đơn vị là giây, 30 ngày trong ví dụ này)
+            var expirationTime = 30 * 24 * 60 * 60;
+
+            // Tạo một object Date để thiết lập thời gian hết hạn của cookie
+            var expirationDate = new Date();
+            expirationDate.setTime(expirationDate.getTime() + (expirationTime * 1000));
+
+            // Cập nhật hoặc tạo cookie mới với thời gian hết hạn
+            document.cookie = 'Ma_Dvcs_2=' + selectedValue + '; expires=' + expirationDate.toUTCString() + '; path=/';
+
+            // Gọi hàm runReport nếu có định nghĩa
+            if (typeof runReport === 'function') {
+                runReport();
+            }
+        }
+    </script>
+    <script>
+
+        function saveNgay() {
+            var from_date = document.getElementById("tu_ngay").value;
+            var to_date = document.getElementById("den_ngay").value;
+            document.cookie = "From_date=" + from_date;
+            document.cookie = "To_date=" + to_date;
+        }
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+
+                    break;
+                }
+            }
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-ten');
+                        document.cookie = 'Ma_Dt=' + tenDt;
+                    } else {
+                        var select = "";
+                        document.cookie = 'Ma_Dt=' + select;
+                    }
+
+                });
+            }
+        });
+
+
+    </script>
+
+
+
+
+
+
+
+
+    <script>
+        function runReport() {
+
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+            const hiddenElement = document.getElementById("head");
+            hiddenElement.style.visibility = "hidden";
+        }
+    </script>
+
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            showLoader();
+            // Show the loader when the form is submitted
+
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        }
+        function displaySelectedDate() {
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+            window.location.href = selectedDateDisplay;
+        }
+
+        // Function to show the loader
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        /*  Add an event listener to the form submission*/
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            displaySelectedDate();
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+            const fromDate = urlParams.get('From_date');
+            const toDate = urlParams.get('To_date');
+            if (fromDate && toDate) {
+                displaySelectedDate();
+            }
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInputTDV');
+            var selectedOption = document.getElementById('selectedOptionTDV');
+
+            // Lấy giá trị từ cookie
+            var mavtFromCookie = getCookie('Ma_TDV');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (mavtFromCookie) {
+                dropdownInput.value = mavtFromCookie;
+                selectedOption.value = mavtFromCookie;
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            var dropdownInput = document.getElementById('dropdownInput');
+            var selectedOption = document.getElementById('selectedOption');
+
+            // Lấy giá trị từ cookie
+            var mavtFromCookie = getCookie('Ma_Dt');
+
+            // Đặt giá trị cho trường input và hidden input
+            if (mavtFromCookie) {
+                dropdownInput.value = mavtFromCookie;
+                selectedOption.value = mavtFromCookie;
+            }
+        });
+        // Hàm lấy giá trị từ cookie
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
+
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return null;
+        }
+    </script>
+    <script>
+        function toggleRowsOTC(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example3');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detail')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+
+        function toggleRowsETC(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example3');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailETC')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+        function toggleRowsKHAC(cell) {
+            var rowIndex = cell.parentElement.parentElement.rowIndex; // Adjusted to get the index of the parent row
+            var table = document.getElementById('example3');
+            var rows = table.rows;
+
+            for (var i = rowIndex + 1; i < rows.length; i++) {
+                var row = rows[i];
+                if (row.classList.contains('expandable-content_detailKhac')) {
+                    row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
+                } else if (row.classList.contains('table-dark')) {
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

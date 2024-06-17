@@ -1,0 +1,586 @@
+﻿﻿@{ ViewBag.Title = "OPC Bao Cao | OPCPHARMA"; }
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title> OPC Bao Cao | OPCPHARMA </title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="~/Styles/main.css" rel='stylesheet' type='text/css' media="all">
+
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .collapsed {
+            display: none;
+        }
+
+        .contentList {
+            display: none;
+        }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 100;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+        .tab.selected-tab {
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                color: white /* Màu nền của tab */
+            }
+
+        .selected-tab {
+            background-color: #007bff; /* Màu sắc của tab khi được chọn */
+            color: #fff; /* Màu văn bản của tab khi được chọn */
+        }
+
+        /* Đảm bảo các tab khác không được chọn có màu sắc mặc định */
+        .tab:not(.selected-tab) {
+            background-color: #f8f9fa; /* Màu sắc mặc định của tab */
+            color: #000; /* Màu văn bản mặc định của tab */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar close">
+        <div class="logo-details">
+            <img src="~/Images/opc.png" style="height:50px;width:50px;margin-left:10px">
+            <span class="logo_name" style="color: #da261f; font-family: 'Agency FB'; font-size: 40px;padding-left:10px">OPC</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="/Home/About">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="link_name">Trang chủ</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/Home/About">Trang chủ</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link">
+                    <a href="/DanhMuc/DanhMuc">
+                        <i class='bx bx-collection'></i>
+                        <span class="link_name">Danh mục</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li class="liTitle"><a class="link_name" href="/DanhMuc/DanhMuc">Danh mục</a></li>
+                    </ul>
+                    @*<i class='bx bxs-chevron-down arrow'></i>*@
+                </div>
+                <ul class="sub-menu">
+                                    <li><a class="link_name" href="#">Danh mục</a></li>
+                                    <li>
+                                        @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(ViewBag.UserName, "opcmar001", StringComparison.OrdinalIgnoreCase))
+                                        {
+
+
+                                            <a href="/DanhMuc/ViewDanhMucKH_Fill" onclick="runReport()"> Khách hàng</a>
+                                        }
+                                        else if (string.Equals(ViewBag.UserName, "OPCHCM001", StringComparison.OrdinalIgnoreCase))
+                                        {
+
+
+                                            <a href="/DanhMuc/ViewDanhMucKH_FillCN" onclick="runReport()"> Khách hàng</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/DanhMuc/ViewDanhMucKH" onclick="runReport()"> Khách hàng</a>
+                                        }
+
+                                    </li>
+                @*<li><a href="#">JavaScript</a></li>
+                    <li><a href="#">PHP & MySQL</a></li>*@
+                </ul>
+            </li>
+            <li id="active">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bxs-printer'></i>
+                        <span class="link_name">Mẫu In</span>
+                    </a>
+
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Mẫu In</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/MauInNLCB_Fill">1.Chứng Từ Phiếu Nhập</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/PhieuNhapXNTT_Fill">2.Phiếu Xác Nhận Thanh Toán</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/PhieuXuatKho_SO">3.Phiếu Xuất Kho</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/ThongBaoNoQH_Fill">4.Thông Báo Nợ QH</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/BangDoiChieuCongNo_Fill">5.Bảng Đối Chiếu Công Nợ</a></li>
+                    @*<li><a href="#">Login Form</a></li>
+        <li><a href="#">Card Design</a></li>*@
+                </ul>
+            </li>
+
+            <li class="report-li">
+                <div class="iocn-link">
+                    <a href="/Home/MainBaoCao">
+                        <i class='bx bx-plug'></i>
+                        <span class="link_name">Báo cáo</span>
+                    </a>
+                    @*<i class='bx bxs-chevron-down arrow'></i>*@
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="/Home/MainBaoCao">Báo Cáo</a></li>
+                    <li>
+                        <a href="#">1.Báo Cáo Quản Trị</a>
+                        <ul>
+                            @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase))
+                            {
+
+
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhKGam_Fill">1.1.Doanh Thu Chi Nhánh</a></li>
+                            }
+                            else
+                            {
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhKGam_CN_Fill">1.1.Doanh Thu Chi Nhánh</a></li>
+                            }
+                            @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase))
+                            {
+
+
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanh_Admin_Fill">1.2.Doanh Thu Chi Nhánh Theo Gam</a></li>
+                            }
+                            else
+                            {
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanh_Fill">1.2.Doanh Thu Chi Nhánh Theo Gam</a></li>
+                            }
+
+                            <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhTinhLuong_Fill">1.3.Doanh Thu Chi Nhánh Tính Lương</a></li>
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">2.Báo Cáo Nghiệp Vụ</a>
+                        <ul>
+                            <li class="liTitle"><a href="/bangkehoadon/bangkehoadon_Fill">2.1.Bảng Kê Chứng Từ SO</a></li>
+                            <li class="liTitle"><a href="/bangkehoadon/DanhSachHoaDon_Fill">2.2.Bảng Kê Hóa Đơn</a></li>
+                            <li class="liTitle"><a href="/BaoCaobanHangCN/BaoCaoBanHangCN_Fill">2.3.Báo Cáo Bán Hàng CN</a></li>
+                            <li class="liTitle"><a href="/BaoCaoBanHangTDV/BaoCaoBanHangTDV_Fill">2.4.Báo Cáo Bán Hàng TDV</a></li>
+                            <li class="liTitle"><a href="/BaoCaoTienVeCN/BaoCaoTienVeCN_Fill">2.5.Báo Cáo Tiền Về CN</a></li>
+                            <li class="liTitle"><a href="/BaoCaoTienVeCN/BaoCaoTienVeTDV_Fill">2.6.Báo Cáo Tiền Về TDV</a></li>
+                            <li class="liTitle"><a href="/BaoCaoDoanhThuGamHangTheoDoiTuong/BaoCaoDoanhThuGamHangTheoDoiTuong_Fill">2.7.Doanh Thu Gam Theo Đối Tượng</a></li>
+                        </ul>
+                    </li>
+                    <!-- Thêm các mục con khác của submenu "Báo cáo nghiệp vụ" nếu cần -->
+                </ul>
+            </li>
+            <li>
+                <a href="/Home/DoiMatKhau">
+                    <i class='bx bx-cog'></i>
+                    <span class="link_name">Đổi mật khẩu</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/home/DoiMatKhau">Đổi mật khẩu</a></li>
+                </ul>
+            </li>
+
+
+            <li onclick="logout()">
+                <a>
+                    <i class='bx bx-log-out'></i>
+                    <span class="link_name">Đăng xuất</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name">Đăng xuất</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+            <div class="home-content">
+                <i class='bx bx-menu'></i>
+                <span class="text">Mẫu In</span>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <i class='bx bx-search'></i>
+            </div>
+        </nav>
+
+        <div class="home-content-1" style="padding-top:100px">
+
+
+            <div class="box-container-1">
+                <div class="box-row-1">
+                    <h3>Chứng Từ Phiếu Nhập</h3>
+
+
+                </div>
+                <div class="box-row-2">
+                    <a class="button" href="/MauInChungTu/MauInNLCB_Fill" onclick="runReport()"><span>Xem</span></a>
+                </div>
+            </div>
+            <div class="box-container-1">
+                <div class="box-row-1">
+                    <h3>Phiếu xác nhận thanh toán</h3>
+
+
+                </div>
+                <div class="box-row-2">
+                    <a class="button" href="/MauInChungTu/PhieuNhapXNTT_Fill" onclick="runReport()"><span>Xem</span></a>
+                </div>
+            </div>
+
+            <div class="box-container-1">
+                <div class="box-row-1">
+                    <h3>Phiếu In Chứng Từ SO</h3>
+
+
+                </div>
+                <div class="box-row-2">
+                    <a class="button" href="/MauInChungTu/PhieuXuatKho_SO" onclick="runReport()"><span>Xem</span></a>
+                </div>
+            </div>
+    
+        </div>
+        @*<div class="home-content-2"style="">
+            <div class="box-container-1">
+                <div class="box-row-1">
+                    <h3>Bảng Đối Chiếu Công Nợ</h3>
+
+
+                </div>
+                <div class="box-row-2">
+                    <a class="button" href="/MauInChungTu/BangDoiChieuCongNo_Fill" onclick="runReport()"><span>Xem</span></a>
+                </div>
+            </div>
+        </div>*@
+    </section>
+    <div class="tab-control">
+        <ul class="tabs" style="background-color: #1d1b31; bottom: 0; left: 0; right: 0;">
+            <li class="tab tabSelected"><a href="#">Home</a></li>
+
+            @*<li class="tab selected"><a href="#">Some Thing 3</a><a class="closeTab" href="">✕</a></li>
+                <li class="tab selected"><a href="#">Some Thing 4</a><a class="closeTab" href="">✕</a></li>
+                <li class="tab selected"><a href="#">Some Thing 2</a><a class="closeTab" href="">✕</a></li>
+                <li class="tab selected"><a href="#">Some Thing 3</a><a class="closeTab" href="">✕</a></li>
+                <li class="tab selected"><a href="#">Some Thing 4</a><a class="closeTab" href="">✕</a></li>*@
+        </ul>
+    </div>
+    <script>
+        function logout() {
+            window.location.href = "/home/login"
+        }
+        document.getElementById("TOP1").innerHTML = Response.innerHTML.g;
+
+        $("#leftside-navigation .sub-menu > a").click(function (e) {
+            $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
+                e.stopPropagation()
+        })
+        function ChangPassword() {
+            window.location.href = "/home/DoiMatKhau"
+        }
+    </script>
+    <script>
+        document.querySelectorAll(".iocn-link").forEach(link => {
+            link.addEventListener("click", () => {
+                // Tìm submenu của liên kết hiện tại
+                const subMenu = link.querySelector(".sub-menu");
+
+                // Toggle class "showSubMenu" để hiển thị hoặc ẩn submenu
+                subMenu.classList.toggle("showSubMenu");
+            });
+        });
+    </script>
+    <script>
+        let reportLi = document.querySelector(".report-li");
+        reportLi.addEventListener("click", (e) => {
+            console.log("Clicked on report-li");
+            let subMenu = e.currentTarget.querySelector(".sub-menu");
+            subMenu.classList.toggle("showSubMenu");
+        });
+
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement; // selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>
+    <script>
+
+        //function showLoader() {
+        //    const loader = document.querySelector(".loader");
+        //    loader.classList.remove("loader-hidden");
+        //}
+
+        //// Function to hide the loader
+        //function hideLoader() {
+        //    const loader = document.querySelector(".loader");
+        //    loader.classList.add("loader-hidden");
+        //}
+
+
+
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+        });
+    </script>
+    @*<script>
+            function runReport() {
+                // Hiển thị thẻ span có id là "spanText"
+                showLoader();
+                const spanElement = document.getElementById("spanText");
+                spanElement.style.display = "block";
+            }
+        </script>*@
+    <script>
+        window.onload = function () {
+            var username = localStorage.getItem("username");
+            if (username) {
+                var nameInput = document.getElementById("Name");
+                if (nameInput) {
+                    nameInput.value = username;
+                }
+                localStorage.removeItem("username");
+            }
+
+        };
+    </script>
+    <script>
+        //Ham set thoi gian xoa cookie sau moi 5p
+        // Mảng để lưu các tab
+        const tabArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+        const currentTabTitleView1 = localStorage.getItem("currentTabView1"); // Sử dụng biến "currentTabView1" cho View 1
+
+        // Hàm để xóa mảng tabArray
+        function clearTabArray() {
+            tabArray.length = 0; // Xóa tất cả các phần tử của mảng
+            localStorage.setItem("tabsArray", JSON.stringify(tabArray)); // Lưu mảng trống vào Local Storage
+            window.location.reload();
+        }
+
+        // Sử dụng hàm setInterval để gọi hàm clearTabArray sau mỗi 5 phút (300,000 milliseconds)
+        setInterval(clearTabArray, 300000);
+
+    </script>
+    <script>
+        //đoạn cập nhật tab selected để chọn tab đổi màu
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Lấy tất cả các tab
+            const tabs = tabControlTabs.querySelectorAll(".tab");
+
+            // Xử lý sự kiện khi người dùng click vào một tab
+            tabs.forEach(function (tab) {
+                tab.addEventListener("click", function (event) {
+                    // Lấy tên của tab được click
+                    const tabTitle = tab.querySelector("a").textContent;
+
+                    // Cập nhật biến selected bằng tên của tab
+                    selected = tabTitle;
+
+                    // Lưu giá trị mới vào Local Storage
+                    localStorage.setItem("selected", selected);
+
+                    // Cập nhật màu sắc hoặc thực hiện các hành động khác dựa trên giá trị mới của selected
+                    // Ví dụ: Đổi màu tab đã chọn
+                    tabs.forEach(function (otherTab) {
+                        otherTab.classList.remove("selected-tab");
+                    });
+                    tab.classList.add("selected-tab");
+
+                    // Đối với các tác vụ khác bạn muốn thực hiện khi tab được chọn, hãy thêm mã vào đây.
+
+                    // ...
+                });
+            });
+
+            // Lấy tất cả các phần tử liTitle
+            const liTitleElements = document.querySelectorAll(".liTitle");
+
+            // Xử lý sự kiện khi người dùng click vào một liTitle
+            liTitleElements.forEach(function (liTitle) {
+                liTitle.addEventListener("click", function (event) {
+                    // Lấy tiêu đề của liTitle
+                    const liTitleText = liTitle.querySelector("a").textContent;
+
+                    // Cập nhật biến selected bằng tiêu đề của liTitle
+                    selected = liTitleText;
+
+                    // Lưu giá trị mới vào Local Storage
+                    localStorage.setItem("selected", selected);
+
+                    // Tại đây, bạn có thể thực hiện các hành động khác sau khi cập nhật selected từ liTitle.
+
+                    // Ví dụ: Đổi màu cho tab đã chọn
+                    tabs.forEach(function (tab) {
+                        tab.classList.remove("selected-tab");
+                        if (tab.querySelector("a").textContent === selected) {
+                            tab.classList.add("selected-tab");
+                        }
+                    });
+
+                    // Đối với các tác vụ khác bạn muốn thực hiện khi liTitle được chọn, hãy thêm mã vào đây.
+
+                    // ...
+                });
+            });
+
+            // Nếu có giá trị selected trong Local Storage, cập nhật giao diện dựa trên giá trị đó
+            if (selected) {
+                tabs.forEach(function (tab) {
+                    if (tab.querySelector("a").textContent === selected) {
+                        tab.classList.add("selected-tab");
+                    }
+                });
+            }
+
+            hideLoader();
+        });
+
+    </script>
+    <script>
+        //đoạn mã tìm tab có title trùng với biến selected sau đó đổi màu tab đó
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy giá trị selected từ Local Storage
+            const selected = localStorage.getItem("selected");
+
+            // Lấy tất cả các tab
+            const tabs = document.querySelectorAll(".tab");
+
+            // Lặp qua tất cả các tab và kiểm tra nếu có tab có title bằng với giá trị selected
+            tabs.forEach(function (tab) {
+                const tabTitle = tab.querySelector("a").textContent;
+                if (tabTitle === selected) {
+                    // Đổi màu cho tab này
+                    tab.classList.add("selected-tab");
+                }
+            });
+        });
+
+    </script>
+    <script>
+        subMenuLinks.forEach(function (subMenuLink) {
+            subMenuLink.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const tabTitle = subMenuLink.textContent;
+                const subMenuLinkHref = subMenuLink.getAttribute("href");
+
+                // Cập nhật biến selected với giá trị của tabTitle
+                localStorage.setItem("selected", tabTitle);
+                console.log("selected:", tabTitle); // Thêm log để kiểm tra giá trị của selected
+
+                // Kiểm tra xem tab đã tồn tại trong mảng hay chưa
+                const tabExists = tabsArray.some(tab => tab.title === tabTitle);
+
+                // Nếu tab chưa tồn tại, thêm nó vào mảng
+                if (!tabExists) {
+                    tabsArray.push({ title: tabTitle, href: subMenuLinkHref });
+                    localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+                }
+
+                // Thêm tab vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+                newTab.innerHTML = `
+                            <a href="${subMenuLinkHref}">${tabTitle}</a>
+                            <a class="closeTab" href="">✕</a>
+                        `;
+                tabControlTabs.appendChild(newTab);
+
+                // Chuyển view tới thẻ li tương ứng
+                if (subMenuLinkHref) {
+                    // Lưu trạng thái hiện tại vào Local Storage trước khi chuyển trang
+                    localStorage.setItem("currentTabView1", tabTitle);
+                    localStorage.setItem("currentTabHrefView1", subMenuLinkHref);
+                    window.location.href = subMenuLinkHref;
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

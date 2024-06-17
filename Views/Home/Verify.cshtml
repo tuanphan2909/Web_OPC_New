@@ -1,0 +1,940 @@
+﻿@{ ViewBag.Title = "OPC Bao Cao | OPCPHARMA";
+    @model System.Data.DataSet
+}
+@using System.Data;
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title> OPC Bao Cao | OPCPHARMA </title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="~/Styles/main.css" rel='stylesheet' type='text/css' media="all">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/Styles/loader.css">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .collapsed {
+            display: none;
+        }
+
+        .contentList {
+            display: none;
+        }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 100;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+        /* Thêm lớp selected-tab vào tab đã chọn */
+        .tab.selected-tab {
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                color: white /* Màu nền của tab */
+            }
+
+        .selected-tab {
+            background-color: #007bff; /* Màu sắc của tab khi được chọn */
+            color: #fff; /* Màu văn bản của tab khi được chọn */
+        }
+
+        /* Đảm bảo các tab khác không được chọn có màu sắc mặc định */
+        .tab:not(.selected-tab) {
+            background-color: #f8f9fa; /* Màu sắc mặc định của tab */
+            color: #000; /* Màu văn bản mặc định của tab */
+        }
+    </style>
+</head>
+<body>
+    <div class="loader" style="z-index:1"></div>
+    <div class="sidebar close">
+        <div class="logo-details">
+            <img src="~/Images/opc.png" style="height:50px;width:50px;margin-left:10px">
+            <span class="logo_name" style="color: #da261f; font-family: 'Agency FB'; font-size: 40px;padding-left:10px">OPC</span>
+        </div>
+        <ul class="nav-links">
+            <li id="active">
+                <a href="/Home/About">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="link_name">Trang chủ</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Trang chủ</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link">
+                    <a href="/DanhMuc/DanhMuc">
+                        <i class='bx bx-collection'></i>
+                        <span class="link_name">Danh mục</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                        <li><a class="link_name" href="/DanhMuc/DanhMuc">Danh mục</a></li>
+                    </ul>
+                    @*<i class='bx bxs-chevron-down arrow'></i>*@
+                </div>
+
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="#">Danh mục</a></li>
+                    <li class="liTitle">
+                        @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase) ||
+string.Equals(ViewBag.UserName, "opcmar001", StringComparison.OrdinalIgnoreCase))
+                        {
+
+
+                            <a href="/DanhMuc/ViewDanhMucKH_Fill" onclick="runReport()"> Khách hàng</a>
+                        }
+                        else if (string.Equals(ViewBag.UserName, "OPCHCM001", StringComparison.OrdinalIgnoreCase))
+                        {
+
+
+                            <a href="/DanhMuc/ViewDanhMucKH_FillCN" onclick="runReport()"> Khách hàng</a>
+                        }
+                        else
+                        {
+                            <a href="/DanhMuc/ViewDanhMucKHCN" onclick="runReport()"> Khách hàng</a>
+                        }
+
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <div class="iocn-link">
+                    <a href="/Home/MauIn">
+                        <i class='bx bxs-printer'></i>
+                        <span class="link_name">Mẫu In</span>
+                    </a>
+
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="/Home/MauIn">Mẫu In</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/MauInNLCB_Fill">1.Chứng Từ Phiếu Nhập</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/PhieuNhapXNTT_Fill">2.Phiếu Xác Nhận Thanh Toán</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/PhieuXuatKho_SO">3.Phiếu Xuất Kho</a></li>
+                    <li class="liTitle"><a href="/MauInChungTu/ThongBaoNoQH_Fill">4.Thông Báo Nợ QH</a></li>
+                    @*<li><a href="#">Login Form</a></li>
+                        <li><a href="#">Card Design</a></li>*@
+                </ul>
+            </li>
+
+            <li class="report-li">
+                <div class="iocn-link">
+                    <a href="/Home/MainBaoCao" onclick="showLoader()">
+                        <i class='bx bx-plug'></i>
+                        <span class="link_name">Báo cáo</span>
+                    </a>
+                    @*<i class='bx bxs-chevron-down arrow'></i>*@
+                </div>
+                <ul class="sub-menu">
+                    <li><a class="link_name" href="/Home/MainBaoCao">Báo Cáo</a></li>
+                    <li>
+                        <a href="#">1.Báo Cáo Quản Trị</a>
+                        <ul>
+                            @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase))
+                            {
+
+
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhKGam_Fill">1.1.Doanh Thu Chi Nhánh</a></li>
+                            }
+                            else
+                            {
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhKGam_CN_Fill">1.1.Doanh Thu Chi Nhánh</a></li>
+                            }
+                            @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase))
+                            {
+
+
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanh_Admin_Fill">1.2.Doanh Thu Chi Nhánh Theo Gam</a></li>
+                            }
+                            else
+                            {
+                                <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanh_Fill">1.2.Doanh Thu Chi Nhánh Theo Gam</a></li>
+                            }
+
+                            <li class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhTinhLuong_Fill">1.3.Doanh Thu Chi Nhánh Tính Lương</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#">2.Báo Cáo Nghiệp Vụ</a>
+                        <ul>
+                            <li class="liTitle"><a href="/bangkehoadon/bangkehoadon_Fill">2.1.Bảng Kê Chứng Từ SO</a></li>
+                            <li class="liTitle"><a href="/bangkehoadon/DanhSachHoaDon_Fill">2.2.Bảng Kê Hóa Đơn</a></li>
+                            <li class="liTitle"><a href="/BaoCaobanHangCN/BaoCaoBanHangCN_Fill">2.3.Báo Cáo Bán Hàng CN</a></li>
+                            <li class="liTitle"><a href="/BaoCaoBanHangTDV/BaoCaoBanHangTDV_Fill">2.4.Báo Cáo Bán Hàng TDV</a></li>
+                            <li class="liTitle"><a href="/BaoCaoTienVeCN/BaoCaoTienVeCN_Fill">2.5.Báo Cáo Tiền Về CN</a></li>
+                            <li class="liTitle"><a href="/BaoCaoTienVeCN/BaoCaoTienVeTDV_Fill">2.6.Báo Cáo Tiền Về TDV</a></li>
+                            <li class="liTitle"><a href="/BaoCaoDoanhThuGamHangTheoDoiTuong/BaoCaoDoanhThuGamHangTheoDoiTuong_Fill">2.7.Doanh Thu Gam Theo Đối Tượng</a></li>
+                        </ul>
+                    </li>
+
+
+                    <!-- Thêm các mục con khác của submenu "Báo cáo nghiệp vụ" nếu cần -->
+                </ul>
+            </li>
+
+
+
+            <li>
+                <a href="/Home/DoiMatKhau">
+                    <i class='bx bx-cog'></i>
+                    <span class="link_name">Đổi mật khẩu</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/home/DoiMatKhau">Đổi mật khẩu</a></li>
+                </ul>
+            </li>
+            @*<li>
+                <a href="/Home/tabControl">
+                    <i class='bx bx-cog'></i>
+                    <span class="link_name">Demo</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="/home/tabControl">Demo</a></li>
+                </ul>
+            </li>*@
+
+
+
+            <li onclick="logout()">
+                <a>
+                    <i class='bx bx-log-out'></i>
+                    <span class="link_name">Đăng xuất</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name">Đăng xuất</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <nav>
+            <div class="home-content">
+                <i class='bx bx-menu'></i>
+                <span class="text">Trang chủ</span>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <i class='bx bx-search'></i>
+            </div>
+        </nav>
+        <div style="width:auto;float:right">
+            @*<div class="home-content1" style="width:100%;height:100%">
+                    <div class="overview-boxes" style="background-color:red">
+                        <div class="box" style="overflow:auto;width:400px;height:200px">
+                            <table id="product" style="width:500px;height:200px; border-collapse: collapse;overflow:scroll">
+
+                                <tr class="title">
+                                    <th colspan="4" class="top10" style="font-size:18px;padding:5px">Top 10 sản phẩm bán chạy</th>
+                                </tr>
+                                <tr class="title" style="background-color:black;color:white;width:30px;padding:5px">
+                                    <td style="padding-right:10px">STT</td>
+                                    <td>Mã Vật Tư</td>
+                                    <td>Tên Vật Tư</td>
+                                    <td>Doanh Thu</td>
+                                </tr>
+                                <tbody>
+                                    @if (Model != null && Model.Tables.Count > 0 && Model.Tables[0].Rows.Count > 0)
+                                    {
+                                        int stt = 1;
+                                        foreach (DataRow row4 in Model.Tables[0].Rows)
+                                        {
+                                            <tr>
+                                                <td style="padding:10px">@stt</td>
+                                                <td>@row4["Ma_Vt"]</td>
+                                                <td>@row4["Ten_Vt"]</td>
+                                                <td>@String.Format("{0:n0}", Convert.ToDecimal(row4["Doanh_Thu"]))</td>
+                                            </tr>
+                                            stt++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4">No data available.</td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+                </div>*@
+            <div class="home-content1" style="width:100%">
+                <div class="overview-boxes" style="background-color:red">
+                    <div class="box" style="overflow:auto;width:400px;height:200px">
+                        <table style="width:500px;height:200px; border-collapse: collapse;overflow:scroll">
+
+                            <tr class="title">
+                                <th colspan="4" class="top10" style="font-size:18px;padding:5px">BÁO CÁO QUẢN TRỊ</th>
+                            </tr>
+
+                            <tbody style="float:left">
+                                <tr style="height:30px">
+                                    <td style="text-align: left">
+                                        @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <li style=" list-style-type: none;" class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhKGam_Fill">1.Doanh Thu Chi Nhánh</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li style=" list-style-type: none;" class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhKGam_Fill">1.Doanh Thu Chi Nhánh</a></li>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left">
+                                        @if (string.Equals(ViewBag.UserName, "admin", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <li style=" list-style-type: none;" class="liTitle">
+                                                <a href="/DoanhThuChiNhanh/DoanhThuChiNhanh_Admin_Fill">2.Doanh Thu Chi Nhánh Theo Gam</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li style=" list-style-type: none;" class="liTitle">
+                                                <a href="/DoanhThuChiNhanh/DoanhThuChiNhanh_Fill">2.Doanh Thu Chi Nhánh Theo Gam</a>
+                                            </li>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/DoanhThuChiNhanh/DoanhThuChiNhanhTinhLuong_Fill">3.Doanh Thu Chi Nhánh Tính Lương</a></li></td>
+                                </tr>
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div class="home-content1" style="width:100%">
+                <div class="overview-boxes" style="background-color:red">
+                    <div class="box" style="overflow:auto;width:400px;height:200px">
+                        <table style="width:500px;height:200px; border-collapse: collapse;overflow:scroll">
+
+                            <tr class="title">
+                                <th colspan="4" class="top10" style="font-size:18px;padding:5px;height:50px">BÁO CÁO NGHIỆP VỤ</th>
+                            </tr>
+
+                            <tbody style="float:left">
+
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/bangkehoadon/bangkehoadon_Fill">1.Bảng Kê Chứng Từ SO</a></li></td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/BaoCaobanHangCN/BaoCaoBanHangCN_Fill">2.Báo Cáo Bán Hàng CN</a></li></td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/BaoCaoBanHangTDV/BaoCaoBanHangTDV_Fill">3.Báo Cáo Bán Hàng TDV</a></td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/BaoCaoTienVeCN/BaoCaoTienVeCN_Fill">4.Báo Cáo Tiền Về CN</a></li></td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/BaoCaoTienVeCN/BaoCaoTienVeTDV_Fill">5.Báo Cáo Tiền Về TDV</a></li></td>
+                                </tr>
+                                <tr style="height:30px">
+                                    <td style="text-align: left"> <li style=" list-style-type: none;" class="liTitle"><a href="/BaoCaoDoanhThuGamHangTheoDoiTuong/BaoCaoDoanhThuGamHangTheoDoiTuong_Fill">6.Báo Cáo Doanh Thu Gam Theo Đối Tượng</a></li></td>
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </section>
+
+    <div class="tab-control">
+        <ul class="tabs" style="background-color: #1d1b31; bottom: 0; left: 0; right: 0;">
+            <li class="tab selected" style="padding-right:10px"><a href="#">Home</a></li>
+        </ul>
+    </div>
+    <script>
+        // ham xu ly dang nhap va xoa mang tabArray
+        function logout() {
+            // Làm rỗng mảng tabArray
+            const tabArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+            tabArray.length = 0;
+            localStorage.setItem("tabsArray", JSON.stringify(tabArray));
+
+            // Điều hướng đến trang đăng nhập
+            window.location.href = "/home/login";
+        }
+
+        // Cập nhật nội dung của phần tử có id "TOP1" bằng một giá trị Response mới
+        // (Lưu ý: Đảm bảo rằng bạn đã khai báo và gán giá trị cho biến Response trước đó)
+        document.getElementById("TOP1").innerHTML = Response;
+
+        // Bắt sự kiện click cho các phần tử có lớp "sub-menu" trong #leftside-navigation
+        $("#leftside-navigation .sub-menu > a").click(function (e) {
+            // Ẩn tất cả các phần tử con ul ul của #leftside-navigation
+            $("#leftside-navigation ul ul").slideUp();
+
+            // Hiển thị phần tử con ul của phần tử a đang được click (nếu nó chưa hiển thị)
+            if (!$(this).next().is(":visible")) {
+                $(this).next().slideDown();
+            }
+
+            // Ngăn chặn sự kiện click lan ra ngoài
+            e.stopPropagation();
+        });
+
+        function ChangPassword() {
+            // Điều hướng đến trang thay đổi mật khẩu
+            window.location.href = "/home/DoiMatKhau";
+        }
+    </script>
+
+
+    <script>
+        //icon chuc nang sidebar
+        let reportLi = document.querySelector(".report-li");
+        reportLi.addEventListener("click", (e) => {
+            console.log("Clicked on report-li");
+            let subMenu = e.currentTarget.querySelector(".sub-menu");
+            subMenu.classList.toggle("showSubMenu");
+        });
+
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+            arrow[i].addEventListener("click", (e) => {
+                let arrowParent = e.target.parentElement.parentElement; // selecting main parent of arrow
+                arrowParent.classList.toggle("showMenu");
+            });
+        }
+
+        let sidebar = document.querySelector(".sidebar");
+        // Sửa lớp CSS từ "close" thành "showSidebar"
+        sidebar.classList.remove("close");
+        sidebar.classList.add("showSidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>
+
+    <script>
+
+        //function showLoader() {
+        //    const loader = document.querySelector(".loader");
+        //    loader.classList.remove("loader-hidden");
+        //}
+
+        //// Function to hide the loader
+        //function hideLoader() {
+        //    const loader = document.querySelector(".loader");
+        //    loader.classList.add("loader-hidden");
+        //}
+
+
+
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+        });
+    </script>
+    @*<script>
+            function runReport() {
+                // Hiển thị thẻ span có id là "spanText"
+                showLoader();
+                const spanElement = document.getElementById("spanText");
+                spanElement.style.display = "block";
+            }
+        </script>*@
+    <script>
+        window.onload = function () {
+            var username = localStorage.getItem("username");
+            if (username) {
+                var nameInput = document.getElementById("Name");
+                if (nameInput) {
+                    nameInput.value = username;
+                }
+                localStorage.removeItem("username");
+            }
+
+        };
+    </script>
+    <script>
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+            createChart(chartData);
+        }
+        window.addEventListener("load", () => {
+            hideLoader();
+            applyCheckboxAndColumnState();
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const subMenuLinks = document.querySelectorAll(".liTitle a");
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Mảng để lưu các tab
+            const tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+            const currentTabTitleView1 = localStorage.getItem("currentTabView1"); // Sử dụng biến "currentTabView1" cho View 1
+
+            subMenuLinks.forEach(function (subMenuLink) {
+                subMenuLink.addEventListener("click", function (event) {
+                    event.preventDefault();
+
+                    const tabTitle = subMenuLink.textContent;
+                    const subMenuLinkHref = subMenuLink.getAttribute("href");
+
+                    // Kiểm tra xem tab đã tồn tại trong mảng hay chưa
+                    const tabExists = tabsArray.some(tab => tab.title === tabTitle);
+
+                    // Nếu tab chưa tồn tại, thêm nó vào mảng
+                    if (!tabExists) {
+                        tabsArray.push({ title: tabTitle, href: subMenuLinkHref });
+                        localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+                    }
+
+                    // Thêm tab vào giao diện
+                    const newTab = document.createElement("li");
+                    newTab.classList.add("tab", "selected");
+                    newTab.innerHTML = `
+                                                    <a href="${subMenuLinkHref}">${tabTitle}</a>
+                                                    <a class="closeTab" href="">✕</a>
+                                                `;
+                    tabControlTabs.appendChild(newTab);
+
+                    // Chuyển view tới thẻ li tương ứng
+                    if (subMenuLinkHref) {
+                        // Lưu trạng thái hiện tại vào Local Storage trước khi chuyển trang
+                        localStorage.setItem("currentTabView1", tabTitle); // Sử dụng biến "currentTabView1" cho View 1
+                        localStorage.setItem("currentTabHrefView1", subMenuLinkHref); // Sử dụng biến "currentTabHrefView1" cho View 1
+                        window.location.href = subMenuLinkHref;
+                    }
+                });
+            });
+
+            // Cập nhật tab hiện tại trong view 1 (nếu có)
+            if (currentTabTitleView1) {
+                const currentTab = document.createElement("li");
+                currentTab.classList.add("tab", "selected");
+                const tabInfo = JSON.parse(localStorage.getItem(currentTabTitleView1));
+                currentTab.innerHTML = `
+                                                <a href="${tabInfo.href}">${currentTabTitleView1}</a>
+                                                <a class="closeTab" href="">✕</a>
+`;
+                tabControlTabs.appendChild(currentTab);
+            }
+
+            // Xử lý sự kiện khi người dùng nhấp vào nút đóng tab
+            // Xử lý sự kiện khi người dùng nhấp vào nút đóng tab
+            document.addEventListener("click", function (event) {
+                if (event.target.classList.contains("closeTab")) {
+                    event.preventDefault();
+
+                    const tabTitle = event.target.previousElementSibling.textContent;
+
+                    // Tìm tab cần xóa trong mảng và lấy chỉ số của nó
+                    const tabIndex = tabsArray.findIndex(tab => tab.title === tabTitle);
+
+                    if (tabIndex !== -1) {
+                        // Xóa tab khỏi mảng
+                        tabsArray.splice(tabIndex, 1);
+                        localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+                    }
+
+                    // Xóa tab khỏi giao diện và cập nhật lại thanh tab
+                    const tabToRemove = event.target.parentElement;
+                    tabToRemove.remove();
+
+                    // Kiểm tra nếu không còn tab nào thì chuyển về trang Home
+                    if (tabsArray.length === 0) {
+                        window.location.href = "#"; // Thay đổi dấu "#" thành đường dẫn tới trang Home nếu có
+                    } else {
+                        // Nếu còn tab, chuyển về tab cuối cùng trong danh sách
+                        const lastTab = tabsArray[tabsArray.length - 1];
+                        window.location.href = lastTab.href;
+                    }
+                }
+            });
+
+
+            // Sự kiện khi người dùng nhấp vào tab "Home" để quay lại View 1
+            const homeTab = tabControlTabs.querySelector("a[href='#']");
+            homeTab.addEventListener("click", function (event) {
+                event.preventDefault();
+                const currentTabHrefView1 = localStorage.getItem("currentTabHrefView1"); // Sử dụng biến "currentTabHrefView1" cho View 1
+                if (currentTabHrefView1) {
+                    window.location.href = currentTabHrefView1;
+                }
+            });
+
+            hideLoader();
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Mảng để lưu các tab
+            let tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+
+            // Lặp qua mảng tabsArray để tạo các tab
+            tabsArray.forEach(function (tabInfo, index) {
+                const tabTitle = tabInfo.title;
+                const tabHref = tabInfo.href;
+
+                // Tạo tab và thêm vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+                newTab.innerHTML = `
+                                            <a href="${tabHref}">${tabTitle}</a>
+                                            <a class="closeTab" href="">✕</a>
+                                            `;
+                tabControlTabs.appendChild(newTab);
+
+                // Sự kiện khi người dùng nhấp vào nút đóng tab
+                newTab.querySelector(".closeTab").addEventListener("click", function (event) {
+                    event.preventDefault();
+                    closeTabAndNavigate(tabTitle, index); // Truyền chỉ số index vào hàm
+                });
+            });
+
+            hideLoader();
+        });
+
+        // Hàm để xóa tab và chuyển đến view gần nhất (nếu có) hoặc trang Home
+        function closeTabAndNavigate(tabTitle, tabIndex) {
+            const tabsArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+
+            // Lọc ra tab cần đóng dựa trên chỉ số tabIndex và cập nhật lại tabsArray
+            if (tabIndex >= 0 && tabIndex < tabsArray.length) {
+                tabsArray.splice(tabIndex, 1);
+                localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+            }
+
+            // Xóa tab khỏi giao diện và cập nhật lại thanh tab
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Lặp qua danh sách tab để tìm tab cần xóa
+            for (let i = 0; i < tabControlTabs.children.length; i++) {
+                const tab = tabControlTabs.children[i];
+                if (tab.querySelector("a").textContent === tabTitle) {
+                    tab.remove();
+                    break;
+                }
+            }
+
+            // Kiểm tra nếu không còn tab nào, chuyển về trang Home
+            //if (tabsArray.length === 0) {
+            //    window.location.href = "/Home/About"; // Thay đổi dấu "#" thành đường dẫn tới trang Home nếu có
+            //} else {
+            //    // Nếu còn tab, chuyển về tab cuối cùng trong danh sách
+            //    const lastTab = tabsArray[tabsArray.length - 1];
+
+            //    window.location.href = lastTab.href;
+            //}
+        }
+
+    </script>
+    <script>
+        // Bổ sung một lớp chung cho tất cả các tab của View 1 để dễ dàng quản lý chúng
+        const tabsInView1 = document.querySelectorAll(".tab-control.tab-view-1 .tab");
+
+        // Xóa lớp active từ tất cả các tab
+        tabsInView1.forEach(function (tab) {
+            tab.classList.remove("active");
+        });
+
+        // Sự kiện khi tab được click
+        document.addEventListener("click", function (event) {
+            const clickedTab = event.target.closest(".tab-view-1");
+            if (clickedTab) {
+                // Xóa lớp active từ tất cả các tab trong View 1
+                tabsInView1.forEach(function (tab) {
+                    tab.classList.remove("active");
+                });
+
+                // Thêm lớp active cho tab được nhấp vào
+                clickedTab.classList.add("active");
+            }
+        });
+
+        // ...
+    </script>
+    <script>
+        //Ham set thoi gian xoa cookie sau moi 5p
+        // Mảng để lưu các tab
+        const tabArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+        const currentTabTitleView1 = localStorage.getItem("currentTabView1"); // Sử dụng biến "currentTabView1" cho View 1
+
+        // Hàm để xóa mảng tabArray
+        function clearTabArray() {
+            tabArray.length = 0; // Xóa tất cả các phần tử của mảng
+            localStorage.setItem("tabsArray", JSON.stringify(tabArray)); // Lưu mảng trống vào Local Storage
+            window.location.reload();
+        }
+
+        // Sử dụng hàm setInterval để gọi hàm clearTabArray sau mỗi 5 phút (300,000 milliseconds)
+        setInterval(clearTabArray, 300000);
+
+    </script>
+    <script>
+        //đoạn cập nhật tab selected để chọn tab đổi màu
+        document.addEventListener("DOMContentLoaded", function () {
+            const tabControlTabs = document.querySelector(".tab-control .tabs");
+
+            // Lấy tất cả các tab
+            const tabs = tabControlTabs.querySelectorAll(".tab");
+
+            // Xử lý sự kiện khi người dùng click vào một tab
+            tabs.forEach(function (tab) {
+                tab.addEventListener("click", function (event) {
+                    // Lấy tên của tab được click
+                    const tabTitle = tab.querySelector("a").textContent;
+
+                    // Cập nhật biến selected bằng tên của tab
+                    selected = tabTitle;
+
+                    // Lưu giá trị mới vào Local Storage
+                    localStorage.setItem("selected", selected);
+
+                    // Cập nhật màu sắc hoặc thực hiện các hành động khác dựa trên giá trị mới của selected
+                    // Ví dụ: Đổi màu tab đã chọn
+                    tabs.forEach(function (otherTab) {
+                        otherTab.classList.remove("selected-tab");
+                    });
+                    tab.classList.add("selected-tab");
+
+                    // Đối với các tác vụ khác bạn muốn thực hiện khi tab được chọn, hãy thêm mã vào đây.
+
+                    // ...
+                });
+            });
+
+            // Lấy tất cả các phần tử liTitle
+            const liTitleElements = document.querySelectorAll(".liTitle");
+
+            // Xử lý sự kiện khi người dùng click vào một liTitle
+            liTitleElements.forEach(function (liTitle) {
+                liTitle.addEventListener("click", function (event) {
+                    // Lấy tiêu đề của liTitle
+                    const liTitleText = liTitle.querySelector("a").textContent;
+
+                    // Cập nhật biến selected bằng tiêu đề của liTitle
+                    selected = liTitleText;
+
+                    // Lưu giá trị mới vào Local Storage
+                    localStorage.setItem("selected", selected);
+
+                    // Tại đây, bạn có thể thực hiện các hành động khác sau khi cập nhật selected từ liTitle.
+
+                    // Ví dụ: Đổi màu cho tab đã chọn
+                    tabs.forEach(function (tab) {
+                        tab.classList.remove("selected-tab");
+                        if (tab.querySelector("a").textContent === selected) {
+                            tab.classList.add("selected-tab");
+                        }
+                    });
+
+                    // Đối với các tác vụ khác bạn muốn thực hiện khi liTitle được chọn, hãy thêm mã vào đây.
+
+                    // ...
+                });
+            });
+
+            // Nếu có giá trị selected trong Local Storage, cập nhật giao diện dựa trên giá trị đó
+            if (selected) {
+                tabs.forEach(function (tab) {
+                    if (tab.querySelector("a").textContent === selected) {
+                        tab.classList.add("selected-tab");
+                    }
+                });
+            }
+
+            hideLoader();
+        });
+
+    </script>
+    <script>
+        //đoạn mã tìm tab có title trùng với biến selected sau đó đổi màu tab đó
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy giá trị selected từ Local Storage
+            const selected = localStorage.getItem("selected");
+
+            // Lấy tất cả các tab
+            const tabs = document.querySelectorAll(".tab");
+
+            // Lặp qua tất cả các tab và kiểm tra nếu có tab có title bằng với giá trị selected
+            tabs.forEach(function (tab) {
+                const tabTitle = tab.querySelector("a").textContent;
+                if (tabTitle === selected) {
+                    // Đổi màu cho tab này
+                    tab.classList.add("selected-tab");
+                }
+            });
+        });
+
+    </script>
+    <script>
+        subMenuLinks.forEach(function (subMenuLink) {
+            subMenuLink.addEventListener("click", function (event) {
+                event.preventDefault();
+
+                const tabTitle = subMenuLink.textContent;
+                const subMenuLinkHref = subMenuLink.getAttribute("href");
+
+                // Cập nhật biến selected với giá trị của tabTitle
+                localStorage.setItem("selected", tabTitle);
+                console.log("selected:", tabTitle); // Thêm log để kiểm tra giá trị của selected
+
+                // Kiểm tra xem tab đã tồn tại trong mảng hay chưa
+                const tabExists = tabsArray.some(tab => tab.title === tabTitle);
+
+                // Nếu tab chưa tồn tại, thêm nó vào mảng
+                if (!tabExists) {
+                    tabsArray.push({ title: tabTitle, href: subMenuLinkHref });
+                    localStorage.setItem("tabsArray", JSON.stringify(tabsArray));
+                }
+
+                // Thêm tab vào giao diện
+                const newTab = document.createElement("li");
+                newTab.classList.add("tab", "selected");
+                newTab.innerHTML = `
+                                <a href="${subMenuLinkHref}">${tabTitle}</a>
+                                <a class="closeTab" href="">✕</a>
+                            `;
+                tabControlTabs.appendChild(newTab);
+
+                // Chuyển view tới thẻ li tương ứng
+                if (subMenuLinkHref) {
+                    // Lưu trạng thái hiện tại vào Local Storage trước khi chuyển trang
+                    localStorage.setItem("currentTabView1", tabTitle);
+                    localStorage.setItem("currentTabHrefView1", subMenuLinkHref);
+                    window.location.href = subMenuLinkHref;
+                }
+            });
+        });
+
+    </script>
+    <script>
+        // Lấy tất cả các hàng trong bảng
+        var rows = document.querySelectorAll('tbody tr ');
+
+        // Lặp qua từng hàng và thêm sự kiện click
+        rows.forEach(function (row) {
+            row.addEventListener('click', function () {
+                // Xóa tất cả các lớp 'selected' khỏi tất cả các hàng
+                rows.forEach(function (r) {
+                    r.classList.remove('selected');
+                });
+
+                // Thêm lớp 'selected' vào hàng được click
+                row.classList.add('selected');
+            });
+        });
+    </script>
+
+</body>
+</html>

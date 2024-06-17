@@ -1,0 +1,1153 @@
+﻿
+
+
+@{ ViewBag.Title = "PHIẾU ĐẶT HÀNG"; }
+@using System.Data;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+
+    <style>
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        * {
+            font-family: "Times New Roman";
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            /*         justify-content:;*/
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            height: 50px;
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 600px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 50px;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .data_table {
+            width: max-content;
+        }
+
+        .bieu_do {
+            padding: 10px;
+            margin: 10%;
+            text-align: center;
+            width: 200px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            margin: 20px;
+            height: 55px;
+            text-align: center;
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 10px;
+            moz-transition: all .4s ease-in-out;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+        }
+
+            .bieu_do:hover {
+                background-position: 100% 0;
+                moz-transition: all .4s ease-in-out;
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+            .bieu_do:focus {
+                outline: none;
+            }
+
+        .bieu_do {
+            background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+            box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+        }
+
+        .chart {
+            margin: 20px 0px 0px 0px;
+        }
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .custom-checkbox {
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 2px solid black;
+            background-color: #ffffff;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkContainer {
+            height: 300px;
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+            .checkContainer::-webkit-scrollbar {
+                width: 0.2em;
+                background-color: transparent;
+            }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 1;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+
+        .closeTab {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px; /* Điều chỉnh khoảng cách với h4 */
+        }
+
+        .closeIcon {
+            display: inline-block;
+            width: 30px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: white;
+            color: black; /* Màu chữ x */
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .tab.active {
+            background-color: cornflowerblue; /* Màu nền tab khi active */
+            color: #fff; /* Màu chữ khi active */
+        }
+
+        .tab.selected-tab {
+            pointer-events: none;
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                color: white /* Màu nền của tab */
+            }
+
+            .tab.selected-tab .closeTab {
+                pointer-events: auto;
+            }
+
+        .select-btn {
+            position: relative;
+        }
+
+        #nhomtheoselect {
+            display: none; /* Ẩn dropdown ban đầu */
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+            white-space: nowrap; /* Ngăn ngừa text quá dài bị xuống dòng */
+            overflow-x: auto; /* Hiển thị thanh cuộn khi nội dung quá dài */
+            max-height: 200px; /* Đặt chiều cao tối đa của dropdown */
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>PHIẾU ĐẶT HÀNG</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee ">
+    <div class="loader" style="z-index:1"></div>
+
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center; display:flex;margin-left:10px;width:300px">
+            <li>
+                <form id="dateForm" action="PhieuDatHang" method="post" onsubmit="handleFormSubmit(event)">
+                    <div id="locBC">
+                        <span id="spanText" class="text-loading">[usp_DonDatHang_SAP]</span>
+                        <a>Từ Ngày</a><br /><br />
+                        <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.QueryString["From_date"]" />
+                        <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                        <a>Đến Ngày</a><br /><br />
+                        <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.QueryString["To_date"]" /><br /><br />
+                        <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                    </div>
+                    @*<h6>Chọn Kho</h6>
+
+                        <div class="select-btn" style="width:250px;margin-top:10px">
+                            <input type="text" id="searchInput" oninput="filterDropdown()" placeholder="Tìm kiếm...">
+                            <select name="Nhom" id="nhomtheoselect" size="5" onchange="saveSelectedValueToCookie()">
+
+                                <option value="OPC_B1/TP_B1_DP">Kho thành phẩm ĐP trụ sở</option>
+                                <option value="OPC_B2/TP_B2_DP">Kho thành phẩm ĐP nhà máy</option>
+                                <option value="OPC_B1/KM_B1_01">Kho hàng khuyến mãi</option>
+                                <option value="OPC_B1/TP_B1_CXL">Kho thành phẩm Trụ sở chờ xử lý</option>
+                                <option value="OPC_B1/TP_B1_NC">Kho thành phẩm Nghiên Cứu điều phối</option>
+                                <option value="OPC_B1/TP_B1_PHIEN">Kho vị thuốc cổ truyền Trụ sở</option>
+                                <option value="OPC_B1/TP_B1_PHIEN_CXL">Kho vị thuốc cổ truyền trụ sở chờ xử lý</option>
+                                <option value="OPC_B1/XD_B1_01">Kho Xăng dầu</option>
+                                <option value="OPC_B1_01020302/HKM_B1_Q1">Kho hàng khuyến mãi - Quận 10</option>
+                                <option value="OPC_B1_01020302/TP_B1_Q10">Kho cửa hàng sỉ - Quận 10</option>
+                                <option value="OPC_B1_01020303/TP_B1_HAPU">Kho quầy 427 Hapu - Hà Nội</option>
+                                <option value="OPC_B1_01020303/TP_CN_HAPU">Kho quầy Hapu tại Chi nhánh</option>
+                                <option value="OPC_B2/BB_B2_01">Kho bao bì</option>
+                                <option value="OPC_B2/BB_B2_HD2">Kho Bao bì hóa dược 2</option>
+                                <option value="OPC_B2/BHLD_B2">Kho bảo hộ lao động</option>
+                                <option value="OPC_B2/CB_B2_01">Kho chế biến</option>
+                                <option value="OPC_B2/CB_B2_02">Kho chế biến Chờ xử lý</option>
+                                <option value="OPC_B2/CB_B2_HD2">Kho Chế biến hóa dược 2</option>
+                                <option value="OPC_B2/CB_B2_HD2_02">Kho Chế biến hóa dược 2 chờ xử lý</option>
+                                <option value="OPC_B2/CCDC_B2">Kho công cụ dụng cụ</option>
+                                <option value="OPC_B2/DL_B2_01">Kho dược liệu</option>
+                                <option value="OPC_B2/DL_B2_PHIEN">Kho dược liệu phiến</option>
+                                <option value="OPC_B2/DP_DD_01">Kho Điều Phối Đi Đường</option>
+                                <option value="OPC_B2/HD_B2_01">Kho hóa dược</option>
+                                <option value="OPC_B2/HD_B2_HD2">Kho Nguyên liệu hóa dược 2</option>
+                                <option value="OPC_B2/HKM_B1_01">Kho hàng khuyến mãi - Điều phối</option>
+                                <option value="OPC_B2/NCPT_B2">Kho RD</option>
+                                <option value="OPC_B2/PTTT_B2">Phụ Tùng Thay Thế</option>
+                                <option value="OPC_B2/TKX_B2_01">Kho thống kê xưởng sản xuất</option>
+                                <option value="OPC_B2/TKX_B2_02">Kho thống kê hóa dược 2</option>
+                                <option value="OPC_B2/TP_B1_CXL">Kho thành phẩm Trụ sở chờ xử lý</option>
+
+                                <option value="OPC_B2/TP_B1_NC">Kho thành phẩm Nghiên Cứu điều phối</option>
+                                <option value="OPC_B2/TP_B1_PHIEN">Kho vị thuốc cổ truyền Trụ sở</option>
+                                <option value="OPC_B2/TP_B1_PHIEN_CXL">Kho vị thuốc cổ truyền trụ sở chờ xử lý</option>
+                                <option value="OPC_B2/TP_B2_PHIEN">Kho vị thuốc cổ truyền nhà máy</option>
+                                <option value="OPC_B2/TP_B2_PHIEN_QC">Kho vị thuốc cổ truyền nhà máy chờ QC</option>
+                                <option value="OPC_B2/TP_B2_QC">Kho Thành phẩm Điều phối chờ QC</option>
+                                <option value="OPC_B2/VPP_B2">Văn Phòng Phẩm</option>
+                                <option value="OPC_B2/XD_B1_01"> OPC_B2/XD_B1_01-Kho xăng dầu</option>
+                                <option value="OPC_CT/CXL_CT_CN"> Kho chờ xử lý - Cần Thơ</option>
+                                <option value="OPC_CT/HKM_CT_CN"> Kho hàng khuyến mãi - Cần Thơ</option>
+                                <option value="OPC_CT/TP_CT_CN"> Kho Thành Phẩm - Cần Thơ</option>
+                                <option value="OPC_DN/CXL_DN_CN">Kho chờ xử lý - Đà Nẵng</option>
+                                <option value="OPC_DN/HKM_DN_CN">Kho hàng khuyến mãi mua ngoài - Đà Nẵng</option>
+                                <option value="OPC_DN/TP_DN_CN">Kho Thành Phẩm - Đà Nẵng</option>
+                                <option value="OPC_DN_03/CPC2">CPC2</option>
+                                <option value="OPC_HN/CXL_HN_CN">Kho chờ xử lý - Hà Nội</option>
+                                <option value="OPC_HN/HKM_HN_CN">Kho hàng khuyến mãi mua ngoài - Hà Nội</option>
+                                <option value="OPC_HN/TP_HN_CN">Kho Thành phẩm - Hà Nội</option>
+                                <option value="OPC_HN_03/HP1_HCN">Cửa hàng HAPU _Chi Nhánh Hà Nôi</option>
+                                <option value="OPC_HN_04/CPC1">CPC1</option>
+                                <option value="OPC_MD/CXL_MD_CN">Kho chờ xử lý - Miền Đông</option>
+                                <option value="OPC_MD/HKM_MD_CN">Kho hàng khuyến mãi - Miền Đông</option>
+                                <option value="OPC_MD/TP_MD_CN">Kho Thành phẩm - Miền Đông</option>
+                                <option value="OPC_NA/CXL_NA_CN">Kho chờ xử lý - Nghệ An</option>
+                                <option value="OPC_NA/HKM_NA_CN">Kho hàng khuyến mãi - Nghệ An</option>
+                                <option value="OPC_NA/TP_NA_CN">Kho Thành Phẩm - Nghệ An</option>
+                                <option value="OPC_NT/CXL_NT_CN">Kho chờ xử lý - Nha Trang</option>
+                                <option value="OPC_NT/HKM_NT_CN">Kho hàng khuyến mãi - Nha Trang</option>
+                                <option value="OPC_NT/TP_NT_CN">Kho Thành Phẩm - Nha Trang</option>
+                                <option value="OPC_RD/NCPT_RD">Kho RD</option>
+                                <option value="OPC_RD/PST_RD">Kho dự án</option>
+                                <option value="OPC_TG/CXL_TG_CN">Kho chờ xử lý - Tiền Giang</option>
+                                <option value="OPC_TG/HKM_TG_CN">Kho hàng khuyến mãi - Tiền Giang</option>
+                                <option value="OPC_TG/TP_TG_CN">Kho Thành Phẩm - Tiền Giang</option>
+                                <option value="OPC_TP/CXL_HCM_CN">Kho chờ xử lý - Hồ Chí Minh</option>
+                                <option value="OPC_TP/HKM_HCM_CN">Kho hàng khuyến mãi - HCM</option>
+                                <option value="OPC_TP/KKG_HCM_CN">Kho ký gởi - Hồ Chí Minh</option>
+                                <option value="OPC_TP/ONLINE_HCM">Kho Online - Hồ Chí Minh</option>
+                                <option value="OPC_TP/TP_HCM_CN">Kho Thành phẩm - Hồ Chí Minh</option>
+                                <option value="OPC_TP_03/CH1_HCM">Kho cửa hàng số 1 - Phú Lâm</option>
+                                <option value="OPC_TP_03/KOL_CH1_HCM">Kho Online</option>
+                                <option value="OPC_TP_04/CH2_HCM">Kho cửa hàng số 2 - Phùng Hưng</option>
+                                <option value="OPC_TP_04/HKM_CH2_HCM">Kho hàng khuyến mãi - Phùng Hưng</option>
+                                <option value="OPC_TP_05/ONLINE_HCM">Kho cửa hàng Online HCM</option>
+                                <option value="OPC_VT/CXL_VT_CN">Kho chờ xử lý - Vũng tàu</option>
+                                <option value="OPC_VT/HKM_VT_CN">Kho hàng khuyến mãi mua ngoài -Vũng Tàu</option>
+                                <option value="OPC_VT/TP_VT_CN">Kho Thành phẩm - Vũng tàu</option>
+
+                            </select>
+                        </div>
+                        <h6>Chọn Đơn Vị</h6>
+                        <div class="select-btn" style="width:100px;margin-top:10px">
+                            <select name="Chitiet" id="chitietselect" onchange="saveSelectedValueToCookie2()">
+                                <option value="" style="background-color: #020024;color:white">Chọn giá trị</option>
+                                <option value="OPC_B2">Nhà máy Bình Dương</option>
+                                <option value="OPC_B1">Văn phòng Tp.HCM</option>
+                                <option value="OPC_B1_01020302">Cửa hàng sỉ Quận 10 HCM</option>
+                                <option value="OPC_B1_01020303">Cửa hàng sỉ HAPU Hà Nội</option>
+                                <option value="OPC_CT">CN Cần Thơ</option>
+                                <option value="OPC_DN">CN Đà Nẵng</option>
+                                <option value="OPC_DN_03">OPC2</option>
+                                <option value="OPC_HN">CN Hà Nội</option>
+                                <option value="OPC_HN_03">Nhóm cửa hàng HAPU Hà Nội</option>
+                                <option value="OPC_HN_04">OPC1</option>
+                                <option value="OPC_MD">CN Miền Đông</option>
+                                <option value="OPC_NA">CN Nghệ An</option>
+                                <option value="OPC_NT">CN Nha Trang</option>
+                                <option value="OPC_RD">R&D</option>
+                                <option value="OPC_TG">CN Tiền Giang</option>
+                                <option value="OPC_TP">CN Hồ Chí Minh</option>
+                                <option value="OPC_TP_03">Cửa hàng phú lâm</option>
+                                <option value="OPC_TP_04">Cửa hàng phùng hưng</option>
+                                <option value="OPC_TP_05">Cửa hàng Online HCM</option>
+                                <option value="OPC_VT">CN Vũng Tàu</option>
+                            </select>
+                        </div>*@
+
+                    <div>
+                        <button class="submit" type="submit" id="runReportButton" onclick="runReport();saveNgay()">
+                            Chạy Báo Cáo
+                        </button>
+
+                    </div>
+
+                </form>
+            </li>
+        </ul>
+    </div>
+
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+        @if (Request.Cookies["UserName"].Value == "Admin-cnct" || Request.Cookies["UserName"].Value == "Admin-cntg" || Request.Cookies["UserName"].Value == "Admin-cnmd" || Request.Cookies["UserName"].Value == "Admin-cnh1" || Request.Cookies["UserName"].Value == "Admin-cnvt"
+                      || Request.Cookies["UserName"].Value == "Admin-cnnt" || Request.Cookies["UserName"].Value == "Admin - cndn" || Request.Cookies["UserName"].Value == "Admin - cnna" || Request.Cookies["UserName"].Value == "Admin - cnhn")
+        {
+
+
+
+            <a href="/Home/AboutCN" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        else
+        {
+            <a href="/Home/About" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        <h4 style="color:#3483bd">PHIẾU ĐẶT HÀNG</h4>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+
+    <div class="container" style="margin-left: 300px;">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>STT</th>
+                                <th>Mã VT</th>
+                                <th>Tên VT</th>
+                                
+                                <th>ĐVT</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Thành Tiền</th>
+                                <th>Ghi chú (Lịch giao hàng)</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#dropdownMaTDV").select2();
+        });
+    </script>
+    <script>
+        function filterDropdown() {
+            var input, filter, select, option, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            select = document.getElementById("nhomtheoselect");
+            option = select.getElementsByTagName("option");
+
+            for (i = 0; i < option.length; i++) {
+                txtValue = option[i].textContent || option[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    option[i].style.display = "";
+                } else {
+                    option[i].style.display = "none";
+                }
+            }
+
+            // Tự động mở rộng dropdown
+            select.size = Math.min(5, select.options.length);
+            select.style.display = (filter !== "") ? "block" : "none";
+        }
+
+        //function saveSelectedValueToCookie() {
+        //    var select = document.getElementById("nhomtheoselect");
+        //    var selectedValue = select.value;
+
+        //    // Thêm mã lưu giá trị vào cookie hoặc thực hiện các bước khác theo yêu cầu của bạn.
+        //    console.log("Giá trị đã chọn: " + selectedValue);
+        //}
+    </script>
+    @*<script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var dropdownMaTDV = document.getElementById("dropdownMaTDV");
+
+                if (dropdownMaTDV) {
+                    dropdownMaTDV.addEventListener("change", function () {
+                        var selectedOption = dropdownMaTDV.options[dropdownMaTDV.selectedIndex];
+
+                        if (selectedOption) {
+                            var maTDV = selectedOption.value;
+                            document.cookie = 'Ma_TDV=' + maTDV;
+                        } else {
+                            var selected = "";
+                            document.cookie = 'Ma_TDV=' + selected;
+                        }
+                    });
+                }
+            });
+        </script>*@
+
+
+    <script>
+        function saveSelectedValueToCookie() {
+            var selectedValue = $("#nhomtheoselect").val();
+            document.cookie = 'Ma_Kho=' + selectedValue;
+            var select = document.getElementById("nhomtheoselect");
+            var input = document.getElementById("searchInput");
+            var selectedValue = select.value;
+
+            // Cập nhật giá trị của ô input
+            input.value = selectedValue;
+            select.style.display = "none";
+            // Thực hiện các bước khác theo yêu cầu của bạn.
+            console.log("Đã chọn giá trị: " + selectedValue);
+            // Gọi hàm để nhóm dữ liệu dựa trên giá trị đã chọn
+
+        }
+
+        function saveSelectedValueToCookie2() {
+            var selectedValue = $("#chitietselect").val();
+            document.cookie = 'Ma_DV=' + selectedValue;
+
+
+
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInputVT");
+                    var selectedOption = document.querySelector("#dropdownListVT option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-maVT');
+                        document.cookie = 'Ma_Vt=' + tenDt;
+                    } else {
+                        var selected = "";
+                        document.cookie = 'Ma_Vt=' + selected;
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = inputValue;
+
+                    break;
+                }
+            }
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-maDt');
+                        document.cookie = 'Ma_Dt=' + tenDt;
+                    } else {
+                        var selected = "";
+                        document.cookie = 'Ma_Dt=' + selected;
+                    }
+                });
+            }
+        });
+
+
+    </script>
+    <script>
+        document.getElementById("dropdownInputTDV").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownListTDV option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOptionTDV").value = inputValue;
+
+                    break;
+                }
+            }
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInputTDV");
+                    var selectedOption = document.querySelector("#dropdownListTDV option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var MaTDV = selectedOption.getAttribute('data-Ma_CbNv');
+                        document.cookie = 'Ma_TDV=' + MaTDV;
+                    } else {
+                        var selected = "";
+                        document.cookie = 'Ma_TDV=' + selected;
+                    }
+                });
+            }
+        });
+
+
+    </script>
+    <script>
+        // Set the "Từ Ngày" input to the first day of the current month
+        function setFirstDayOfCurrentMonth() {
+            const currentDate = new Date();
+            const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const formattedDate = formatDate(firstDayOfMonth);
+
+            document.getElementById("tu_ngay").value = formattedDate;
+        }
+        function setCurrentDate() {
+            const currentDate = new Date();
+            const formattedToDate = formatDate(currentDate);
+            document.getElementById("den_ngay").value = formattedToDate;
+        }
+        // Format the date as "yyyy-mm-dd" for input type="date"
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, "0");
+            const day = date.getDate().toString().padStart(2, "0");
+            return `${year}-${month}-${day}`;
+        }
+
+        // Call the function to set the "Từ Ngày" input on page load
+        setFirstDayOfCurrentMonth();
+        setCurrentDate();
+    </script>
+    <script>
+        function runReport() {
+
+            const uncheckedCheckboxIndexes = [];
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach((checkbox, index) => {
+                if (!checkbox.checked) {
+                    uncheckedCheckboxIndexes.push(index);
+                }
+            });
+
+            // Lưu trạng thái vào Local Storage
+            localStorage.setItem('uncheckedCheckboxIndexes', JSON.stringify(uncheckedCheckboxIndexes));
+            // Hiển thị thẻ span có id là "spanText"
+            const spanElement = document.getElementById("spanText");
+            spanElement.style.display = "block";
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+            const table = document.getElementById('example');
+
+            checkboxes.forEach((checkbox, index) => {
+                checkbox.addEventListener('change', function () {
+                    const columnIndex = index;
+                    const rows = table.querySelectorAll('tr');
+
+                    rows.forEach(row => {
+                        const cells = row.querySelectorAll('td, th');
+                        cells[columnIndex].style.display = this.checked ? '' : 'none';
+                    });
+                });
+            });
+        });
+    </script>
+    <script>
+        function saveNgay() {
+            var from_date = document.getElementById("tu_ngay").value;
+            var to_date = document.getElementById("den_ngay").value;
+            document.cookie = "From_date=" + from_date;
+            document.cookie = "To_date=" + to_date;
+        }
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            showLoader();
+            // Show the loader when the form is submitted
+
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        }
+        function displaySelectedDate() {
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+            window.location.href = selectedDateDisplay;
+        }
+
+        // Function to show the loader
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        /*  Add an event listener to the form submission*/
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            displaySelectedDate();
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+            const fromDate = urlParams.get('From_date');
+            const toDate = urlParams.get('To_date');
+            if (fromDate && toDate) {
+                displaySelectedDate();
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInputVT");
+                    var selectedOption = document.querySelector("#dropdownListVT option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.getAttribute('data-TenVt');
+                        document.cookie = 'Ten_Vt=' + tenDt;
+                    } else {
+                        var selected = "";
+                        document.cookie = 'Ten_Vt=' + selected;
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        // Hàm lưu trạng thái checkbox vào Local Storage
+        function saveCheckboxState() {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+            const checkboxState = {};
+
+            checkboxes.forEach((checkbox, index) => {
+                checkboxState[index] = checkbox.checked;
+            });
+
+            localStorage.setItem('checkboxState', JSON.stringify(checkboxState));
+        }
+
+        // Lưu trạng thái khi người dùng bỏ chọn checkbox
+        // Lắng nghe sự kiện thay đổi của các checkbox
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('input[name="myCheckbox"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    localStorage.setItem(checkbox.value, checkbox.checked);
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>

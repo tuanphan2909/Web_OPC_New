@@ -1,0 +1,866 @@
+﻿﻿    ﻿@using System.Data;
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Form cộng tác viên</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/Application-Form.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        #dropdownInput, #selectedOption, #Ten_SP, #Ma_SP, #Tien_TB {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        #dropdownInput {
+            width: 18%; /* Adjust width as needed */
+        }
+
+        #selectedOption, #Ten_SP {
+            width: 80%; /* Adjust width as needed */
+        }
+
+        .ma-vt-input,
+        .ten-vt-input,
+        .han-muc-input {
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+            width: 80px; /* Adjust width as needed */
+        }
+
+        .han-muc-input {
+            width: 20%; /* Adjust width as needed */
+        }
+
+        .ten-vt-input {
+            width: 80%;
+        }
+
+        .ma-vt-input {
+            width: 20%;
+        }
+
+        #SaveCtV {
+            display: block;
+            margin: 10px auto; /* Center the buttons and add some spacing */
+            padding: 10px 20px; /* Adjust padding as needed */
+            font-size: 16px; /* Adjust font size as needed */
+            background-color: #28a745; /* Green color */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
+
+
+    <style>
+        .checkbox-wrapper-1 *,
+        .checkbox-wrapper-1 ::after,
+        .checkbox-wrapper-1 ::before {
+            box-sizing: border-box;
+        }
+
+        .checkbox-wrapper-1 [type=checkbox].substituted {
+            margin: 0;
+            width: 0;
+            height: 0;
+            display: inline;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted + label:before {
+                content: "";
+                display: inline-block;
+                vertical-align: top;
+                height: 1.15em;
+                width: 1.15em;
+                margin-right: 0.6em;
+                color: rgba(0, 0, 0, 0.275);
+                border: solid 0.06em;
+                box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em inset, 0 0 0 0.07em transparent inset;
+                border-radius: 0.2em;
+                background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve" fill="white" viewBox="0 0 9 9"><rect x="0" y="4.3" transform="matrix(-0.707 -0.7072 0.7072 -0.707 0.5891 10.4702)" width="4.3" height="1.6" /><rect x="2.2" y="2.9" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 12.1877 2.9833)" width="6.1" height="1.7" /></svg>') no-repeat center, white;
+                background-size: 0;
+                will-change: color, border, background, background-size, box-shadow;
+                transform: translate3d(0, 0, 0);
+                transition: color 0.1s, border 0.1s, background 0.15s, box-shadow 0.1s;
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted:enabled:active + label:before,
+            .checkbox-wrapper-1 [type=checkbox].substituted:enabled + label:active:before {
+                box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(0, 0, 0, 0.1) inset;
+                background-color: #f0f0f0;
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted:checked + label:before {
+                background-color: #3B99FC;
+                background-size: 0.75em;
+                color: rgba(0, 0, 0, 0.075);
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted:checked:enabled:active + label:before,
+            .checkbox-wrapper-1 [type=checkbox].substituted:checked:enabled + label:active:before {
+                background-color: #0a7ffb;
+                color: rgba(0, 0, 0, 0.275);
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted:focus + label:before {
+                box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(0, 0, 0, 0.1) inset, 0 0 0 3.3px rgba(65, 159, 255, 0.55), 0 0 0 5px rgba(65, 159, 255, 0.3);
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted:focus:active + label:before,
+            .checkbox-wrapper-1 [type=checkbox].substituted:focus + label:active:before {
+                box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(0, 0, 0, 0.1) inset, 0 0 0 3.3px rgba(65, 159, 255, 0.55), 0 0 0 5px rgba(65, 159, 255, 0.3);
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted:disabled + label:before {
+                opacity: 0.5;
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted.dark + label:before {
+                color: rgba(255, 255, 255, 0.275);
+                background-color: #222;
+                background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve" fill="rgba(34, 34, 34, 0.999)" viewBox="0 0 9 9"><rect x="0" y="4.3" transform="matrix(-0.707 -0.7072 0.7072 -0.707 0.5891 10.4702)" width="4.3" height="1.6" /><rect x="2.2" y="2.9" transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 12.1877 2.9833)" width="6.1" height="1.7" /></svg>');
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted.dark:enabled:active + label:before,
+            .checkbox-wrapper-1 [type=checkbox].substituted.dark:enabled + label:active:before {
+                background-color: #444;
+                box-shadow: 0 0 0.04em, 0 0.06em 0.16em -0.03em transparent inset, 0 0 0 0.07em rgba(255, 255, 255, 0.1) inset;
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted.dark:checked + label:before {
+                background-color: #a97035;
+                color: rgba(255, 255, 255, 0.075);
+            }
+
+            .checkbox-wrapper-1 [type=checkbox].substituted.dark:checked:enabled:active + label:before,
+            .checkbox-wrapper-1 [type=checkbox].substituted.dark:checked:enabled + label:active:before {
+                background-color: #c68035;
+                color: rgba(0, 0, 0, 0.275);
+            }
+
+        .upload-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+            .upload-section button {
+                background: none;
+                border: 2px solid #ccc;
+                border-radius: 5px;
+                padding: 10px 15px;
+                cursor: pointer;
+                font-size: 18px;
+            }
+
+            .upload-section div {
+                margin-top: 10px;
+            }
+
+        #preview1 img, #preview2 img, #preview3 img {
+            display: inline-block;
+            vertical-align: top;
+            width: 100px;
+            height: 100px;
+            margin-right: 10px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <section>
+        <h1 class="text-center text-capitalize">Cập Nhật Hợp Đồng Trưng Bày</h1>
+        <div class="container">
+
+            <form action="SaveCtV" method="post">
+
+                @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    var hinh1 = row2["Hinh_1"] != DBNull.Value ? Convert.ToBase64String((byte[])row2["Hinh_1"]) : "";
+                    var hinh2 = row2["Hinh_2"] != DBNull.Value ? Convert.ToBase64String((byte[])row2["Hinh_2"]) : "";
+                    var hinh3 = row2["Hinh_3"] != DBNull.Value ? Convert.ToBase64String((byte[])row2["Hinh_3"]) : "";
+                    DateTime ngayCt = (DateTime)row2["Ngay_Ct"];
+                    string formattedNgayCt = ngayCt.ToString("yyyy-MM-dd");
+                    DateTime ngayBD = (DateTime)row2["Ngay_Bat_Dau"];
+                    string Ngay_Bat_Dau = ngayBD.ToString("yyyy-MM-dd");
+                    DateTime Ngay_KT = (DateTime)row2["Ngay_Ket_Thuc"];
+                    string Ngay_Ket_Thuc = Ngay_KT.ToString("yyyy-MM-dd");
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <p><strong>1. Ngày</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="date" required="" name="Ngay_Ct" id="Ngay_Ct" value="@formattedNgayCt">
+                            </div>
+                            <div class="col">
+                                <p><strong>2. SỐ HĐ</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="text" required="" name="So_Ct" id="So_Ct" value="@row2["So_CT"]" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <p><strong>3. Khách Hàng&nbsp;</strong><span class="text-danger">*</span></p>
+                    </div>
+                    <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm danh mục" name="Ma_Dt" value="@row2["Ma_Dt"]">
+                    <datalist id="dropdownList">
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
+                        }
+                    </datalist>
+                    <input name="Ten_Dt" id="selectedOption" value="@row2["Ten_Dt"]" readonly>
+                    <input name="Stt" id="Stt" value="@row2["STT"]" readonly hidden>
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <p><strong>4. Ngày Bắt Đầu</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="date" required="" name="Ngay_Bat_Dau" id="Ngay_Bat_Dau" value="@Ngay_Bat_Dau">
+                            </div>
+                            <div class="col">
+                                <p><strong>5. Ngày Kết Thúc</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="date" required="" name="Ngay_Ket_Thuc" id="Ngay_Ket_Thuc" value="@Ngay_Ket_Thuc">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mb-3">
+                        <p><strong>6. Sản Phẩm Trưng bày&nbsp;</strong><span class="text-danger">*</span></p>
+                    </div>
+
+                    <input type="text" id="Ma_SP" list="dropdownListSP" placeholder="Tìm kiếm vật tư" name="Ma_SP" value="@row2["MA_SP"]">
+                    <datalist id="dropdownListSP">
+                        @foreach (var item in ViewBag.DataItems2)
+                        {
+                            <option value="@item.Ma_vt" data-ten="@item.Ten_Vt">@item.Ten_Vt</option>
+                        }
+                    </datalist>
+                    <input name="Ten_SP" id="Ten_SP" value="@row2["Ten_SP"]" readonly>
+                    <div class="form-group mb-3">
+                        <p><strong>7. Mức Trả Thưởng&nbsp;</strong></p>
+                    </div>
+                    <input type="text" id="Tien_TB" list="" placeholder="" name="Tien_TB" value="@row2["Tien_TB"]">
+                    <div class="form-group mb-3">
+                        <p><strong>8. Hình Ảnh Hợp Đồng&nbsp;</strong><span class="text-danger">*</span></p>
+                    </div>
+
+                    <div class="form-group mb-3 upload-section">
+                        <!-- First Image Upload -->
+                        <input type="file" id="imageUpload1" accept="image/*" multiple hidden>
+                        <button type="button" onclick="document.getElementById('imageUpload1').click();"><i class="fa fa-camera"></i></button>
+                        <div id="preview1">
+                            @if (!String.IsNullOrEmpty(hinh1))
+                            {
+                                <img src="data:image/png;base64,@hinh1" alt="Image 1" style="width: 100px; height: auto;" data-clickable="true" />
+                            }
+                        </div>
+
+                        <!-- Second Image Upload -->
+                        <input type="file" id="imageUpload2" accept="image/*" multiple hidden>
+                        <button type="button" onclick="document.getElementById('imageUpload2').click();"><i class="fa fa-camera"></i></button>
+                        <div id="preview2">
+                            @if (!String.IsNullOrEmpty(hinh2))
+                            {
+                                <img src="data:image/png;base64,@hinh2" alt="Image 2" style="width: 100px; height: auto;" data-clickable="true" />
+                            }
+
+                        </div>
+
+                        <!-- Third Image Upload -->
+                        <input type="file" id="imageUpload3" accept="image/*" multiple hidden>
+                        <button type="button" onclick="document.getElementById('imageUpload3').click();"><i class="fa fa-camera"></i></button>
+                        <div id="preview3">
+                            @if (!String.IsNullOrEmpty(hinh3))
+                            {
+                                <img src="data:image/png;base64,@hinh3" alt="Image 3" style="width: 100px; height: auto;" data-clickable="true" />
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <p><strong>9. Sản Phẩm Trả Thưởng&nbsp;</strong><span class="text-danger">*</span></p>
+
+                    </div>
+                    <div class="checkbox-wrapper-1">
+                        <input id="example-1" onclick="handleCheckbox(this)" class="substituted" type="checkbox" aria-hidden="true" value="@row2["Option_1"]" />
+                        <label for="example-1">Option 1</label>
+
+                        <input id="example-2" class="substituted" type="checkbox" aria-hidden="true" value="@row2["Option_2"]" />
+                        <label for="example-2">Option 2</label>
+                    </div>
+                }
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Mã SP Thưởng</th>
+                            <th>Tên SP Thưởng </th>
+
+                            <th>Đơn Giá</th>
+                            <th>Số Lượng </th>
+                            <th>Xóa</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row2 in Model.Tables[1].Rows)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="text" name="Ma_vt" id="Ma_vt" list="dropdownListVT" placeholder="Tìm kiếm danh mục" value="@row2["Ma_Vt"]">
+                                    <datalist id="dropdownListVT">
+                                        @foreach (var item in ViewBag.DataItems2)
+                                        {
+                                            <option value="@item.Ma_vt" data-ten="@item.Ten_Vt" data-Dvt="@item.Dvt">@item.Ten_Vt</option>
+                                        }
+                                    </datalist>
+                                </td>
+                                <td> <input name="Ten_Vt" id="Ten_Vt" readonly value="@row2["Ten_Vt"]"></td>
+                                <td> <input name="Dvt" id="Dvt" readonly value="@row2["Dvt"]"></td>
+                                <td><input type="text" name="So_luong" value="@row2["So_luong"]" class="han-muc-input" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\')" /></td>
+
+                                @*
+                                    <td><button class="deleteRowBtn">Xóa</button></td>*@
+                            </tr>
+                        }
+                    </tbody>
+
+                    <tr>
+                        <td colspan="2" style="text-align: right;"><strong>Tổng:</strong></td>
+                        <td id="totalAmount" colspan="2">0</td>
+                        <td> <!-- Cột dành cho nút Xóa nếu cần --></td>
+                    </tr>
+                </table>
+                <label id="warning" style="color: red;"></label>
+                <button type="button" id="addRowBtn" hidden>Thêm dòng</button>
+                <button class="submit" type="submit" id="SaveCtV">Lưu</button>
+
+            </form>
+
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/Application-Form-1.js"></script>
+    <script src="/assets/js/Application-Form.js"></script>
+    <script src="/assets/js/script.js"></script>
+    @*</ng->
+        <script src="/assets/js/script.js"></script>*@
+
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = options[i].getAttribute("data-ten");
+                    break;
+                }
+            }
+        });
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.text.toString();
+
+                        var selectedDvcs = selectedOption.getAttribute('data-Dvcs');
+
+                        document.cookie = 'Ten_Dt= ' + encodeURIComponent(tenDt);
+
+                        document.cookie = 'Dvcs=' + selectedDvcs;
+
+                    }
+                });
+            }
+        });
+
+        /* danh muc vat tu*/
+
+        document.getElementById("Ma_vt").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownListVT option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("Ten_Vt").value = options[i].getAttribute("data-ten");
+                    document.getElementById("Dvt").value = options[i].getAttribute("data-Dvt");
+                    break;
+                }
+            }
+        });
+
+
+        document.getElementById("Ma_SP").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownListSP option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("Ten_SP").value = options[i].getAttribute("data-ten");
+                    break;
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var Ten_Vt = selectedOption.text.toString();
+
+
+                        document.cookie = 'Ten_Vt= ' + encodeURIComponent(Ten_Vt);
+
+
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Function to repopulate dropdownListVT
+            function populateDropdownListVT() {
+                var dropdownListVT = $('#dropdownListVT');
+                dropdownListVT.empty();
+
+                var dataItems2 = @Html.Raw(Json.Encode(ViewBag.DataItems2));
+                dataItems2.forEach(function (item) {
+                    var option = $('<option>').val(item.Ma_vt).attr('data-ten', item.Ten_Vt).attr('data-Dvt', item.Dvt).text(item.Ten_Vt);
+                    dropdownListVT.append(option);
+                });
+            }
+
+            $('#addRowBtn').click(function () {
+                var newRow = '<tr>' +
+                    '<td><input type="text" name="Ma_vt" style="width: 170px"  class="ma-vt-input" list="dropdownListVT" /></td>' +
+                    '<td><input type="text" name="Ten_Vt" class="ten-vt-input" readonly /></td>' +
+                    '<td><input type="text" name="Dvt"style="text-align:right" class="Dvt-input" readonly /></td>' +
+                    '<td><input type="text" name="So_luong" class="han-muc-input" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\')" /></td>' +
+                    '<td><button class="deleteRowBtn">Xóa</button></td>' +
+                    '</tr>';
+                $('#example tbody').append(newRow);
+
+                // Call the function to recreate the dropdownListVT
+                populateDropdownListVT();
+            });
+
+            $(document).on('input', '.ma-vt-input', function () {
+                var inputValue = $(this).val();
+                var tenVtInput = $(this).closest('tr').find('.ten-vt-input');
+                var DvtInput = $(this).closest('tr').find('.Dvt-input');
+                // Find the corresponding option in dropdownListVT
+                var option = $('#dropdownListVT option[value="' + inputValue + '"]');
+
+                if (option.length > 0) {
+                    // Update the Ten_vt input with the data-ten attribute of the selected option
+                    tenVtInput.val(option.attr('data-ten'));
+                    DvtInput.val(option.attr('data-Dvt'));
+                } else {
+                    tenVtInput.val('');
+                }
+            });
+
+            $(document).on('click', '.deleteRowBtn', function () {
+                $(this).closest('tr').remove();
+
+                // Call the function to recreate the dropdownListVT after deleting a row
+                populateDropdownListVT();
+            });
+        });
+
+        function SaveCtV(data) {
+            return $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/SPTrungBay/SaveUpdate",
+                data: data,
+                success: function (result) {
+                    alert(result);
+                    window.location.href = '/SPTrungBay/Index';
+
+                    //console.log(data);
+                },
+                error:
+                    function () {
+                        alert("Hãy kiểm tra lại các thông tin!");
+                    }
+
+            });
+        }
+
+        function resizeImage(imgElement, maxWidth, maxHeight, quality, callback) {
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext("2d");
+            var width = imgElement.naturalWidth;
+            var height = imgElement.naturalHeight;
+
+            if (width > height) {
+                if (width > maxWidth) {
+                    height *= maxWidth / width;
+                    width = maxWidth;
+                }
+            } else {
+                if (height > maxHeight) {
+                    width *= maxHeight / height;
+                    height = maxHeight;
+                }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(imgElement, 0, 0, width, height);
+            canvas.toBlob(function (blob) {
+                var reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = function () {
+                    callback(reader.result);
+                }
+            }, 'image/jpeg', quality);
+        }
+
+        function getBase64Image(imgElement, callback) {
+            var maxWidth = 800;
+            var maxHeight = 800;
+            var quality = 0.7;
+
+            resizeImage(imgElement, maxWidth, maxHeight, quality, function (resizedDataUrl) {
+                callback(resizedDataUrl);
+            });
+        }
+
+        function collectImageData(callback) {
+            var imageData = {};
+            var previews = ['preview1', 'preview2', 'preview3'];
+            var processedCount = 0;
+
+            previews.forEach(function (previewId, index) {
+                var preview = document.getElementById(previewId);
+                var images = preview.getElementsByTagName('img');
+
+                if (images.length > 0) {
+                    getBase64Image(images[0], function (base64Image) {
+                        imageData['Hinh_' + (index + 1)] = base64Image;
+                        processedCount++;
+                        if (processedCount === previews.length) {
+                            callback(imageData);
+                        }
+                    });
+                } else {
+                    imageData['Hinh_' + (index + 1)] = null;
+                    processedCount++;
+                    if (processedCount === previews.length) {
+                        callback(imageData);
+                    }
+                }
+            });
+        }
+        // Kiểm tra trạng thái của checkbox và gán giá trị tương ứng
+        var option1Value = $("#example-1").is(':checked') ? 1 : 0;
+        var option2Value = $("#example-2").is(':checked') ? 1 : 0;
+
+        // Lưu trữ giá trị vào cookies
+        document.cookie = "option_1=" + option1Value;
+        document.cookie = "option_2=" + option2Value;
+        $("#SaveCtV").click(function (e) {
+            e.preventDefault();
+            var warningText = $('#warning').text();
+            if (warningText !== '') {
+                alert('Cannot save: ' + warningText);
+                console.log('Save aborted due to warning.');
+                return;
+            }
+
+            var orderArr = [];
+            orderArr.length = 0;
+            //var soct;
+            //soct = $(this).find('input[name="So_Ct"]').val();
+
+            $("#example tbody tr").each(function () {
+                if (!$(this).is(':hidden')) {
+                    var maVt = $(this).find('input[name="Ma_vt"]').val();
+                    var tenVt = $(this).find('input[name="Ten_Vt"]').val();
+                    var Dvt = $(this).find('input[name="Dvt"]').val();
+                    var hanMuc = $(this).find('input[name="So_luong"]').val();
+                    orderArr.push({
+                        Ma_vt: maVt,
+                        Ten_Vt: tenVt,
+                        Dvt: Dvt,
+                        So_luong: hanMuc
+                    });
+                }
+            });
+
+            var option1Value = $("#example-1").is(':checked') ? 1 : 0;
+            var option2Value = $("#example-2").is(':checked') ? 1 : 0;
+
+            document.cookie = "option_1=" + option1Value;
+            document.cookie = "option_2=" + option2Value;
+
+            collectImageData(function (imageData) {
+                var data = JSON.stringify({
+                    Ngay_Ct: $("#Ngay_Ct").val(),
+                    So_Ct: $("#So_Ct").val(),
+                    Ma_Dt: $("#dropdownInput").val(),
+                    Ten_Dt: $("#selectedOption").val(),
+                    Ngay_Bat_Dau: $("#Ngay_Bat_Dau").val(),
+                    Ngay_Ket_Thuc: $("#Ngay_Ket_Thuc").val(),
+                    Tien_TB: $("#Tien_TB").val(),
+                    Ma_SP: $("#Ma_SP").val(),
+                    Ten_SP: $("#Ten_SP").val(),
+                    Ma_TDV: $("#Ma_TDV").val(),
+                    option_1: option1Value,
+                    option_2: option2Value,
+                    Stt: $("#Stt").val(),
+                    ...imageData,
+                    details: orderArr
+                });
+
+                console.log(data);
+
+                $.when(SaveCtV(data)).then(function (response) {
+                    console.log(response);
+                }).fail(function (err) {
+                    console.error('Error:', err);
+                });
+            });
+        });
+
+        function formatNumber(x) {
+            // Chuyển số thành chuỗi
+            let str = x.toString();
+            // Kiểm tra nếu là số nguyên
+            if (!str.includes(".")) {
+                // Thêm dấu chấm phân cách hàng nghìn cho số nguyên và trả về
+                return str.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            }
+            // Tạo một biến mới để lưu trữ kết quả
+            let result = '';
+            // Duyệt qua từng ký tự của chuỗi
+            for (let i = 0; i < str.length; i++) {
+                // Nếu ký tự hiện tại là số hoặc là dấu trừ (đối với số âm)
+                if (!isNaN(str[i]) || str[i] === '-') {
+                    // Thêm ký tự hiện tại vào kết quả
+                    result += str[i];
+                }
+            }
+            // Trả về kết quả sau khi định dạng
+            let formattedResult = result.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            // Kiểm tra nếu có dấu chấm thập phân và số 0 sau dấu chấm ít hơn 3 số
+            let decimalIndex = formattedResult.indexOf(".");
+            if (decimalIndex !== -1) {
+                let decimalPart = formattedResult.substring(decimalIndex + 1);
+                if (decimalPart.length < 3) {
+                    formattedResult = formattedResult.padEnd(decimalIndex + 4, '0');
+                }
+            }
+            return formattedResult;
+        }
+        function handleCheckbox(checkbox) {
+            var table = document.getElementById('example'); // Lấy bảng có id là 'example'
+            var tbody = table.getElementsByTagName('tbody')[0]; // Lấy phần tbody của bảng
+            // Lưu trữ dòng đầu tiên nếu có thuộc tính bị ẩn
+            var firstRow = tbody.rows[0] && tbody.rows[0].hasAttribute('hidden') ? tbody.rows[0].cloneNode(true) : null;
+
+            // Xóa tất cả hàng trừ hàng đầu tiên có thuộc tính bị ẩn
+            while (tbody.rows.length > 1) {
+                tbody.deleteRow(1);
+            }
+            if (tbody.rows.length === 1 && !tbody.rows[0].hasAttribute('hidden')) {
+                tbody.deleteRow(0);
+            }
+            var dataRows = [
+                { Ma_vt: "1003734", Ten_Vt: "Viên trị ho TUSSIDAY", Dvt: "76000" },
+                { Ma_vt: "1003689", Ten_Vt: "Thuốc ho người lớn OPC", Dvt: "28952" },
+                { Ma_vt: "1003645", Ten_Vt: "CHOLAPAN Viên mật nghệ", Dvt: "42000" },
+                { Ma_vt: "1003675", Ten_Vt: "Viên dưỡng não OP.CAN", Dvt: "28476" },
+                { Ma_vt: "1003784", Ten_Vt: "Vitamin C 500mg", Dvt: "50190" }
+            ];
+
+            // Kiểm tra checkbox nào được chọn và thêm hàng tương ứng
+            if (checkbox.id === "example-1" && checkbox.checked) {
+                document.getElementById("example-2").checked = false; // Uncheck "Option 2" nếu "Option 1" được chọn
+                // Thêm hàng cho "Option 1"
+                var newRow = tbody.insertRow(tbody.rows.length);
+                newRow.innerHTML = '<tr>' +
+                    '<td><input type="text" name="Ma_vt" style="width: 170px" class="ma-vt-input" list="dropdownListVT" value="1006506" readonly /></td>' +
+                    '<td><input type="text" name="Ten_Vt" class="ten-vt-input" value="HoAstex-S" readonly /></td>' +
+                    '<td ><input type="text"style="text-align:right" name="Dvt-original" class="Dvt-input" value="41.429" readonly />' +
+                    '<input type="hidden" name="Dvt" value="' + 41429 + '" />' +
+                    '</td >' +
+
+                    '<td><input type="text" name="So_luong" class="han-muc-input" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\')" /></td>' +
+                    '<td><button class="deleteRowBtn">Xóa</button></td>' +
+                    '</tr>';
+            } else if (checkbox.id === "example-2" && checkbox.checked) {
+                document.getElementById("example-1").checked = false; // Uncheck "Option 1" nếu "Option 2" được chọn
+                // Thêm hàng cho "Option 2"
+                dataRows.forEach(function (rowData) {
+                    var newRow = tbody.insertRow(tbody.rows.length);
+                    var formattedDvt = formatNumber(rowData.Dvt);
+                    newRow.innerHTML = '<tr>' +
+                        '<td><input type="text" name="Ma_vt" style="width: 170px" class="ma-vt-input" value="' + rowData.Ma_vt + '" readonly /></td>' +
+                        '<td><input type="text" name="Ten_Vt" class="ten-vt-input" value="' + rowData.Ten_Vt + '" readonly /></td>' +
+                        '<td>' +
+                        '<input type="text" name="Dvt_original" style="width: 100%;text-align:right" class="Dvt-input" value="' + formattedDvt + '" readonly />' +
+                        '<input type="hidden" name="Dvt" value="' + rowData.Dvt + '" />' +
+                        '</td>' +
+                        '<td><input type="text" name="So_luong" class="han-muc-input" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\')" /></td>' +
+                        '<td><button class="deleteRowBtn">Xóa</button></td>' +
+                        '</tr>';
+                });
+
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var checkboxes = document.querySelectorAll('.substituted');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener('click', function () {
+                    handleCheckbox(this);
+                });
+            });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            function numberWithCommas(x) {
+                // Chuyển số thành chuỗi
+                let str = x.toString();
+
+                // Tách phần nguyên và phần thập phân
+                let parts = str.split(".");
+
+                // Định dạng phần nguyên với dấu phẩy
+                let formattedInteger = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+                // Nếu có phần thập phân, thì nối phần nguyên đã định dạng với phần thập phân
+                if (parts.length > 1) {
+                    return formattedInteger + "." + parts[1];
+                }
+
+                // Nếu không có phần thập phân, trả về phần nguyên đã định dạng
+                return formattedInteger;
+            }
+
+            function calculateTotal() {
+                var total = 0;
+                var isQuantityOver4 = false;
+
+                $("#example tbody tr").each(function () {
+                    var Dvt = parseFloat(($(this).find('input[name="Dvt"]').val() || '').replace(/,/g, ''));
+                    var So_luong = $(this).find('input[name="So_luong"]').val();
+
+                    console.log("Dvt", Dvt);
+                    /* console.log("SoLuong", So_luong);*/
+
+                    if (!isNaN(Dvt) && !isNaN(So_luong)) {
+                        total += Dvt * So_luong;
+
+                        if (So_luong > 4) {
+                            isQuantityOver4 = true;
+                        }
+                    }
+                });
+
+                console.log("Total là:", total);
+                $('#totalAmount').text(numberWithCommas(total));
+
+                if (total > 155000 && $('#example-2').is(':checked')) {
+                    $('#warning').text('Đã Vượt Quá Số Tiền Cho Phép');
+                } else if (isQuantityOver4 && $('#example-1').is(':checked')) {
+                    $('#warning').text('Số lượng không được vượt quá 4');
+                } else {
+                    $('#warning').text('');
+                }
+            }
+
+            // Gắn sự kiện tính toán tổng cho sự thay đổi ở Đơn giá hoặc Số lượng
+            $(document).on('input', 'input[name="Dvt"], input[name="So_luong"]', function () {
+                calculateTotal();
+            });
+
+            // Gắn sự kiện tính toán tổng cho sự thay đổi ở các checkbox
+            $('.substituted').on('change', function () {
+                calculateTotal();
+            });
+        });
+    </script>
+
+
+    <script>
+        function handleFileUpload(inputId, previewId) {
+            var input = document.getElementById(inputId);
+            var preview = document.getElementById(previewId);
+
+            input.addEventListener('change', function () {
+                var files = this.files;
+                preview.innerHTML = ''; // Clear existing images
+
+                if (files.length > 3) {
+                    alert('Bạn chỉ có thể tải lên tối đa 3 hình ảnh.');
+                    return;
+                }
+
+                Array.from(files).forEach(file => {
+                    var imgElement = document.createElement('img');
+                    imgElement.style.width = '100px'; // Set the width of the image
+                    imgElement.style.height = '100px'; // Set the height of the image
+                    imgElement.style.marginRight = '10px'; // Add some space between images
+                    imgElement.src = URL.createObjectURL(file);
+                    preview.appendChild(imgElement);
+                });
+            });
+        }
+
+        // Initialize handlers for each upload
+        document.addEventListener('DOMContentLoaded', function () {
+            handleFileUpload('imageUpload1', 'preview1');
+            handleFileUpload('imageUpload2', 'preview2');
+            handleFileUpload('imageUpload3', 'preview3');
+        });
+
+
+    </script>
+
+
+</body>
+
+
+</html>

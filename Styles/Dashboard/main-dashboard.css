@@ -1,0 +1,863 @@
+﻿* {
+    font-family: 'Times New Roman',sans-serif;
+    box-sizing: border-box;
+    
+}
+body {
+   
+}
+
+.main-container .header {
+    height: 70px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: #3f5161;
+
+  
+   
+}
+.left-sidebar{
+
+    top:0;
+  float:left;
+    font-family: Tahoma,sans-serif;
+    height:100%;
+    z-index:1000;
+  
+}
+nav button .sidebar-title div, nav .submenu-container.submenu-btn {
+    font-size: 15px;
+}
+.main-container {
+    height: 100%;
+    width: calc(100%-270px);
+    background-color: #ecf0f4;
+    position: sticky;
+}
+
+.main-container .header .header-left{
+
+    width:50%;
+    float:left;
+   height:100%;
+   padding-top:15px;
+   padding-left:10px;
+   display:flex;
+}
+    .main-container .header .header-right{
+     
+      
+        padding-top:10px;
+        padding-right:20px;
+        width:50%;
+        float:right;
+        height:100%;
+       text-align:right
+    }
+        .main-container .header .header-right .welcome-txt{
+            
+            font-size:14px;
+          font-weight:bold;
+            font-family: 'Times New Roman', Times, serif;
+            color:darkgray;
+        }
+        .main-container .header .header-right .user-txt {
+            font-size: 20px;
+            font-weight: bold;
+            padding-left: 40px;
+            color: white;
+        }
+            .main-container.active {
+                width: 100%;
+                left: 0;
+                background-color: yellow;
+            }
+    .main-container .main-content {
+        padding: 10px;
+        width: 100%;
+        height: max-content;
+    }
+.header-left i {
+    font-size: 40px;
+    color: #3483bd;
+    cursor:pointer;
+}
+.header-left span {
+    color: #3483bd;
+    font-size: 30px;
+    font-family: 'Inter',sans-serif;
+    font-weight: bold;
+    padding-top:5px;
+
+}
+.logo-content{
+  
+}
+.logo-details {
+    background-color:lightcoral;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    overflow: hidden;
+   
+}
+
+
+    .logo-content.hide {
+      display:none;
+    }
+.logo-image {
+    height: 70px;
+    width: 70px;
+    margin-left: 10px;
+}
+.logo_name {
+    color: #da261f;
+    font-family: 'Agency FB';
+    font-size: 60px;
+    padding-left: 15px;
+   
+    
+}
+#sidebar {
+    border-top: 1px solid black;
+    height: 100%;
+    width: 100%;
+    background-color: #3f5161;
+    /*    padding-top: 20px;*/
+    color: white;
+    overflow-y: auto;
+}
+
+    #sidebar a {
+    
+        padding: 15px 20px;
+        text-decoration: none;
+        font-size: 15px;
+        color: white;
+        display: block;
+        border-left: 4px solid transparent;
+        border-radius: 10px; 
+    }
+
+        #sidebar a:hover {
+            border-left-color: cyan;
+            background-color: #427cac;
+        }
+
+.dropdown-btn, .submenu-btn {
+    padding: 15px 20px;
+    font-size: 15px;
+    background-color: #3f5161;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    display:flex;
+}
+.dropdown-btn {
+    border-radius:10px;
+    display: flex;
+    border-left: 4px solid transparent;
+}
+.dropdown-btn:hover {
+    border-left-color: cyan;
+}
+.dropdown-container, .submenu-container {
+    display: none;
+   
+   /* padding-left: 20px;*/
+    border-radius:5px;
+}
+#submenu1_1{
+    border: 3px solid yellow;
+}
+#submenu1_2 {
+    border: 3px solid lawngreen;
+}
+#submenu1_3 {
+    border: 3px solid orangered;
+}
+#submenu1_4 {
+    border: 3px solid mediumpurple;
+}
+#submenu1_5 {
+    border: 3px solid deepskyblue;
+}
+#submenu1_6 {
+    border: 3px solid lightgray;
+}
+#submenu1_7 {
+    border: 3px solid deeppink;
+}
+#submenu1_8 {
+    border: 3px solid #46fff4;
+}
+.submenu-container {
+    background-color: #3f5161;
+  
+}
+.submenu-container .color1{
+    width:8px;
+    height:50px;
+    background-color:yellow;
+    margin-left:0;
+}
+    .submenu-container .color2 {
+        width: 8px;
+        height: 50px;
+        background-color: lawngreen;
+    }
+    .submenu-container .color3 {
+        width: 8px;
+        height: 50px;
+        background-color: orangered;
+    }
+    .submenu-container .color4 {
+        width: 8px;
+        height: 50px;
+        background-color: mediumpurple;
+    }
+    .submenu-container .color5 {
+        width: 8px;
+        height: 50px;
+        background-color: deepskyblue;
+    }
+    .submenu-container .color6 {
+        width: 8px;
+        height: 50px;
+        background-color: lightgray;
+    }
+    .submenu-container .color7 {
+        width: 8px;
+        height: 50px;
+        background-color: deeppink;
+    }
+    .submenu-container .color8 {
+        width: 8px;
+        height: 50px;
+        background-color: #46fff4;
+    }
+.submenu-btn:hover{
+    border-left-color:cyan;
+}
+.submenu-btn {
+    border-radius: 5px;
+    border-left: 4px solid transparent;
+    border-radius: 10px;
+}
+.submenu-content a {
+    padding: 15px 20px;
+    text-decoration: none;
+    display: block;
+    color: white;
+   
+}
+
+    .submenu-content a:hover {
+        background-color: #427cac;
+    }
+.sub-menu{
+    background-color:blue;
+}
+button:hover {
+    background-color: #427cac;
+}
+.sidebar-title{
+    display:flex;
+}
+.sidebar-title div{
+  margin-left:20px;
+  font-size:15px;
+
+}
+.dropdown-btn  .icon-arrow{
+margin-left:60px;
+font-size:18px;
+}
+.dropdown-btn .icon-arrow-2 {
+    margin-left: 74px;
+    font-size: 18px;
+}
+.dropdown-btn .icon-arrow-3 {
+    margin-left: 48px;
+    font-size: 18px;
+}  
+.subicon-arrow{
+margin-left:10px;
+}
+.active {
+    display: none;
+
+
+    /* hoặc bất kỳ thuộc tính hiển thị nào bạn muốn áp dụng khi sidebar bị đóng */
+}
+body {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: #ecf0f4;
+}
+
+
+nav {
+    display: flex;
+  
+    flex-wrap: wrap;
+    align-items: start;
+    position: fixed;
+
+    height: 100%;
+    min-height: 350px;
+    color: white;
+    background-color:yellow;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 10px;
+    transition: ease-in 0.2s;
+
+}
+
+    nav.hide {
+        width: 0;
+    }
+
+    nav span {
+        width: 100%;
+        background-color: #aec9e0;
+        padding-top: 10px;
+        font-size: 28px;
+        font-weight: 800;
+        overflow: hidden;
+
+    }
+.left-sidebar .nav-links {
+    max-height: 100%; /* Đảm bảo phần nội dung không vượt quá chiều cao của màn hình */
+    overflow-y: auto;
+}
+.sidebar-menu {
+    background-color:pink;
+    height:100%;
+    position:fixed;
+    width: 200px;
+    list-style: none;
+    overflow: hidden;
+    overflow-y:scroll;
+}
+
+    .sidebar-menu .item {
+      
+    
+       height:40px;
+       
+   
+    }
+        .sidebar-menu .item a{
+            display:flex;
+        }
+        /* .sidebar-menu li a:hover {
+                color: rgb(45, 209, 67);
+                border: 1px solid white;
+            }
+
+            .sidebar-menu li a i {
+                margin: 0 18px;
+                width: 20px;
+            }*/
+        #toggle-btn {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 18px;
+            right: -39px;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            background-color: #3483bd;
+            border-radius: 0 7px 7px 0;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: linear 0.2s;
+        }
+
+    #toggle-btn:hover {
+        background: rgba(52, 138, 189, 0.653);
+        color: white;
+    }
+    .table .title-table{
+        text-align:center;
+        font-weight:bold;
+        color:black;
+        font-size:20px;
+    }
+section {
+  /* padding-left:270px;*/
+    align-items: flex-start;
+    position: absolute;
+    top: 0;
+    left: 270px;
+    height: 100vh;
+   
+    z-index:1;
+    transition: ease-in 0.3s;
+
+}
+
+    section.expand {
+       /* padding-left:0;*/
+        width: 100%;
+        left: 0;
+    }
+
+    section h1 {
+        color: rgb(0, 0, 0);
+        font-size: 32px;
+        text-align: center;
+    }
+
+        section h1.dark-mode {
+            color: white;
+        }
+
+.main-content .box {
+  
+  /*  flex-direction: column;*/
+    text-align: center;
+    margin: 0px 30px 0px 30px;
+}
+    .main-content .box .box-1 {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        /*text-align:center;*/
+    /*    height: 100%;*/
+        background: radial-gradient(circle at top left, #74b3f9 50%, #60a8fc 50%);
+        margin-bottom: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        color: white;
+    }
+  
+.main-content .box .box-4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+/*    height: 100%;*/
+    background: radial-gradient(circle at top left, #9294ff 50%, #7c88ff 50%);
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    color: white;
+}
+.main-content .box .box-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  /*  height: 100%;*/
+    background: radial-gradient(circle at top left, #65e7c0 50%, #4ddbab 50%);
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    color: white;
+}
+.main-content .box .box-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   /* height: 100%;*/
+    background: radial-gradient(circle at top left, #f38eae 50%, #f37d9f 50%);
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    color: white;
+}
+.line-chart{
+/*    width:70%;*/
+    padding:10px;
+    background-color:white;
+/*    float:right;*/
+    border-radius:10px
+}
+.row-chart{
+ background-color:blue;
+ margin-top:20px;
+width:100%;
+
+
+}
+.pie {
+    height: 90%;
+
+    width: 100%;
+ flex-direction:column;
+    justify-content:center;
+}
+#myPieChart{
+    width:400px;
+   position:relative;
+    text-align:center;
+   justify-content:center;
+ top:0;
+/* left:30%;*/
+}
+#myPieChart2 {
+    width: 400px;
+    position: relative;
+    text-align: center;
+    justify-content: center;
+    top: 0;
+  /*  left: 30%;*/
+}
+#gaugeChart1 {
+    height: 100%;
+    width: 100%;
+}
+
+#gaugeChart2 {
+    height: 50%;
+    width: 100%;
+   
+
+    border-radius:10px;
+}
+#gaugeChart3 {
+    height: 50%;
+    width: 50%;
+}
+.top {
+    height:50%;
+    margin-bottom:10px;
+    background-color:white;
+    border-radius:10px;
+}
+.bottom{
+    background-color:white;
+    height:50%;
+   display:flex;
+    justify-content:center;
+    border-radius:10px;
+}
+.top h5 {
+    font-size: 20px;
+    text-align: center
+}
+.bottom h5{
+    font-size:20px;
+    text-align:center
+}
+    .row-chart .chart-1 {
+        
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        background-color: white;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        justify-content: center;
+        /* width:220px;*/
+        height: 300px;
+    }
+    .column-charts{
+        flex-direction:column;
+        height:100%;
+
+    }
+    .row-chart .chart-2 {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        background-color: white;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        justify-content: center;
+        /* width: 220px;*/
+        height: 400px;
+    }
+    .row-chart .chart-3 {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        background-color: white;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        justify-content: center;
+        /* width: 220px;*/
+        height: 300px;
+    }
+
+.row-table{
+    margin-top:20px;
+    padding:10px;
+    width:100%;
+    height:500px;
+}
+    .row-table .table {
+        background-color: white;
+        border-radius: 10px;
+        /*   width:100%;*/
+        height: max-content;
+    }
+.table {
+    padding: 10px;
+    width: 100%;
+    height:100%;
+    /*   border-collapse: collapse;*/
+    /* width: 100%;*/
+    
+}
+table{
+   width:100%;
+  /* height:100%;*/
+   height:400px;
+}
+thead {
+    background-color: #3f5161;
+    color:white;
+}
+
+thead, tbody, tfoot {
+    border: 1px solid #dddddd;
+    
+}
+tbody tr{
+    margin-bottom:10px;
+   
+}
+td {
+    width: 10px;
+}
+tbody{
+    font-size:18px;
+    padding:20px 0 20px 0;
+}
+/*th, td {
+    padding: 8px;
+    text-align: left;
+}*/
+
+tfoot {
+    font-weight: bold;
+    background-color: #e6e6e6;
+}
+
+    tfoot td {
+        border-top: 2px solid #dddddd;
+    }
+    .row-chart-1{
+       /* display:flex;*/
+   
+        height:max-content;
+    }
+    .row-chart-1 .line-chart{
+       /* width:70%;*/
+    }
+.row-chart-1 .percent-chart {
+    padding: 10px;
+  /*  width:30%;*/
+}
+.row-chart-2{
+
+    margin-top:20px;
+    margin-bottom:20px;
+   
+   
+    height:max-content;
+}
+    .row-chart-2 .left-chart {
+      /*  width: 70%;*/
+        height: 100%;
+        border-radius: 10px;
+        padding:10px;
+    }
+#revenueChart{
+    border-radius:10px;
+}
+#container{
+    border-radius:10px;
+}
+.row-chart-2 .right-chart {
+   /* width:40%;*/
+  /*  height:100%;*/
+    border-radius:10px;
+    padding:10px;
+}
+.mobile-menu-overlay{
+    position:fixed;
+    left:0;
+    top:0;
+    width:100%;height:100%;
+    background:black;
+    opacity:.6;
+    z-index:123;
+    background-size:20px;
+    background-position:98% 15px;
+}
+.table2-data.even {
+    background-color: white; /* Màu trắng cho các dòng chẵn */
+}
+
+.table2-data.odd {
+    background-color: #f2f2f2; /* Màu xám cho các dòng lẻ */
+}
+.row-chart-3{
+    height:200px;
+    width:100%;
+    justify-content:space-between;
+}
+.row-chart-3 .row-table .left .pie{
+    height:100%;
+    border-radius: 10px;
+    background-color:white;
+
+}
+.row-chart-3 .row-table .left{
+    height:200px;
+}
+    .row-chart-3 .row-table .right{
+        height:200px;
+    }
+    .row-chart-3 .row-table .right .pie {
+        height: 100%;
+        border-radius: 10px;
+        background-color: white;
+    }
+    .line-chart{
+        margin:10px;   
+    }
+    .madvcs {
+   color:white;
+   font-size:15px;
+  cursor:pointer;
+
+}
+    .madvcs :hover{
+        text-decoration:underline;
+    }
+/* Style the modal */
+.modal {
+    display: none; /* Ẩn modal ban đầu */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* màu nền và mức độ trong suốt */
+    backdrop-filter: blur(5px); /* Tạo hiệu ứng làm mờ nền */
+}
+
+/* Style the modal content */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: none;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+}
+
+    .modal-content .body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+/* Style the close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu */
+}
+
+    .close:hover,
+    .close:focus {
+        color: #333;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+/* Style the company name */
+.body > div:first-child {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Style the select button */
+.select-btn {
+    margin-bottom: 20px;
+}
+
+    .select-btn select {
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+/* Style the accept button */
+.accept-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .accept-btn:hover {
+        background-color: #0056b3;
+    }
+
+/* Style the button container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Style the accept button */
+.accept-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+    .accept-btn:hover {
+        background-color: #0056b3;
+    }
+
+/* Style the cancel button */
+.cancel-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .cancel-btn:hover {
+        background-color: #c82333;
+    }
+.select-btn2 {
+    position: relative;
+   
+}

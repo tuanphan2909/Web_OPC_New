@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<!-- login form -->
+<html>
+<head>
+    <title>Login</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    @*<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+    <link rel="stylesheet" type="text/css" href="~/Styles/login.css">
+    <style>
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*padding: 0 2rem;*/
+        }
+    </style>
+</head>
+<body class="body-tdv">
+    <div class="loader" style="z-index:1"></div>
+    <img class="wave" src="~/Images/backgroundTDV.jpg" style="width:100%">
+    <div class="container" style="display:flex;flex-direction:column">
+
+        <div class="login-content">
+            <form action="Verify_TDV" method="post" class="signin-form">
+
+                <h2 class="title">LOGIN TDV</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+
+                    <div class="div">
+                        <input placeholder="Username" type="text" class="input" name="Name" id="Name">
+
+                    </div>
+
+                </div>
+
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        <input placeholder="Password" type="password" class="input" name="Password">
+                    </div>
+                </div>
+                <div class="select-menu">
+                    <div class="select-btn">
+                        <select name="Ma_DvCs">
+                            <option value="A01">Công Ty Cổ Phần Dược Phẩm OPC</option>
+                            <option value="A02">CN Hồ Chí Minh</option>
+                            <option value="A03">CN Cần Thơ</option>
+                            <option value="A04">CN Tiền Giang</option>
+                            <option value="A05">CN Miền Đông</option>
+                            <option value="A06">CN Vũng Tàu</option>
+                            <option value="A07">CN Nha Trang</option> 
+                            <option value="A08">CN Đà Nẵng</option>
+                            <option value="A09">CN Nghệ An</option>
+                            <option value="A10">CN Hà Nội</option>
+                        </select>
+                    </div>
+                </div>
+                <a class="forgot-tdv"href="#">Forgot Password?</a>
+                <input type="submit" class="btn-tdv" value="Login" onclick="saveName()">
+                <div style="text-align:center"> <h4 id="wrong_pass" style="color:red"></h4></div>
+            </form>
+
+        </div>
+       
+    </div>
+
+</body>
+</html>
+@if (ViewBag.Message != null)
+{
+    <script>
+        document.getElementById("wrong_pass").innerHTML = "@ViewBag.Message";
+          var message = "@ViewBag.Message";
+
+    // Kiểm tra xem ViewBag.Message có khác rỗng hay không
+    if (message.trim() !== "") {
+        // Gọi hàm hiển thị thông báo lỗi
+        displayAlert(message);
+    }
+    </script>
+}
+
+<script>
+    function saveName() {
+        var nameInput = document.getElementById("Name");
+        var nameValue = nameInput.value;
+        localStorage.setItem("username", nameValue);
+        showLoader();
+        return true; // Cho phép form submit
+    }
+    function displayAlert(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return false;
+    }
+    function showLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.remove("loader-hidden");
+    }
+
+    // Function to hide the loader
+    function hideLoader() {
+        const loader = document.querySelector(".loader");
+        loader.classList.add("loader-hidden");
+    }
+    window.addEventListener("load", () => {
+        // Hide the loader after the page is loaded
+        hideLoader();
+
+    });
+</script>
+
+
+
+

@@ -1,0 +1,599 @@
+﻿
+
+@{ ViewBag.Title = "BIÊN BẢN BÀN GIAO VÀ NGHIỆM THU HÀNG HÓA";
+    string ten_dt = Request.Cookies["ten_dt"] != null ? HttpUtility.UrlDecode(Request.Cookies["ten_dt"].Value) : "";
+    var soCtFromUrl = Request.QueryString["So_Ct"];
+
+}
+@using System.Data;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>BIÊN BẢN BÀN GIAO VÀ NGHIỆM THU HÀNG HÓA</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Times New Roman';
+        }
+
+        page {
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            /*  align-items: center;*/
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            /*                text-align: center;*/
+            padding: 20px;
+            border: 0px solid #ccc;
+            border: none;
+        }
+
+        .flex-container {
+            text-align: left;
+        }
+
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            font-weight: bold;
+            color: black;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            font-size: 12px
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            justify-content:;
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            /*height: 50px;
+            width: 100px;*/
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: fixed;
+            height: 100%;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h5 {
+            /*text-align: center;*/
+            font-size: 15px;
+        }
+
+        .text-loading {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 13px;
+            color: black;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9); /* Background color for the span */
+            padding: 5px 10px;
+            display: none; /* Hide the span element initially */
+        }
+
+        .expandable-icon {
+            cursor: pointer;
+        }
+
+            .expandable-icon.collapsed {
+                transform: rotate(0deg);
+            }
+
+            .expandable-icon.expanded {
+                transform: rotate(180deg);
+            }
+
+        .material-symbols-outlined {
+            cursor: pointer;
+        }
+        /* Style for the container of the forms */
+        .forms-container {
+            display: flex;
+        }
+
+        /* Style for the locBC form */
+        .locBC-form {
+            width: 300px; /* Adjust width as needed */
+            margin-right: 20px; /* Add space between forms */
+        }
+
+        /* Style for the data form */
+        .data-form {
+            flex: 1; /* Take up remaining space */
+        }
+
+        .print-button {
+            margin-top: 10px;
+        }
+
+        @@media print {
+            #locBC {
+                display: none;
+            }
+
+            #data-form {
+                justify-content: center;
+                /*  align-items: center;*/
+                min-height: 100vh;
+                margin: 0; /* Canh giữa nội dung trong data-form */
+            }
+
+            h5 {
+                text-align: center;
+                font-size: 15px;
+            }
+
+            #data-form .print-button {
+                display: none;
+            }
+        }
+
+        img {
+            width: 70px;
+            height: 40px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-input {
+            margin-right: 5px;
+        }
+        .checkbox-box {
+            width: 15px;
+            height: 15px;
+            border: 1px solid black;
+            margin-left: 5px;
+            
+        }
+        tr {
+            page-break-inside: avoid; /* Tránh chuyển trang giữa các dòng */
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="forms-container">
+
+
+
+        <div class="forms-container">
+            <form class="data-form" id="data-form">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div style=" display: flex; justify-content: space-between; align-items: center;text-align:left">
+
+                        <div style="text-align: center;">
+                            <h3 style="font-size: 13px;">SỞ Y TẾ TỈNH AN GIANG</h3>
+                            <h3 style="font-size: 13px;">BVĐK TRUNG TÂM AN GIANG</h3>
+                            <br />
+                        </div>
+
+
+                    </div>
+                    <div style="text-align:right;color:black">
+                        <h5>Cộng Hòa Xã Hội Chủ Nghĩa Việt Nam</h5>
+                        <h5 style="text-align:center">Độc lập - Tự do - Hạnh Phúc</h5>
+                        <h5 style="text-align:center">-------------------------------------</h5>
+                    </div>
+                </div>
+                <br />
+                <div>
+                    <h3 style="font-size: 25px; color: black; font-weight: bold">BIÊN BẢN BÀN GIAO VÀ NGHIỆM THU HÀNG HÓA</h3>
+                    <h5 style="text-align:center;color:black;font-weight:bold">(V/v Cung cấp thuốc, hóa chất, vật tư y tế)</h5>
+                    <br />
+                </div>
+
+                <div style="justify-content:start;display:flex">
+                    <div style="text-align: left;width:700px;display:flex">
+                        <h5 style="color: black; font-weight: bold; color: #9d0000; word-wrap: break-word;text-align:left ">Căn cứ theo hợp đồng số 591/2023/HĐ-BVAG ngày 03/10/2023 về việc Mua bán giữa các cơ sở y tế và nhà thầu trúng thầu.</h5>
+                    </div>
+
+                </div>
+                <h5 style="color:black;text-align:left;margin-left:30px" id="currentTime"></h5>
+
+                <div style="width:700px;justify-content:start;margin-top:10px;color:black;">
+                    <div style="word-wrap:break-word">
+                        <h5 style="text-align:left;color:black;font-weight:bold;font-size:17px">BÊN A: @Request.Cookies["Ten_DT"].Value</h5>
+                        <h5 style="text-align: left">Địa chỉ: @Request.Cookies["Dia_Chi"].Value</h5>
+                        <div style="display:flex;text-align:left;"><h5>Điện thoại: (0296) 3853747</h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h5>Fax:</h5></div>
+                        <h5 style="text-align:left">Tài khoản số:</h5>
+                        <h5 style="text-align:left">Tại:</h5>
+                        <h5 style="text-align:left">Mã số thuế: 1600258404</h5>
+                        <div style="display:flex;text-align:left"><h5 style="text-align:left;color:#9d0000">Đại diện: Lâm Võ Hùng</h5><h5 style="color:#9d0000;margin-left:150px">Chức vụ: Phó Giám Đốc</h5></div>
+                    </div>
+                </div>
+                <br />
+                <h5 style="text-align:left;color:black;font-weight:bold;font-size:17px">BÊN B: CÔNG TY CỔ PHẦN DƯỢC PHẨM OPC - Chi nhánh Cần Thơ</h5>
+                <h5 style="text-align:left;color:black">Địa chỉ: 1017 Hồng Bàng phường 12, quận 6, TP.HCM</h5>
+                <div style="display:flex;text-align:left"> <h5 style="text-align:left;color:#9d0000">Đại diện: DS.Phạm Thị Xuân Hương</h5><h5 style="color:#9d0000;margin-left:120px">Chức vụ: Tổng Giám Đốc</h5></div>
+                <h5 style="color:black;text-align:left">Ủy quyền ký kết và thực hiện hợp đồng cho: </h5>
+                <h5 style="color:black;font-weight:bold;text-align:left">Công Ty Cổ Phần Dược Phẩm OPC - Chi nhánh Cần Thơ</h5>
+                <h5 style="color:black;text-align:left">Địa chỉ: Số 172, Khu đô thị hai bên đường Nguyễn Văn Cừ, Khu vực 8, Phường An Bình, Quận Ninh Kiều, Thành Phố Cần Thơ.</h5>
+                <div style="text-align:left;display:flex"><h5 style="color:black;text-align:left">Điện thoại: 0292.3837999</h5><h5 style="color:black;margin-left:150px">Fax:</h5></div>
+                <h5 style="color:black;text-align:left">Tài khoản số: 1890201002962 tại Ngân hàng Nông nghiệp và phát triển Nông thôn Việt Nam - CN Cần Thơ II.</h5>
+                <h5 style="color:black;text-align:left">Mã số thuế: 0302560110-006</h5>
+                <div style="text-align:left;display:flex;color:#9d0000"> <h5 style="color: black; text-align: left; font-weight: bold; font-size: 15px; color: #9d0000">Đại diện: DSCKI.Lê Hữu Vũ Linh</h5><h5 style="color: black; margin-left: 120px; color: #9d0000">Chức vụ: Giám Đốc Chi Nhánh</h5></div>
+                <h5 style="color:#9d0000;text-align:left">Giấy Ủy quyền số: 353/HCNS-OPC ngày 11 tháng 08 năm 2023</h5>
+                <br />
+                <h5 style="text-align:left;color:black;width:700px;display:flex">Công Ty Cổ Phần Dược Phẩm OPC - Chi Nhánh Cần Thơ cùng với BVĐK Trung Tâm An Giang tiến hành giao nhận hàng hóa với những nội dung sau: </h5>
+
+
+
+                <div style="margin-top:10px">
+                    <table border="1" border-collapse="collapse" style="width:700px;color:black">
+                        <tr style="font-size:10px;font-weight:bold;color:black">
+                            <th>STT</th>
+                            <th>TÊN HÀNG HÓA, DỊCH VỤ</th>
+                            <th style="padding:10px">ĐVT</th>
+                            <th>SỐ LƯỢNG</th>
+                            <th>ĐƠN GIÁ</th>
+                            <th>THÀNH TIỀN</th>
+                            <th>Hãng SX, Nước SX</th>
+                            <th>Số Lô - Hạn Dùng</th>
+                        </tr>
+                        <tbody>
+                            @{
+                                int stt = 1;
+                                foreach (DataRow row3 in Model.Tables[0].Rows)
+                                {
+                                    var currentSoCt = row3["So_Ct"].ToString();
+                                    if (currentSoCt == soCtFromUrl)
+                                    {
+                                        <tr>
+                                            <td style="text-align:center">@stt</td>
+                                            <td style="text-align:center">@row3["ten_vt"]</td>
+
+                                            <td style="text-align:center">@row3["dvt_HD"]</td>
+                                            <td style="text-align:center">@String.Format("{0:n0}", Convert.ToDecimal(row3["So_Luong_HD"]))</td>
+                                            <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["Gia"]))</td>
+                                            <td style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row3["Tien_TT"]))</td>
+                                            <td style="text-align:center">OPC-VN</td>
+                                            <td style="text-align:center">@row3["so_lo"] - @row3["han_dung"]</td>
+                                        </tr>
+                                        stt++;
+                                    }
+                                }
+                            }
+                        </tbody>
+
+
+                    </table>
+                    <h5 style="color:black;font-weight:bold;margin-left:220px">Cộng:</h5>
+                    <h5 style="color:black;font-weight:bold;margin-left:170px">Thuế VAT(5%):</h5>
+                    <h5 style="color:black;font-weight:bold;margin-left:160px">Trị giá thanh toán:</h5>
+                    <br />
+                    <h5 style="color:black;text-align:left">Bằng chữ:</h5>
+                    <div style="width:700px;word-wrap:break-word;text-align:left">
+                        <h5 style="color:black;text-align:left">- Biên bản giao hàng kèm theo hóa đơn tài chính xuất hàng số: 00026695 ngày 03/10/2023.</h5>
+                        <h5 style="color: black; text-align: left">- Hàng giao đủ số lượng, đúng chủng loại, qui cách, hàm lượng, hạn dùng theo hợp đồng đã ký kết.</h5>
+                        <h5 style="color: black; text-align: left">- Cảm quan: màu sắc, hình dạng nguyên vẹn.</h5>
+                        <div style="display:flex;color:black;text-align:center">
+                            <div style="display:flex;margin-left:50px">
+                                <h5>ĐẠT: </h5>
+                                <div class="checkbox-box"></div>
+                            </div>
+                            <div style="display:flex;margin-left:200px">
+                                <h5> KHÔNG ĐẠT: </h5>
+                                <div class="checkbox-box"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 style="text-align:left;color:black">Biên bản kết thúc lúc: 10 giờ 30 phút cùng ngày.</h5>
+                    <h5 style="text-align:left;color:black">Biên bản lập thành 03 bản, bên Mua giữ 01 bản, bên Bán giữ 01 bản, đều có giá trị như nhau.</h5>
+
+                    <br />
+                    @*<h4 style="margin-left:auto">P. KHCU &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thủ kho&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Xưởng sản xuất</h4>*@
+                    <div style="display:flex">
+                        <h4 style="font-size:14px;color:black">ĐẠI DIỆN BÊN A BÊN MUA</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h4 style="margin-left:50px;font-size:14px;color:black">KHOA DƯỢC</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <h4 style="margin-left:80px;font-size:14px;color:black">ĐẠI DIỆN BÊN B BÊN BÁN</h4>
+                    </div><br />
+
+                    <h5 style="font-weight:bold;text-align:right;color:#d90000">DSCKI.LÊ HỮU VŨ LINH</h5>
+
+                </div>
+
+            </form>
+        </div>
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+        <script>
+            // Lấy đối tượng thẻ h5
+            var h5Element = document.getElementById('currentTime');
+
+            // Tạo đối tượng Date để lấy giờ hiện tại
+            var currentDate = new Date();
+
+            // Format giờ và ngày theo yêu cầu
+            var hours = currentDate.getHours();
+            var minutes = currentDate.getMinutes();
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0
+            var year = currentDate.getFullYear();
+
+            // Hiển thị giờ và ngày trên thẻ h5
+            h5Element.innerText = "Hôm nay lúc: " + (hours < 10 ? '0' : '') + hours + " giờ " + (minutes < 10 ? '0' : '') + minutes + " phút, ngày " + (day < 10 ? '0' : '') + day + " tháng " + (month < 10 ? '0' : '') + month + " năm " + year +", chúng tôi gồm có:";
+        </script>
+
+
+
+</body>
+
+</html>
+

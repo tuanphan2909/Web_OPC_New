@@ -1,0 +1,701 @@
+﻿@model web4.Models.CTV
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Form cộng tác viên</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/Application-Form.css">
+    <style>
+        #dropdownInput, #selectedOption, #Ten_NVPhuKho {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        #dropdownInput {
+            width: 18%; /* Adjust width as needed */
+        }
+
+        #selectedOption, #Ten_NVPhuKho {
+            width: 80%; /* Adjust width as needed */
+        }
+
+        .ma-vt-input,
+        .ten-vt-input,
+        .han-muc-input {
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+            width: 80px; /* Adjust width as needed */
+        }
+
+        .han-muc-input {
+            width: 150px; /* Adjust width as needed */
+        }
+
+        .ten-vt-input {
+            width: 80%;
+        }
+
+        .ma-vt-input {
+            width: 20%;
+        }
+
+        #SaveHD {
+            display: block;
+            margin: 10px auto; /* Center the buttons and add some spacing */
+            padding: 10px 20px; /* Adjust padding as needed */
+            font-size: 16px; /* Adjust font size as needed */
+            background-color: #28a745; /* Green color */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #218838; /* Darker green on hover */
+        }
+        #Ly_do {
+            height: 100px;
+            width: 100%;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block; /* Adjust this value as needed */
+        }
+        .loader-container {
+            position: fixed; /* Full screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            z-index: 9999; /* Make sure it's on top */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1 class="text-center text-capitalize">Theo dõi giao hàng</h1>
+        <div class="container">
+
+            <form action="SaveHD" method="post">
+                @*<form>*@
+                <div class="form-group mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <p><strong>1. Ngày</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="date" required="" name="Ngay_Ct" id="Ngay_Ct">
+                        </div>
+                        <div class="col">
+                            <p><strong>2. SỐ</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="text" required="" name="So_Ct" id="So_Ct">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <p><strong>3. Nhân Viên Giao Hàng&nbsp;</strong></p>
+                </div>
+                <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm danh mục" name="Ma_NVGH">
+                <datalist id="dropdownList">
+                    @foreach (var item in ViewBag.DataTDV)
+                    {
+                        <option value="@item.Ma_NVGH" data-ten="@item.Ten_NVGH">@item.Ten_NVGH</option>
+                    }
+                </datalist>
+                <input name="Ten_NVGH" id="selectedOption" readonly>
+
+                <div class="form-group mb-3">
+                    <p><strong>4. Nhân Viên Giao Hàng&nbsp;</strong></p>
+                </div>
+                <input type="text" id="Ten_NVPhuKho" placeholder="Tìm kiếm danh mục" name="Ten_NVPhuKho"><br /> <br />
+
+                <button type="button" id="LoadHd">Load Hóa đơn</button>
+
+                @*<datalist id="dropdownList">
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
+                        }
+                    </datalist>*@
+
+                @*<datalist id="dropdownList">
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
+                        }
+                    </datalist>*@
+                <div class="form-group mb-3">
+                    <p><strong>4. Nội Dung&nbsp;</strong></p>
+                </div>
+                <input type="text" id="Ly_do" list="" placeholder="Nội Dung" name="Ly_do">
+                <br />
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Số hóa đơn</th>
+                            <th>Ngày HD</th>
+                            <th>Mã KH</th>
+                            <th>Khách hàng</th>
+                            <th>NV Giao nhận</th>
+                            <th>Giao hóa đơn</th>
+                            <th>Tiền HD</th>
+                            <th>Tiền Phải Thu</th>
+                            <th>Nội dung</th>
+                            <th>Đã giao hàng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" name="So_HD" id="So_HD" class="So_HD" list="dropdownListVT" placeholder="Tìm kiếm Hóa Đơn">
+                                <datalist id="dropdownListVT">
+                                    @foreach (var item in ViewBag.DataHD)
+                                    {
+                                        <option value="@item.So_HD" data-ten="@item.Ten_Dt" data-NgayHD="@item.Ngay_HD" data-MaDt="@item.Ma_Dt" data-NvGN="@item.Ma_NVGH" data-tien="@item.Tien_HD" data-Tien_Phai_Thu="@item.Tien_Phai_Thu">@item.Ten_Dt</option>
+                                    }
+                                </datalist>
+                                <div id="error-messages-1"></div>
+                            </td>
+                            <td> <input type="text" name="Ngay_Hd" id="Ngay_Hd" class="Ngay_Hd" readonly></td>
+                            <td> <input name="Ma_Dt" id="Ma_Dt" class="Ma_Dt" readonly></td>
+                            <td> <input name="Ten_Dt" id="Ten_Dt" class="Ten_Dt" readonly></td>
+                            <td> <input name="NV_GN" id="NV_GN" class="NV_GN" readonly></td>
+                            <td> <input type="checkbox" class="Giao_HD" name="Giao_HD" id="Giao_HD" readonly></td>
+                            <td><input type="text" name="Tien" class="Tien" id="Tien" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" readonly /></td>
+                            <td><input type="text" name="Tien_Phai_Thu" class="Tien_Phai_Thu" id="Tien_Phai_Thu" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" readonly /></td>
+                            <td> <input name="Noi_Dung" class="Noi_Dung" id="Noi_Dung"></td>
+
+                            <td> <input type="checkbox" class="Check_GH" name="Check_GH" id="Check_GH"></td>
+
+                            <td><button class="deleteRowBtn">Xóa</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="addRowBtn">Thêm dòng</button>
+                <button class="submit" type="button" id="SaveHD">Lưu</button>
+            </form>
+
+        </div>
+        <div id="loader" class="loader-container" style="display: none;">
+            <div class="spinner"></div>
+
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/Application-Form-1.js"></script>
+    <script src="/assets/js/Application-Form.js"></script>
+    @*</ng-><script src="/assets/js/script.js"></script>*@
+
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = options[i].getAttribute("data-ten");
+                    break;
+                }
+            }
+        });
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.text.toString();
+
+                        var selectedDvcs = selectedOption.getAttribute('data-Dvcs');
+
+                        document.cookie = 'Ten_Dt= ' + encodeURIComponent(tenDt);
+
+                        document.cookie = 'Dvcs=' + selectedDvcs;
+
+                    }
+                });
+            }
+        });
+
+        /* danh muc vat tu*/
+
+        document.getElementById("So_HD").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownListVT option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("Ngay_Hd").value = options[i].getAttribute("data-NgayHD");
+                    document.getElementById("Ma_Dt").value = options[i].getAttribute("data-MaDt");
+                    document.getElementById("Ten_Dt").value = options[i].getAttribute("data-ten");
+                    document.getElementById("NV_GN").value = options[i].getAttribute("data-NvGN");
+                    document.getElementById("Tien").value = options[i].getAttribute("data-tien");
+                    document.getElementById("Tien_Phai_Thu").value = options[i].getAttribute("data-Tien_Phai_Thu");
+
+
+                    break;
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var Ten_Vt = selectedOption.text.toString();
+
+
+                        document.cookie = 'Ten_Vt= ' + encodeURIComponent(Ten_Vt);
+
+
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+
+    </script>
+    <script>
+        $(document).ready(function () {
+
+
+            function addDuplicateWarning(row, message) {
+                var warningRow = '<tr class="duplicate-warning"><td colspan="10" style="color: red; text-align: center;">' + message + '</td></tr>';
+                $(row).after(warningRow);
+            }
+            function convertNetDate(netDate) {
+                var date = new Date(parseInt(netDate.substr(6)));
+                var day = ("0" + date.getDate()).slice(-2);
+                var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                var year = date.getFullYear();
+                return day + '/' + month + '/' + year;
+            }
+
+
+        // Function to repopulate dropdownListVT
+            function populateDropdownListVT() {
+                var dropdownListVT = $('#dropdownListVT');
+                dropdownListVT.empty();
+
+                var dataItems2 = @Html.Raw(Json.Encode(ViewBag.DataHD));
+                dataItems2.forEach(function (item) {
+                    var readableDate = convertNetDate(item.Ngay_HD); // Convert the date
+
+                    var option = $('<option>')
+                        .val(item.So_HD)
+                        .attr('data-NgayHD', item.Ngay_HD)
+                        .attr('data-MaDt', item.Ma_Dt)
+                        .attr('data-ten', item.Ten_Dt)
+                        .attr('data-NvGN', item.Ma_NVGH)
+                        .attr('data-tien', item.Tien_HD)
+                        .attr('data-Tien_Phai_Thu', item.Tien_Phai_Thu)
+                        .text(item.Ten_Dt);
+                    dropdownListVT.append(option);
+                });
+            }
+            var rowCount = 1;
+            $('#addRowBtn').click(function () {
+
+                rowCount++;
+                var newRow = `<tr>
+                      <td>
+                        <input type="text" name="So_HD" id="So_HD" class="So_HD" list="dropdownListVT" placeholder="Tìm kiếm Hóa Đơn">
+                        <div id="error-messages-${rowCount}"></div>
+                      </td>
+                      <td> <input name="Ngay_Hd" id="Ngay_Hd" class="Ngay_Hd" readonly></td>
+                      <td> <input name="Ma_Dt" id="Ma_Dt" class="Ma_Dt" readonly></td>
+                      <td> <input name="Ten_Dt" id="Ten_Dt" class="Ten_Dt" readonly></td>
+                      <td> <input name="NV_GN" id="NV_GN" class="NV_GN" readonly></td>
+                      <td> <input type="checkbox" class="Giao_HD" name="Giao_HD" id="Giao_HD" readonly></td>
+                      <td><input type="text" name="Tien" id="Tien" class="Tien" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" readonly /></td>
+                      <td><input type="text" name="Tien_Phai_Thu" id="Tien_Phai_Thu" class="Tien_Phai_Thu" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" readonly /></td>
+
+                      <td> <input name="Noi_Dung" class="Noi_Dung" id="Noi_Dung"></td>
+                      <td> <input type="checkbox" class="Check_GH" name="Check_GH" id="Check_GH"></td>
+                      <td><button type="button" class="deleteRowBtn">Xóa</button></td>
+                    </tr>`;
+                $('#example tbody').append(newRow);
+                populateDropdownListVT();
+
+            });
+        $(document).on('input', '.So_HD', function () {
+            var inputValue = $(this).val();
+            var Ngay_Hd = $(this).closest('tr').find('.Ngay_Hd');
+            var Ma_Dt = $(this).closest('tr').find('.Ma_Dt');
+            var Ten_Dt = $(this).closest('tr').find('.Ten_Dt');
+            var NV_GN = $(this).closest('tr').find('.NV_GN');
+            var Tien = $(this).closest('tr').find('.Tien');
+            var Tien_Phai_Thu = $(this).closest('tr').find('.Tien_Phai_Thu');
+            // Find the corresponding option in dropdownListVT
+            var option = $('#dropdownListVT option[value="' + inputValue + '"]');
+
+            if (option.length > 0) {
+                // Update the Ten_vt input with the data-ten attribute of the selected option
+                Ngay_Hd.val(option.attr('data-NgayHD'));
+                Ma_Dt.val(option.attr('data-MaDt'));
+                Ten_Dt.val(option.attr('data-ten'));
+                NV_GN.val(option.attr('data-NvGN'));
+                Tien.val(option.attr('data-tien'));
+                Tien_Phai_Thu.val(option.attr('data-Tien_Phai_Thu'));
+            } else {
+                Ngay_Hd.val('');
+            }
+            $('.So_HD').next('div').text('');
+            checkDuplicateSoHD();
+        });
+
+        $(document).on('click', '.deleteRowBtn', function () {
+            $(this).closest('tr').remove();
+
+            // Call the function to recreate the dropdownListVT after deleting a row
+            populateDropdownListVT();
+        });
+
+    });
+
+
+        function SaveHD(data) {
+            return $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/TheoDoiGiaoHang/SaveHD",
+                data: data,
+                success: function (result) {
+                    alert(result);
+                   window.location.href = '/TheoDoiGiaoHang/Index';
+
+                //    console.log(data);
+                },
+                error: function () {
+                    alert("Error!");
+
+                }
+            });
+        }
+        //Collect Multiple Order List For Pass To Controller
+        $("#SaveHD").click(function (e) {
+            e.preventDefault();
+
+            var orderArr = [];
+            orderArr.length = 0;
+            var soct;
+            soct = $(this).find('input[name="So_Ct"]').val();
+
+            $("#example tbody tr").each(function () {
+                var soHD = $(this).find('input[name="So_HD"]').val();
+                var NgayHD = $(this).find('input[name="Ngay_Hd"]').val();
+                var MaDt = $(this).find('input[name="Ma_Dt"]').val();
+                var TenDt = $(this).find('input[name="Ten_Dt"]').val();
+                var NvGN = $(this).find('input[name="NV_GN"]').val();
+                var GiaoHD = $(this).find('input[name="Giao_HD"]').val();
+                var Tien = $(this).find('input[name="Tien"]').val();
+                var Tien_Phai_Thu = $(this).find('input[name="Tien_Phai_Thu"]').val();
+                var NoiDung = $(this).find('input[name="Noi_Dung"]').val();
+                var CheckGH = $(this).find('input[name="Check_GH"]').val();
+
+                orderArr.push({
+                    So_Hd : soHD,
+                    Ngay_HD: NgayHD,
+                    Ma_Dt: MaDt,
+                    Ten_Dt: TenDt,
+                    NV_GiaoNhan: NvGN,
+
+                    Giao_HD: GiaoHD,
+                    Tien_HD: Tien,
+                    Tien_Phai_Thu: Tien_Phai_Thu,
+                    Noi_Dung: NoiDung,
+                    Chua_giao_hang: CheckGH
+                });
+
+            });
+            //var tenVt = $(this).find('input[name="Ten_Vt"]').val();
+            //var hanMuc = $(this).find('input[name="Han_Muc"]').val();
+            var data = JSON.stringify({
+                Ngay_Ct: $("#Ngay_Ct").val(),
+                So_Ct: $("#So_Ct").val(),
+                NV_GiaoHang: $("#dropdownInput").val(),
+                Ten_NVGiaoHang: $("#selectedOption").val(),
+                Ly_Do: $("#Ly_do").val(),
+                details: orderArr
+            });
+
+            $.when(SaveHD(data)).then(function (response) {
+                console.log(response);
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+        function checkDuplicateSoHD() {
+            var inputs = document.querySelectorAll('.So_HD');
+            var values = {};
+
+            inputs.forEach(function (input, index) {
+                var value = input.value;
+                if (value !== '') {
+                    if (!values[value]) {
+                        values[value] = [];
+                    }
+                    values[value].push(index);
+                }
+            });
+
+            Object.keys(values).forEach(function (value) {
+                var indexes = values[value];
+                if (indexes.length > 1) {
+                    indexes.forEach(function (index) {
+                        var errorMessageDiv = document.getElementById(`error-messages-${index + 1}`);
+                        errorMessageDiv.textContent = 'Có sự trùng lặp số hóa đơn';
+                    });
+                }
+            });
+        }
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        document.getElementById('LoadHd').addEventListener('click', function () {
+            document.getElementById('loader').style.display = 'flex'; // Show the loader
+
+            var ngayCt = document.getElementById('Ngay_Ct').value;
+            var soCt = document.getElementById('So_Ct').value;
+            var maNVGH = document.getElementById('dropdownInput').value;
+            var tenNVGH = document.getElementById('selectedOption').value;
+            var ghichu = document.getElementById('Ly_do').value;
+            var TenGH = document.getElementById('Ten_NVPhuKho').value;
+
+
+
+
+            // Set the cookie for Ma_NVGH
+            setCookie('Ma_NVGH', maNVGH, 7);
+            setCookie('Ten_NVGH', tenNVGH, 7);// The cookie will expire in 7 days
+            setCookie('NV_GiaoNhan', TenGH, 7);
+            var queryParams = 'Ngay_Ct=' + encodeURIComponent(ngayCt) +
+                '&So_Ct=' + encodeURIComponent(soCt) +
+                '&Ma_NVGH=' + encodeURIComponent(maNVGH) +
+                '&Ly_Do=' + encodeURIComponent(ghichu) +
+                '&Ten_NVGH=' + encodeURIComponent(tenNVGH);            // Redirect or submit form after a short delay
+            '&Ten_NVPhuKho=' + encodeURIComponent(TenGH);
+            setTimeout(function () {
+                window.location.href = 'InsetGiaoHangLoadHD?' + queryParams;
+            }, 1000); // Adjust the time as needed
+        });
+
+
+    </script>
+
+
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('Ngay_Ct').value = getParameterByName('Ngay_Ct');
+            document.getElementById('So_Ct').value = getParameterByName('So_Ct');
+            document.getElementById('dropdownInput').value = getParameterByName('Ma_NVGH');
+            document.getElementById('selectedOption').value = getParameterByName('Ten_NVGH');
+            document.getElementById('Ly_do').value = getParameterByName('Ly_Do');
+            document.getElementById('Ten_NVPhuKho').value = getParameterByName('Ten_NVPhuKho');
+
+        });
+    </script>
+    <!--lưu các dòng TD-->
+    <script>
+        $(document).ready(function () {
+            // Function to save table rows data to sessionStorage
+            function saveTableRows() {
+                var tableRows = [];
+                $("#example tbody tr").each(function () {
+                    var row = {};
+                    $(this).find('input, textarea').each(function () {
+                        var type = $(this).attr('type');
+                        if (type === 'checkbox') {
+                            row[$(this).attr('name')] = $(this).prop('checked');
+                        } else {
+                            row[$(this).attr('name')] = $(this).val();
+                        }
+                    });
+                    tableRows.push(row);
+                });
+                sessionStorage.setItem('tableRows', JSON.stringify(tableRows));
+            }
+
+            // Function to load table rows data from sessionStorage
+            function loadTableRows() {
+                var tableRows = JSON.parse(sessionStorage.getItem('tableRows'));
+                if (tableRows) {
+                    tableRows.forEach(function (row) {
+                        if (row['So_HD']) {  // Only load rows where So_HD is not empty
+                            var newRow = '<tr>';
+                            newRow += '<td><input type="text" name="So_HD" value="' + (row['So_HD'] || '') + '"></td>';
+                            newRow += '<td><input type="text" name="Ngay_Hd" value="' + (row['Ngay_Hd'] || '') + '" readonly></td>';
+                            newRow += '<td><input type="text" name="Ma_Dt" value="' + (row['Ma_Dt'] || '') + '" readonly></td>';
+                            newRow += '<td><input type="text" name="Ten_Dt" value="' + (row['Ten_Dt'] || '') + '" readonly></td>';
+                            newRow += '<td><input type="text" name="NV_GN" value="' + (row['NV_GN'] || '') + '" readonly></td>';
+                            newRow += '<td><input type="checkbox" name="Giao_HD" ' + (row['Giao_HD'] ? 'checked' : '') + ' readonly></td>';
+                            newRow += '<td><input type="text" name="Tien" value="' + (row['Tien'] || '') + '" readonly></td>';
+                            newRow += '<td><input type="text" name="Tien_Phai_Thu" value="' + (row['Tien_Phai_Thu'] || '') + '" readonly></td>';
+
+                            newRow += '<td><input type="text" name="Noi_Dung" value="' + (row['Noi_Dung'] || '') + '"></td>';
+                            newRow += '<td><input type="checkbox" name="Check_GH" ' + (row['Check_GH'] ? 'checked' : '') + '></td>';
+                            newRow += '<td><button type="button" class="deleteRowBtn">Xóa</button></td>';
+                            newRow += '</tr>';
+                            $('#example tbody').append(newRow);
+                        }
+                    });
+                }
+            }
+
+            // Load table rows data on page load
+            loadTableRows();
+
+            // Save table rows data on "Load Hóa đơn" button click
+            $('#LoadHd').click(function () {
+                saveTableRows();
+                // Collect form data
+                var ngayCt = document.getElementById('Ngay_Ct').value;
+                var soCt = document.getElementById('So_Ct').value;
+                var maNVGH = document.getElementById('dropdownInput').value;
+                var tenNVGH = document.getElementById('selectedOption').value;
+                var ghichu = document.getElementById('Ly_do').value;
+                var TenGH = document.getElementById('Ten_NVPhuKho').value;
+
+                // Set the cookie for Ma_NVGH
+                setCookie('Ma_NVGH', maNVGH, 7);
+                setCookie('Ten_NVGH', tenNVGH, 7);// The cookie will expire in 7 days
+                setCookie('NV_GiaoNhan', TenGH, 7);
+                var queryParams = 'Ngay_Ct=' + encodeURIComponent(ngayCt) +
+                    '&So_Ct=' + encodeURIComponent(soCt) +
+                    '&Ma_NVGH=' + encodeURIComponent(maNVGH) +
+                    '&Ly_Do=' + encodeURIComponent(ghichu) +
+                    '&Ten_NVGH=' + encodeURIComponent(tenNVGH);            // Redirect or submit form after a short delay
+                queryParams += '&Ten_NVPhuKho=' + encodeURIComponent(TenGH);
+                setTimeout(function () {
+                    window.location.href = 'InsetGiaoHangLoadHD?' + queryParams;
+                }, 1000); // Adjust the time as needed
+            });
+
+            // Add new row button click event
+            //$('#addRowBtn').click(function () {
+            //    var newRow = '<tr>';
+            //    // Add your input fields here
+            //    newRow += '<td><input type="text" name="So_HD" value=""></td>';
+            //    newRow += '<td><input type="text" name="Ngay_Hd" value="" readonly></td>';
+            //    newRow += '<td><input type="text" name="Ma_Dt" value="" readonly></td>';
+            //    newRow += '<td><input type="text" name="Ten_Dt" value="" readonly></td>';
+            //    newRow += '<td><input type="text" name="NV_GN" value="" readonly></td>';
+            //    newRow += '<td><input type="checkbox" name="Giao_HD" readonly></td>';
+            //    newRow += '<td><input type="text" name="Tien" value="" readonly></td>';
+            //    newRow += '<td><input type="text" name="Noi_Dung" value=""></td>';
+            //    newRow += '<td><input type="checkbox" name="Check_GH"></td>';
+            //    newRow += '<td><button type="button" class="deleteRowBtn">Xóa</button></td>';
+            //    newRow += '</tr>';
+            //    $('#example tbody').append(newRow);
+            //});
+
+            // Delete row button click event
+            $(document).on('click', '.deleteRowBtn', function () {
+                $(this).closest('tr').remove();
+                saveTableRows();
+            });
+
+            // Save table rows data on input change
+            $(document).on('input', '#example tbody input', function () {
+                saveTableRows();
+            });
+        });
+
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('Ngay_Ct').value = getParameterByName('Ngay_Ct');
+            document.getElementById('So_Ct').value = getParameterByName('So_Ct');
+            document.getElementById('dropdownInput').value = getParameterByName('Ma_NVGH');
+            document.getElementById('selectedOption').value = getParameterByName('Ten_NVGH');
+            document.getElementById('Ly_do').value = getParameterByName('Ly_Do');
+            document.getElementById('Ten_NVPhuKho').value = getParameterByName('Ten_NVPhuKho');
+        });
+    </script>
+
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,1012 @@
+﻿
+
+
+
+@{ ViewBag.Title = "QUẢN LÝ TRƯNG BÀY - CHI TIẾT";
+    var fromDate = Request.Cookies["From_date"].Value;
+    var toDate = Request.Cookies["To_date"].Value;
+    var fromDateValue = DateTime.ParseExact(fromDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+    var toDateValue = DateTime.ParseExact(toDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+    var formattedFromDate = fromDateValue.ToString("dd/MM/yyyy");
+    var formattedToDate = toDateValue.ToString("dd/MM/yyyy");
+
+}
+@using System.Data;
+@using System.Globalization;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+
+    <style>
+        a:hover {
+            background-color: lightskyblue;
+        }
+
+        * {
+            font-family: "Times New Roman";
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .container canvas {
+            justify-content: center;
+            align-items: center;
+            height: min-content;
+            zoom: normal;
+        }
+
+        h3 {
+            text-align: center;
+            color: blue;
+        }
+
+        table, td, th {
+            border: 1px solid black;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        .num {
+            text-align: center;
+            width: 100px;
+        }
+
+        .ten {
+            text-align: left;
+        }
+
+        button {
+            background-color: #2297f6;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            color: #ffffff;
+        }
+
+
+
+        canvas {
+            width: 200px;
+            height: 100px;
+            text-align: center;
+        }
+
+        .tu_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+        .den_ngay {
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid #dcdcdc;
+            padding: 0px 10px;
+            outline: none;
+            Format: 'd-m-y';
+        }
+
+
+
+        div#chart {
+            text-align: center;
+            display: flex;
+            /*         justify-content:;*/
+            width: 50%;
+            height: 300px;
+        }
+
+        .submit {
+            height: 50px;
+            background-color: silver;
+            border: none;
+            color: cadetblue;
+            border-radius: 7px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s ease-in-out;
+        }
+
+            .submit:hover {
+                background-color: darkcyan;
+                color: #ffffff;
+                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+            }
+
+        .form .locBC {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            float: left;
+        }
+
+        .form table {
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            zoom: 90%;
+            text-align: center;
+        }
+
+        .expandable {
+            cursor: pointer;
+        }
+
+        .percent {
+            width: 20%;
+            text-align: right;
+            text-align: center;
+            background-color: #eee;
+            background: linear-gradient(to right, #3399dd, #3399dd);
+            background-size: 1% 100%;
+            background-repeat: no-repeat;
+        }
+
+
+
+        #data {
+            width: 100%;
+            height: 150px;
+            background: white;
+            float: inline-start;
+        }
+
+        .dropdown-check-list {
+            display: inline-block;
+        }
+
+            .dropdown-check-list .anchor {
+                position: relative;
+                cursor: pointer;
+                display: inline-block;
+                padding: 5px 50px 5px 10px;
+                border: 1px solid #ccc;
+            }
+
+                .dropdown-check-list .anchor:after {
+                    position: absolute;
+                    content: "";
+                    border-left: 2px solid black;
+                    border-top: 2px solid black;
+                    padding: 5px;
+                    right: 10px;
+                    top: 20%;
+                    -moz-transform: rotate(-135deg);
+                    -ms-transform: rotate(-135deg);
+                    -o-transform: rotate(-135deg);
+                    -webkit-transform: rotate(-135deg);
+                    transform: rotate(-135deg);
+                }
+
+                .dropdown-check-list .anchor:active:after {
+                    right: 8px;
+                    top: 21%;
+                }
+
+            .dropdown-check-list ul.items {
+                padding: 2px;
+                display: none;
+                margin: 0;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+
+                .dropdown-check-list ul.items li {
+                    list-style: none;
+                }
+
+            .dropdown-check-list.visible .anchor {
+                color: #0094ff;
+            }
+
+            .dropdown-check-list.visible .items {
+                display: block;
+            }
+
+        .custom-combobox-container {
+            position: relative;
+            width: 100%;
+            outline: none;
+            border: none;
+        }
+
+        .custom-combobox {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgb(199, 199, 199);
+            padding: 10px;
+        }
+
+            .custom-combobox input[type="text"] {
+                width: 95%;
+                border: none;
+                outline: none;
+                background: none;
+            }
+
+        .options-container {
+            position: absolute;
+            width: 100%;
+            z-index: 100;
+            border: 1px solid rgb(204, 204, 204);
+            border-top: none;
+            display: none;
+            height: 150px;
+            overflow-y: scroll;
+        }
+
+            .options-container label {
+                display: block;
+                cursor: pointer;
+                padding: 5px;
+                margin-top: 5px;
+                user-select: none;
+            }
+
+                .options-container label:hover {
+                    background: rgb(255, 255, 255);
+                }
+
+            .options-container::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .options-container::-webkit-scrollbar-thumb {
+                background-color: white;
+            }
+
+        .sidebar {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 50px;
+            width: 200px;
+            transition: all 0.5s ease;
+        }
+
+        .myInput {
+            text-align: center;
+            height: auto;
+            width: 1000px;
+            padding: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .data_table {
+            width: max-content;
+            margin-left: 0px;
+        }
+
+        .bieu_do {
+            padding: 10px;
+            margin: 10%;
+            text-align: center;
+            width: 200px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            margin: 20px;
+            height: 55px;
+            text-align: center;
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 10px;
+            moz-transition: all .4s ease-in-out;
+            -o-transition: all .4s ease-in-out;
+            -webkit-transition: all .4s ease-in-out;
+            transition: all .4s ease-in-out;
+        }
+
+            .bieu_do:hover {
+                background-position: 100% 0;
+                moz-transition: all .4s ease-in-out;
+                -o-transition: all .4s ease-in-out;
+                -webkit-transition: all .4s ease-in-out;
+                transition: all .4s ease-in-out;
+            }
+
+            .bieu_do:focus {
+                outline: none;
+            }
+
+        .bieu_do {
+            background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+            box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+        }
+
+        .chart {
+            margin: 20px 0px 0px 0px;
+        }
+
+        .text-loading {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: black;
+            z-index: 2;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            display: none;
+        }
+
+        .custom-checkbox {
+            margin-top: 10px;
+            display: inline-block;
+            position: relative;
+            padding-left: 30px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+            .custom-checkbox input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            border: 2px solid black;
+            background-color: #ffffff;
+        }
+
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .custom-checkbox .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkContainer {
+            height: 300px;
+            overflow: auto;
+            scrollbar-width: none;
+        }
+
+            .checkContainer::-webkit-scrollbar {
+                width: 0.2em;
+                background-color: transparent;
+            }
+
+        .tabs {
+            display: inline-block;
+            /* bottom: 0;
+            left: 0;
+            right: 0;*/
+            width: 300vh;
+            height: 50px;
+            /* margin: 15px auto;*/
+            border-bottom: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            list-style-type: none;
+            padding: 0px 12px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tab {
+            float: left;
+            height: 44px;
+            margin: 0 8px -1px 0;
+            border: 1px solid #DAE0E7;
+            background: #F9F9F9;
+            border-radius: 0px 0px 0 0;
+            overflow: hidden;
+        }
+
+            .tab, .tab a {
+                transition: all .25s;
+            }
+
+                .tab a {
+                    display: inline-block;
+                }
+
+                    .tab a:first-child {
+                        padding: 12px 2px 12px 16px;
+                        white-space: nowrap;
+                    }
+
+                .tab.tabClosed, .tab.tabClosed a:first-child {
+                    margin-right: 0;
+                    border-width: 0;
+                }
+
+                .tab.tabClosed {
+                    width: 0 !important; /* use important because we need to set the width of tabs in javascript in order to be able to animate them to 0 */
+                }
+
+                    .tab.tabClosed a {
+                        opacity: 0;
+                    }
+
+        .closeTab:hover {
+            background: #DAE0E7;
+        }
+
+        .tab-control {
+            z-index: 1;
+            position: fixed;
+        }
+
+            .tab-control ul {
+                position: absolute;
+                bottom: 0px;
+                /* left:300px;*/
+            }
+
+                .tab-control ul li {
+                    text-align: center;
+                }
+
+        .closeTab {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px; /* Điều chỉnh khoảng cách với h4 */
+        }
+
+        .closeIcon {
+            display: inline-block;
+            width: 30px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: white;
+            color: black; /* Màu chữ x */
+            text-align: center;
+            line-height: 25px;
+        }
+
+        .tab.active {
+            background-color: cornflowerblue; /* Màu nền tab khi active */
+            color: #fff; /* Màu chữ khi active */
+        }
+
+        .tab.selected-tab {
+            pointer-events: none;
+            background-color: #3763a3; /* Màu nền của tab */
+        }
+
+            .tab.selected-tab a {
+                color: white /* Màu nền của tab */
+            }
+
+            .tab.selected-tab .closeTab {
+                pointer-events: auto;
+            }
+
+        .first-row-gray {
+            background-color: #ccc;
+            font-weight: bold;
+            color: black;
+        }
+
+        .modal {
+            display: none; /* Ẩn modal mặc định */
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .image-container {
+            padding: 10px;
+        }
+
+        .image-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .fancybox {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+            .fancybox img {
+                max-width: 100px;
+                max-height: 100px;
+            }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="Scripts/table2excel.js"></script>
+
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>QUẢN LÝ TRƯNG BÀY - CHI TIẾT</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/favicon.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+    <script type="text/javascript" src="~/Scripts/lightbox-min.js"></script>
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Styles/loader.css">
+    <link rel="stylesheet" href="~/Styles/lightbox-min.css">
+    <!-- Link thư viện Fancybox CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+    <!-- Link thư viện jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Link thư viện Fancybox JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <!-- Trong file _Layout.cshtml -->
+    <link rel="stylesheet" href="@Url.Content("https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css")" />
+    <script src="@Url.Content("https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js")"></script>
+    <!-- jQuery -->
+    <!-- Lightbox JavaScript -->
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee">
+    <div class="loader" style="z-index:1"></div>
+
+    <div class="sidebar">
+        <div class="logo-details">
+
+        </div>
+        <ul class="nav-links" style="justify-content: center; display:flex;margin-left:10px">
+            <li>
+                <form id="dateForm" action="QuanLyTrungBay" method="post" onsubmit="handleFormSubmit(event)">
+                    @*<div id="locBC">
+                            <span id="spanText" class="text-loading">[Usp_BaoCaoTrungBay]</span>
+                            <a>Từ Ngày</a><br /><br />
+                            <input class="tu_ngay" placeholder="Từ Ngày" id="tu_ngay" name="From_date" type="date" format="YYYY-MM-DD" value="@Request.Cookies["From_date"].Value" />
+                            <script>$("#tu_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script><br /><br />
+                            <a>Đến Ngày</a><br /><br />
+                            <input class="den_ngay" id="den_ngay" placeholder=" Đến Ngày" name="To_date" type="DATE" format="YYYY-MM-DD" value="@Request.Cookies["To_date"].Value" /><br /><br />
+                            <script>$("#den_ngay").datetimepicker({ timepicker: false, format: 'Y-m-d' });</script>
+                        </div>*@
+
+                    @*<div>
+                            <button class="submit" type="submit" id="runReportButton" onclick="runReport();saveNgay()">
+                                Chạy Báo Cáo
+                            </button>
+
+                        </div>*@
+
+                </form>
+                <div style="display:flex">
+                    @*<button id="exportbutton"style="border-radius: 10px; margin-bottom: 10px;margin-top:10px; background-color: #aec9e0; color: #3483bd ">Xuất Excel</button>*@
+                    <!--<button style="border-radius: 10px; margin-bottom: 10px;margin-top:10px; background-color: #aec9e0; color: #3483bd " onclick="exportToExcel()">-->
+                    @*<a onclick="return ExcellentExport.excel(this, 'example', 'Sheet 1');" download="SoQuyTienMat.xls" style="color: #3483bd">Xuất Excel </a>*@
+                    <!--Xuất Excel
+                    </button>-->
+
+                </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+
+        <a style="cursor:pointer">
+            <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+        </a>
+
+        <h4 style="color: #3483bd">QUẢN LÝ TRƯNG BÀY - CHI TIẾT</h4>
+        <h4 style="color: #3483bd">Từ @formattedFromDate đến @formattedToDate </h4>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+
+    <div class="container">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Mã Đối Tượng</th>
+                                <th style="width:200px">Tên Đối Tượng</th>
+                                <th style="width:200px">Địa Chỉ</th>
+                                <th>Ngày</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Số Phút Viếng Thăm</th>
+                                <th>Mã TDV</th>
+                                <th>Tên TDV</th>
+                                <th>Nội Dung</th>
+                                <th>Hình Ảnh</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                DateTime previousDate = DateTime.MinValue;
+                                string currentGroup = "";
+                                int rowCount = Model.DataSet.Tables[1].Rows.Count;
+
+                                for (int i = rowCount - 1; i >= 0; i--)
+                                {
+                                    DataRow row = Model.DataSet.Tables[1].Rows[i];
+                                    string ngayStr = row["Ngay"].ToString().Replace("/", "");
+                                    DateTime currentDate;
+
+                                    if (DateTime.TryParseExact(ngayStr, "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out currentDate))
+                                    {
+                                        if (currentDate != previousDate)
+                                        {
+                                            // Tìm hàng đầu tiên của nhóm ngày hiện tại
+                                            DataRow firstRow = null;
+                                            for (int j = i; j >= 0; j--)
+                                            {
+                                                DataRow rowCheck = Model.DataSet.Tables[1].Rows[j];
+                                                string ngayStrCheck = rowCheck["Ngay"].ToString().Replace("/", "");
+                                                DateTime currentDateCheck;
+
+                                                if (DateTime.TryParseExact(ngayStrCheck, "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out currentDateCheck))
+                                                {
+                                                    if (currentDateCheck == currentDate)
+                                                    {
+                                                        firstRow = rowCheck;
+                                                    }
+                                                    else
+                                                    {
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            <tr>   
+                                                <td>@row["Ma_Dt"]</td>
+                                                <td style="text-align:left">@row["Ten_Dt"]</td>
+                                                <td style="text-align:left">@row["Dia_CHi"]</td>
+                                                <td>@row["Ngay"]</td>
+                                                <td>@(firstRow != null ? firstRow["Check_in"] : "")</td>
+                                                <td>@row["Check_out"]</td>
+                                                <td>
+                                                    @{
+                                                        if (firstRow != null && !string.IsNullOrEmpty(firstRow["Check_in"].ToString()) && !string.IsNullOrEmpty(row["Check_out"].ToString()))
+                                                        {
+                                                            DateTime checkIn = DateTime.ParseExact(firstRow["Check_in"].ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);
+                                                            DateTime checkOut = DateTime.ParseExact(row["Check_out"].ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);
+                                                            TimeSpan duration = checkOut - checkIn;
+                                                            int minutes = (int)duration.TotalMinutes;
+                                                            @minutes
+                                                        }
+                                                    }
+                                                </td>
+                                                <td>@row["Ma_TDV"]</td>
+                                                <td>@row["Ten_TDV"]</td>
+                                                <td style="text-align:left">@row["Noi_dung"]</td>
+                                                <td class="image-container">
+                                                    <div class="image-row">
+                                                        @{
+                                                            if (currentGroup != ngayStr)
+                                                            {
+                                                                currentGroup = ngayStr;
+                                                            }
+
+                                                            foreach (DataRow rowImage in Model.DataSet.Tables[1].Rows)
+                                                            {
+                                                                if (currentDate == DateTime.ParseExact(rowImage["Ngay"].ToString().Replace("/", ""), "ddMMyyyy", CultureInfo.InvariantCulture, DateTimeStyles.None))
+                                                                {
+                                                                    if (!string.IsNullOrEmpty(rowImage["Hinh_Anh"].ToString()))
+                                                                    {
+                                                                        string base64String = rowImage["Hinh_Anh"].ToString();
+                                                                        string imageSrc = "data:image/png;base64," + base64String;
+                                                                        <a href="@imageSrc" class="fancybox" data-fancybox="group-@(currentGroup)" data-width="500">
+                                                                            <img src="@imageSrc" alt="Image" />
+                                                                        </a>
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            previousDate = currentDate;
+                                        }
+                                    }
+                                }
+                            }
+                        </tbody>
+
+
+
+
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+
+
+
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/pdfmake.min.js"></script>
+    <script src="~/assets/js/vfs_fonts.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-fancybox^="group-"]').each(function () {
+                var groupName = $(this).data('fancybox');
+                $(this).fancybox({
+                    groupAttr: "data-fancybox",
+                    infobar: false,
+                    loop: true,
+                    maxWidth: 800,
+                    maxHeight: 600,
+                    buttons: [
+                        "slideShow",
+                        "fullScreen",
+                        "thumbs",
+                        "close",
+                        "rotateLeft",
+                        "rotateRight",
+                        "zoom",
+                        "download"
+                    ],
+                    caption: function (instance, item) {
+                        return $(this).find('img').attr('alt');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+    <script>
+        function toggleImageList(date) {
+            var imageList = document.getElementById('imageList_' + date.replace(/\//g, ''));
+            if (imageList.style.display === 'none') {
+                imageList.style.display = 'block';
+            } else {
+                imageList.style.display = 'none';
+            }
+        }
+    </script>
+    @*<script>
+
+                var modal = document.getElementById("imageModal");
+                var modalImage = document.getElementById("modalImage");
+                var closeButton = document.getElementsByClassName("close")[0];
+
+                function openModal(imageSrc) {
+                    modal.style.display = "block";
+                modalImage.src = imageSrc;
+            }
+
+                closeButton.onclick = function() {
+                    modal.style.display = "none";
+            }
+
+                window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+        </script>*@
+    @*<script>
+            // Lấy modal và hình ảnh
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("modalImage");
+
+            // Lấy tất cả các hình ảnh trong bảng
+            var images = document.querySelectorAll(".modalImage");
+
+            // Thêm sự kiện click cho mỗi hình ảnh
+            images.forEach(function (image) {
+                image.onclick = function () {
+                    modal.style.display = "block";
+                    modalImg.src = this.querySelector('img').src;
+                }
+            });
+
+            // Lấy thẻ span đóng
+            var span = document.getElementsByClassName("close")[0];
+
+            // Khi người dùng click vào nút đóng, đóng modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // Khi người dùng click bất kỳ đâu bên ngoài modal, đóng modal
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+        </script>*@
+    @*<script>
+            // Hàm hiển thị hình ảnh phóng to
+            function zoomImage(imageSrc) {
+                // Đặt src của hình ảnh phóng to
+                document.getElementById("zoomedImage").src = imageSrc;
+                // Hiển thị container chứa hình ảnh phóng to
+                document.getElementById("zoomedImageContainer").style.display = "block";
+
+            }
+        </script>*@
+
+
+    <script>
+
+        function displaySelectedDate() {
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Hiển thị các giá trị ngày đã chọn lên thẻ h5
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            selectedDateDisplay.innerText = `Từ ngày: ${fromDate} - Đến ngày: ${toDate}`;
+            window.location.href = selectedDateDisplay;
+        }
+
+        // Function to show the loader
+        function showLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.remove("loader-hidden");
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            const loader = document.querySelector(".loader");
+            loader.classList.add("loader-hidden");
+        }
+
+        /*  Add an event listener to the form submission*/
+        document.getElementById("dateForm").addEventListener("submit", (event) => {
+            event.preventDefault();
+            displaySelectedDate();
+            // Show the loader when the form is submitted
+            showLoader();
+
+            // Lấy các giá trị ngày đã chọn từ trường nhập liệu
+            const fromDate = document.getElementById('tu_ngay').value;
+            const toDate = document.getElementById('den_ngay').value;
+
+            // Tạo URL mới với các tham số truy vấn
+            const form = event.target;
+            const actionUrl = `${form.action}?From_date=${fromDate}&To_date=${toDate}`;
+
+            // Chuyển hướng tới URL mới với các giá trị ngày đã chọn làm các tham số truy vấn
+            window.location.href = actionUrl;
+        });
+
+        // Add event listener for window load event
+        window.addEventListener("load", () => {
+            // Hide the loader after the page is loaded
+            hideLoader();
+
+        });
+    </script>
+
+
+
+
+</body>
+
+</html>

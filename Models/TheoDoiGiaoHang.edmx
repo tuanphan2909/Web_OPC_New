@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SAP_OPCModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SAP_OPC.dbo.B30G' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="B30G">
+          <Key>
+            <PropertyRef Name="Stt" />
+            <PropertyRef Name="NV_GiaoHang" />
+            <PropertyRef Name="Ten_NVGiaoHang" />
+            <PropertyRef Name="NV_PhuKho" />
+            <PropertyRef Name="Ten_NVPhuKho" />
+            <PropertyRef Name="So_Ct" />
+            <PropertyRef Name="Ngay_Ct" />
+            <PropertyRef Name="NV_TaiXe" />
+            <PropertyRef Name="Ten_NVTaiXe" />
+            <PropertyRef Name="Ly_Do" />
+            <PropertyRef Name="Ma_dvcs" />
+            <PropertyRef Name="Isactive" />
+            <PropertyRef Name="CreateAt" />
+          </Key>
+          <Property Name="Stt" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="NV_GiaoHang" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_NVGiaoHang" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="NV_PhuKho" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_NVPhuKho" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="So_Ct" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ngay_Ct" Type="smalldatetime" Nullable="false" />
+          <Property Name="NV_TaiXe" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_NVTaiXe" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Ly_Do" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Ma_dvcs" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Isactive" Type="bit" Nullable="false" />
+          <Property Name="CreateAt" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'SAP_OPC.dbo.B30GDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="B30GDetail">
+          <Key>
+            <PropertyRef Name="Stt" />
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Ma_Dt" />
+            <PropertyRef Name="Ten_Dt" />
+            <PropertyRef Name="So_Hd" />
+            <PropertyRef Name="Ngay_HD" />
+            <PropertyRef Name="NV_GiaoNhan" />
+            <PropertyRef Name="Giao_HD" />
+            <PropertyRef Name="Tien_HD" />
+            <PropertyRef Name="Noi_Dung" />
+            <PropertyRef Name="Da_Giao_Hang" />
+            <PropertyRef Name="Chua_giao_hang" />
+            <PropertyRef Name="Isactive" />
+          </Key>
+          <Property Name="Stt" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RowId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Ma_Dt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Ten_Dt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="So_Hd" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Ngay_HD" Type="smalldatetime" Nullable="false" />
+          <Property Name="NV_GiaoNhan" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Giao_HD" Type="bit" Nullable="false" />
+          <Property Name="Tien_HD" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Noi_Dung" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="Da_Giao_Hang" Type="bit" Nullable="false" />
+          <Property Name="Chua_giao_hang" Type="bit" Nullable="false" />
+          <Property Name="Isactive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SAP_OPCModel1StoreContainer">
+          <EntitySet Name="B30G" EntityType="Self.B30G" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [B30G].[Stt] AS [Stt], 
+    [B30G].[NV_GiaoHang] AS [NV_GiaoHang], 
+    [B30G].[Ten_NVGiaoHang] AS [Ten_NVGiaoHang], 
+    [B30G].[NV_PhuKho] AS [NV_PhuKho], 
+    [B30G].[Ten_NVPhuKho] AS [Ten_NVPhuKho], 
+    [B30G].[So_Ct] AS [So_Ct], 
+    [B30G].[Ngay_Ct] AS [Ngay_Ct], 
+    [B30G].[NV_TaiXe] AS [NV_TaiXe], 
+    [B30G].[Ten_NVTaiXe] AS [Ten_NVTaiXe], 
+    [B30G].[Ly_Do] AS [Ly_Do], 
+    [B30G].[Ma_dvcs] AS [Ma_dvcs], 
+    [B30G].[Isactive] AS [Isactive], 
+    [B30G].[CreateAt] AS [CreateAt]
+    FROM [dbo].[B30G] AS [B30G]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="B30GDetail" EntityType="Self.B30GDetail" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [B30GDetail].[Stt] AS [Stt], 
+    [B30GDetail].[RowId] AS [RowId], 
+    [B30GDetail].[Ma_Dt] AS [Ma_Dt], 
+    [B30GDetail].[Ten_Dt] AS [Ten_Dt], 
+    [B30GDetail].[So_Hd] AS [So_Hd], 
+    [B30GDetail].[Ngay_HD] AS [Ngay_HD], 
+    [B30GDetail].[NV_GiaoNhan] AS [NV_GiaoNhan], 
+    [B30GDetail].[Giao_HD] AS [Giao_HD], 
+    [B30GDetail].[Tien_HD] AS [Tien_HD], 
+    [B30GDetail].[Noi_Dung] AS [Noi_Dung], 
+    [B30GDetail].[Da_Giao_Hang] AS [Da_Giao_Hang], 
+    [B30GDetail].[Chua_giao_hang] AS [Chua_giao_hang], 
+    [B30GDetail].[Isactive] AS [Isactive]
+    FROM [dbo].[B30GDetail] AS [B30GDetail]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SAP_OPCModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="B30G">
+          <Key>
+            <PropertyRef Name="Stt" />
+            <PropertyRef Name="NV_GiaoHang" />
+            <PropertyRef Name="Ten_NVGiaoHang" />
+            <PropertyRef Name="NV_PhuKho" />
+            <PropertyRef Name="Ten_NVPhuKho" />
+            <PropertyRef Name="So_Ct" />
+            <PropertyRef Name="Ngay_Ct" />
+            <PropertyRef Name="NV_TaiXe" />
+            <PropertyRef Name="Ten_NVTaiXe" />
+            <PropertyRef Name="Ly_Do" />
+            <PropertyRef Name="Ma_dvcs" />
+            <PropertyRef Name="Isactive" />
+            <PropertyRef Name="CreateAt" />
+          </Key>
+          <Property Name="Stt" Type="Guid" Nullable="false" />
+          <Property Name="NV_GiaoHang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_NVGiaoHang" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NV_PhuKho" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_NVPhuKho" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="So_Ct" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ngay_Ct" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NV_TaiXe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_NVTaiXe" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ly_Do" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ma_dvcs" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Isactive" Type="Boolean" Nullable="false" />
+          <Property Name="CreateAt" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="B30GDetail">
+          <Key>
+            <PropertyRef Name="Stt" />
+            <PropertyRef Name="RowId" />
+            <PropertyRef Name="Ma_Dt" />
+            <PropertyRef Name="Ten_Dt" />
+            <PropertyRef Name="So_Hd" />
+            <PropertyRef Name="Ngay_HD" />
+            <PropertyRef Name="NV_GiaoNhan" />
+            <PropertyRef Name="Giao_HD" />
+            <PropertyRef Name="Tien_HD" />
+            <PropertyRef Name="Noi_Dung" />
+            <PropertyRef Name="Da_Giao_Hang" />
+            <PropertyRef Name="Chua_giao_hang" />
+            <PropertyRef Name="Isactive" />
+          </Key>
+          <Property Name="Stt" Type="Guid" Nullable="false" />
+          <Property Name="RowId" Type="Guid" Nullable="false" />
+          <Property Name="Ma_Dt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ten_Dt" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="So_Hd" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Ngay_HD" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NV_GiaoNhan" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Giao_HD" Type="Boolean" Nullable="false" />
+          <Property Name="Tien_HD" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Noi_Dung" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Da_Giao_Hang" Type="Boolean" Nullable="false" />
+          <Property Name="Chua_giao_hang" Type="Boolean" Nullable="false" />
+          <Property Name="Isactive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="SAP_OPCEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B30G" EntityType="Self.B30G" />
+          <EntitySet Name="B30GDetail" EntityType="Self.B30GDetail" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SAP_OPCModel1StoreContainer" CdmEntityContainer="SAP_OPCEntities4">
+          <EntitySetMapping Name="B30G">
+            <EntityTypeMapping TypeName="SAP_OPCModel1.B30G">
+              <MappingFragment StoreEntitySet="B30G">
+                <ScalarProperty Name="Stt" ColumnName="Stt" />
+                <ScalarProperty Name="NV_GiaoHang" ColumnName="NV_GiaoHang" />
+                <ScalarProperty Name="Ten_NVGiaoHang" ColumnName="Ten_NVGiaoHang" />
+                <ScalarProperty Name="NV_PhuKho" ColumnName="NV_PhuKho" />
+                <ScalarProperty Name="Ten_NVPhuKho" ColumnName="Ten_NVPhuKho" />
+                <ScalarProperty Name="So_Ct" ColumnName="So_Ct" />
+                <ScalarProperty Name="Ngay_Ct" ColumnName="Ngay_Ct" />
+                <ScalarProperty Name="NV_TaiXe" ColumnName="NV_TaiXe" />
+                <ScalarProperty Name="Ten_NVTaiXe" ColumnName="Ten_NVTaiXe" />
+                <ScalarProperty Name="Ly_Do" ColumnName="Ly_Do" />
+                <ScalarProperty Name="Ma_dvcs" ColumnName="Ma_dvcs" />
+                <ScalarProperty Name="Isactive" ColumnName="Isactive" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B30GDetail">
+            <EntityTypeMapping TypeName="SAP_OPCModel1.B30GDetail">
+              <MappingFragment StoreEntitySet="B30GDetail">
+                <ScalarProperty Name="Stt" ColumnName="Stt" />
+                <ScalarProperty Name="RowId" ColumnName="RowId" />
+                <ScalarProperty Name="Ma_Dt" ColumnName="Ma_Dt" />
+                <ScalarProperty Name="Ten_Dt" ColumnName="Ten_Dt" />
+                <ScalarProperty Name="So_Hd" ColumnName="So_Hd" />
+                <ScalarProperty Name="Ngay_HD" ColumnName="Ngay_HD" />
+                <ScalarProperty Name="NV_GiaoNhan" ColumnName="NV_GiaoNhan" />
+                <ScalarProperty Name="Giao_HD" ColumnName="Giao_HD" />
+                <ScalarProperty Name="Tien_HD" ColumnName="Tien_HD" />
+                <ScalarProperty Name="Noi_Dung" ColumnName="Noi_Dung" />
+                <ScalarProperty Name="Da_Giao_Hang" ColumnName="Da_Giao_Hang" />
+                <ScalarProperty Name="Chua_giao_hang" ColumnName="Chua_giao_hang" />
+                <ScalarProperty Name="Isactive" ColumnName="Isactive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

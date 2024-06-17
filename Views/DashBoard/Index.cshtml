@@ -1,0 +1,853 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Styles/Dashboard/responsive.css" rel="stylesheet" type="text/css" media="all" />
+
+    <link href="~/Styles/Dashboard/main-dashboard.css" rel="stylesheet" type="text/css" media="all" />
+    <title>DashBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+
+<body>
+
+
+    <nav class="left-sidebar">
+        <button type="button" id="toggle-btn">
+            <i class="fa fa-bars"></i>
+        </button>
+        <span class="logo-content">
+            <img class="logo-image" src="~/Images/opc.png">
+            <span class="logo_name">OPC</span>
+        </span>
+
+        <div class="nav-links" id="sidebar">
+            <a href="#"><div class="sidebar-title"><i class="fa-solid fa-house"></i> <div>Trang chủ</div></div></a>
+
+            <button class="dropdown-btn" onclick="toggleSubmenu('submenu1', 'arrow1')">
+                <div class="sidebar-title">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <div>Báo Cáo</div>
+                </div>
+                <div id="arrow1" class="icon-arrow">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </button>
+            <div id="submenu1" class="dropdown-container submenu-container">
+                <button class="submenu-btn" onclick="toggleSubmenu('submenu1_1','arrow-subicon')">
+                    1.Báo Cáo Quản Trị
+                    <div id="arrow-subicon" class="subicon-arrow">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </button>
+                <div id="submenu1_1" class="submenu-container">
+                    <a href="#">1.1 Doanh Thu Chi Nhánh</a>
+                    <a href="#">1.2 Doanh Thu CN Theo Gam</a>
+                    <a href="#">1.3 Doanh Thu CN Tính Lương</a>
+                    <a href="#">1.4 Doanh Thu Tổng Hợp - Chi Tiết</a>
+                </div>
+                <button class="submenu-btn" onclick="toggleSubmenu('submenu1_2')">2.Báo Cáo Nghiệp Vụ</button>
+                <div id="submenu1_2" class="submenu-container">
+                    <a href="#">Submenu 1.2.1</a>
+                    <a href="#">Submenu 1.2.2</a>
+                </div>
+                <button class="submenu-btn" onclick="toggleSubmenu('submenu1_3')">3.Báo Cáo Công Nợ</button>
+                <div id="submenu1_3" class="submenu-container">
+                    <a href="#">Submenu 1.3.1</a>
+                    <a href="#">Submenu 1.3.2</a>
+                </div>
+            </div>
+            <button class="dropdown-btn" onclick="toggleSubmenu('submenu2','arrow2')">
+                <div class="sidebar-title">
+                    <i class="fa-solid fa-table-list"></i>
+                    <div>Danh Mục</div>
+                </div>
+                <div id="arrow2" class="icon-arrow-2">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </button>
+            <div id="submenu2" class="dropdown-container submenu-container">
+                <button class="submenu-btn" onclick="toggleSubmenu('submenu2_1')">Báo Cáo Công Nợ</button>
+                <div id="submenu2_1" class="submenu-container">
+                    <a href="#">Submenu 1.1.1</a>
+                    <a href="#">Submenu 1.1.2</a>
+                </div>
+                <button class="submenu-btn" onclick="toggleSubmenu('submenu2_2')">Báo Cáo Quản Trị</button>
+                <div id="submenu2_2" class="submenu-container">
+                    <a href="#">Submenu 1.2.1</a>
+                    <a href="#">Submenu 1.2.2</a>
+                </div>
+                <button class="submenu-btn" onclick="toggleSubmenu('submenu3_3')">Báo Cáo Nghiệp Vụ</button>
+                <div id="submenu3_3" class="submenu-container">
+                    <a href="#">Submenu 1.3.1</a>
+                    <a href="#">Submenu 1.3.2</a>
+                </div>
+            </div>
+            <a href="#"><div class="sidebar-title"><i class="fa-solid fa-lock"></i> <div>Đổi Mật Khẩu</div></div></a>
+            <a href="#" onclick="logout()"><div class="sidebar-title"><i class="fa-solid fa-right-from-bracket"></i> <div>Đăng Xuất</div></div></a>
+        </div>
+    </nav>
+    @*<div class="mobile-menu-overlay"></div>*@
+    <section class="main-container">
+        <div class="header">
+            <div class="header-left">
+
+
+
+
+            </div>
+            <div class="header-right">
+                <div class="welcome-txt">WELCOME BACK</div>
+                <div class="user-txt">@Request.Cookies["UserName"].Value</div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="box">
+                <div class="box-row">
+                    <div class="box-1">
+                        <div>
+                            <h5 class="text">TỔNG DOANH THU</h5>
+                            <h5 class="num">20,000,000</h5>
+                        </div>
+                    </div>
+                    <div class="box-2">
+                        <div>
+                            <h5 class="text">DOANH THU THÁNG HIỆN TẠI</h5>
+                            <h5 class="num">20,000,000</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-row">
+                    <div class="box-3">
+                        <div>
+                            <h5 class="text">TỔNG DOANH THU</h5>
+                            <h5 class="num">20,000,000</h5>
+                        </div>
+                    </div>
+                    <div class="box-4">
+                        <div>
+                            <h5 class="text">TỔNG DOANH THU</h5>
+                            <h5 class="num">20,000,000</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-chart">
+                <div class="chart-1"><div id="gaugeChart1"></div></div>
+                <div class="chart-2"><div id="gaugeChart2"></div> </div>
+                <div class="chart-3"> <div id="gaugeChart3"></div></div>
+
+            </div>
+            <div class="row-chart-2">
+                <div class="left-chart">
+                    <div id="revenueChart"></div>   
+                </div>
+                <div class="right-chart">
+                    <div id="container"></div>
+                </div>
+            </div>
+            <div class="row-table">
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>STT</td>
+                                <td>Số HĐ</td>
+                                <td>Ngày HĐ</td>
+                                <td>Mã Vật Tư</td>
+                                <td>Tên Vật Tư</td>
+                                <td>Giá</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>0001</td>
+                                <td>1/1/2024</td>
+                                <td>1003663</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>0002</td>
+                                <td>2/1/2024</td>
+                                <td>1003664</td>
+                                <td>Kim Tiền Thảo</td>
+                                <td>10000000</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">Tổng cộng</td>
+                                <td>10000000</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="chart-table"><div id="container-2"></div></div>
+            </div>
+
+        </div>
+    </section>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        function logout() {
+            // Làm rỗng mảng tabArray
+            const tabArray = JSON.parse(localStorage.getItem("tabsArray")) || [];
+            tabArray.length = 0;
+            localStorage.setItem("tabsArray", JSON.stringify(tabArray));
+
+            // Điều hướng đến trang đăng nhập
+            window.location.href = "/home/login";
+        }
+        function toggleSubmenu(submenuId, arrowId) {
+            var submenu = document.getElementById(submenuId);
+            var arrow = document.getElementById(arrowId);
+
+            if (submenu.style.display === 'block') {
+                submenu.style.display = 'none';
+                arrow.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+            } else {
+                submenu.style.display = 'block';
+                arrow.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const nav = document.querySelector('nav');
+            const toggleBtn = document.getElementById('toggle-btn');
+            const content = document.querySelector('.main-container');
+            const span = document.querySelector('.logo-content');
+           
+            function checkScreenWidth() {
+                if (window.innerWidth <= 1300) {
+                    nav.classList.add('hide');
+                    span.classList.add('hide');
+                    content.classList.add('expand');
+                   /* mobile.classList.add('show');*/
+                } else {
+                    nav.classList.remove('hide');
+                    span.classList.remove('hide');
+                    content.classList.remove('expand');
+                  /*  mobile.classList.remove('show');*/
+                }
+            }
+
+            // Kiểm tra kích thước màn hình khi trang web được tải lên
+            checkScreenWidth();
+
+            // Thêm sự kiện resize để kiểm tra lại khi kích thước màn hình thay đổi
+            window.addEventListener('resize', function () {
+                checkScreenWidth();
+            });
+
+            toggleBtn.onclick = function () {
+                nav.classList.toggle('hide');
+                span.classList.toggle('hide');
+                content.classList.toggle('expand');
+               /* mobile.classList.toggle('show');*/
+                // Nếu sidebar được mở ra, thêm class "open" cho .left-sidebar và .main-container
+                //if (nav.classList.contains('hide')) {
+                //    nav.classList.add('open');
+                //    content.classList.add('open');
+                //} else {
+                //    // Ngược lại, loại bỏ class "open" nếu sidebar được đóng lại
+                //    nav.classList.remove('open');
+                //    content.classList.remove('open');
+                //}
+            };
+        });
+
+    </script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'gauge',
+                plotBackgroundColor: null,
+                plotBackgroundImage: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+
+            title: {
+                text: 'Speedometer'
+            },
+
+            pane: {
+                startAngle: -150,
+                endAngle: 150,
+                background: [{
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#FFF'],
+                            [1, '#333']
+                        ]
+                    },
+                    borderWidth: 0,
+                    outerRadius: '109%'
+                }, {
+                    backgroundColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, '#333'],
+                            [1, '#FFF']
+                        ]
+                    },
+                    borderWidth: 1,
+                    outerRadius: '107%'
+                }, {
+                    // default background
+                }, {
+                    backgroundColor: '#DDD',
+                    borderWidth: 0,
+                    outerRadius: '105%',
+                    innerRadius: '103%'
+                }]
+            },
+
+            // the value axis
+            yAxis: {
+                min: 0,
+                max: 200,
+
+                minorTickInterval: 'auto',
+                minorTickWidth: 1,
+                minorTickLength: 10,
+                minorTickPosition: 'inside',
+                minorTickColor: '#666',
+
+                tickPixelInterval: 30,
+                tickWidth: 2,
+                tickPosition: 'inside',
+                tickLength: 10,
+                tickColor: '#666',
+                labels: {
+                    step: 2,
+                    rotation: 'auto'
+                },
+                title: {
+                    text: 'km/h'
+                },
+                plotBands: [{
+                    from: 0,
+                    to: 120,
+                    color: '#55BF3B' // green
+                }, {
+                    from: 120,
+                    to: 160,
+                    color: '#DDDF0D' // yellow
+                }, {
+                    from: 160,
+                    to: 200,
+                    color: '#DF5353' // red
+                }]
+            },
+
+            series: [{
+                name: 'Speed',
+                data: [80],
+                tooltip: {
+                    valueSuffix: ' km/h'
+                }
+            }]
+
+        });
+    </script>
+    <script>
+        Highcharts.chart('gaugeChart3', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: '<div class="text-chart">Tỷ lệ tăng</br> trưởng doanh thu</div>',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 60
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '110%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                innerSize: '50%',
+                data: [
+                    ['Chrome', 70.00],
+                    //['Edge', 11.97],
+                    //['Firefox', 5.52],
+                    //['Safari', 2.98],
+                    //['Internet Explorer', 1.90],
+                    ['Other', 30.00]
+                ]
+            }]
+        });
+    </script>
+    <script>
+        Highcharts.chart('gaugeChart1', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: '<div class="text-chart">Tỷ lệ tăng</br> trưởng doanh thu</div>',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 60
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '110%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                innerSize: '50%',
+                data: [
+                    ['Chrome', 70.00],
+                    //['Edge', 11.97],
+                    //['Firefox', 5.52],
+                    //['Safari', 2.98],
+                    //['Internet Explorer', 1.90],
+                    ['Other', 30.00]
+                ]
+            }]
+        });
+    </script>
+    <script>
+        Highcharts.chart('gaugeChart2', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: '<div class="text-chart">Tỷ lệ tăng</br> trưởng doanh thu</div>',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 60
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%'],
+                    size: '110%'
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Browser share',
+                innerSize: '50%',
+                data: [
+                    ['Chrome', 70.00],
+                    //['Edge', 11.97],
+                    //['Firefox', 5.52],
+                    //['Safari', 2.98],
+                    //['Internet Explorer', 1.90],
+                    ['Other', 30.00]
+                ]
+            }]
+        });
+    </script>
+    <!-- Viết mã JavaScript để tạo biểu đồ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dữ liệu doanh thu của 9 chi nhánh
+            var revenueData = [5000000, 8000000, 12000000, 6000000, 10000000, 9000000, 7500000, 11000000, 8500000];
+
+            // Cấu hình biểu đồ
+            var chartConfig = {
+                chart: {
+                    type: 'column',
+                    options3d: {
+                        enabled: true,
+                        alpha: 45
+                    }
+                },
+                title: {
+                    text: 'Doanh Thu Chi Nhánh'
+                },
+                xAxis: {
+                    categories: ['Cần Thơ', 'Tiền Giang', 'Hồ Chí Minh', 'Miền Đông', 'Vũng Tàu', 'Nha Trang', 'Đà Nẵng', 'Nghệ An', 'Hà Nội']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Doanh Thu (VND)'
+                    }
+                },
+                series: [{
+                    name: 'Doanh Thu',
+                    data: revenueData
+                }],
+                plotOptions: {
+                    column: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.y}', // Hiển thị giá trị của cột
+                            style: {
+                                fontWeight: 'bold',
+                                color: 'black'
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Vẽ biểu đồ trong container có id là 'revenueChart'
+            Highcharts.chart('revenueChart', chartConfig);
+        });
+
+    </script>
+
+    <script>
+        (function (H) {
+            H.seriesTypes.pie.prototype.animate = function (init) {
+                const series = this,
+                    chart = series.chart,
+                    points = series.points,
+                    {
+                        animation
+                    } = series.options,
+                    {
+                        startAngleRad
+                    } = series;
+
+                function fanAnimate(point, startAngleRad) {
+                    const graphic = point.graphic,
+                        args = point.shapeArgs;
+
+                    if (graphic && args) {
+
+                        graphic
+                            // Set inital animation values
+                            .attr({
+                                start: startAngleRad,
+                                end: startAngleRad,
+                                opacity: 1
+                            })
+                            // Animate to the final position
+                            .animate({
+                                start: args.start,
+                                end: args.end
+                            }, {
+                                duration: animation.duration / points.length
+                            }, function () {
+                                // On complete, start animating the next point
+                                if (points[point.index + 1]) {
+                                    fanAnimate(points[point.index + 1], args.end);
+                                }
+                                // On the last point, fade in the data labels, then
+                                // apply the inner size
+                                if (point.index === series.points.length - 1) {
+                                    series.dataLabelsGroup.animate({
+                                        opacity: 1
+                                    },
+                                        void 0,
+                                        function () {
+                                            points.forEach(point => {
+                                                point.opacity = 1;
+                                            });
+                                            series.update({
+                                                enableMouseTracking: true
+                                            }, false);
+                                            chart.update({
+                                                plotOptions: {
+                                                    pie: {
+                                                        innerSize: '40%',
+                                                        borderRadius: 8
+                                                    }
+                                                }
+                                            });
+                                        });
+                                }
+                            });
+                    }
+                }
+
+                if (init) {
+                    // Hide points on init
+                    points.forEach(point => {
+                        point.opacity = 0;
+                    });
+                } else {
+                    fanAnimate(points[0], startAngleRad);
+                }
+            };
+        }(Highcharts));
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Doanh Thu Chi Nhánh',
+                align: 'left'
+            },
+            subtitle: {
+                text: 'Custom animation of pie series',
+                align: 'left'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    borderWidth: 2,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b><br>{point.percentage}%',
+                        distance: 20
+                    }
+                }
+            },
+            series: [{
+                // Disable mouse tracking on load, enable after custom animation
+                enableMouseTracking: false,
+                animation: {
+                    duration: 2000
+                },
+                colorByPoint: true,
+                data: [{
+                    name: 'Cần Thơ',
+                    y: 20
+                }, {
+                    name: 'Tiền Giang',
+                    y: 10
+                }, {
+                    name: 'Miền Đông',
+                    y: 10
+                }, {
+                    name: 'Hồ Chí Minh',
+                    y: 5
+                }, {
+                    name: 'Vũng Tàu',
+                    y: 10
+                    }
+                    , {
+                        name: 'Nha Trang',
+                        y: 10
+                    }, {
+                        name: 'Đà Nẵng',
+                        y: 5
+                    }, {
+                        name: 'Nghệ An',
+                        y: 15
+                    },
+                     {
+                        name: 'Hà Nội',
+                        y: 15
+                    }]
+            }]
+        });
+
+    </script>
+    <script>
+        const colors = Highcharts.getOptions().colors.map((c, i) =>
+            // Start out with a darkened base color (negative brighten), and end
+            // up with a much brighter color
+            Highcharts.color(Highcharts.getOptions().colors[0])
+                .brighten((i - 3) / 7)
+                .get()
+        );
+
+        // Build the chart
+        Highcharts.chart('container-2', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Browser market shares in February, 2022',
+                align: 'left'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    colors,
+                    borderRadius: 5,
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+                        distance: -50,
+                        filter: {
+                            property: 'percentage',
+                            operator: '>',
+                            value: 4
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Share',
+                data: [
+                    { name: 'Chrome', y: 74.03 },
+                    { name: 'Edge', y: 12.66 },
+                    { name: 'Firefox', y: 4.96 },
+                    { name: 'Safari', y: 2.49 },
+                    { name: 'Internet Explorer', y: 2.31 },
+                    { name: 'Other', y: 3.398 }
+                ]
+            }]
+        });
+    </script>
+
+
+
+</body>
+</html>

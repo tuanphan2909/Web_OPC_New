@@ -1,0 +1,181 @@
+﻿@using System.Data;
+@{
+    ViewData["Title"] = "BCCN";
+}
+
+<style>
+    table, td, th {
+        border: 1px solid black;
+    }
+
+    td.num{
+       text-align: right;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    h3{
+        color: blue;
+    }
+    button {
+        background-color: #2297f6;
+        border: none;
+        outline: none;
+        padding: 5px;
+        font-size: 30px;
+        color: #ffffff;
+        cursor: pointer;
+        margin-top: 20px;
+        text-align: center;
+    }
+    p {
+        color: #ffffff;
+    }
+</style>
+<head>
+    <meta name="viewport" content="width=device-with" />
+    <title>BCCN</title>
+</head>
+<body>
+    <h3>I. TỔNG THỰC HIỆN  - KHOÁN</h3>
+    <table border="1">
+        <tr bgcolor="White">
+            <th>KẾ HOẠCH</th>
+            <th>THỰC HIỆN</th>
+            <th>% THỰC HIỆN</th>
+            <th>CÒN LẠI</th>
+            <th>CÔNG NỢ</th>
+            <th>GT TỒN KHO</th>
+        </tr>
+
+        @foreach (DataRow row in Model.Tables[9].Rows)
+        {
+            <tr>
+                <td class="num">@row["Tong_cong_k"]</td>
+                <td class="num">@row["Tong_cong"]</td>
+                <td class="num">@row["Ty_le_dt"] %</td>
+                <td class="num">@row["Chi_tieu_con_lai"]</td>
+                <td class="num">@row["Tien_con"]</td> 
+                <td class="num">@row["Gia_Tri_TK"]</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <br />
+    <h3>II. KẾ HOẠCH - THỰC HIỆN GAM HÀNG</h3>
+    <table border="1" class="row">
+        <tr bgcolor="White">
+
+            <th>KẾ HOẠCH OPC</th>
+            <th>THỰC HIỆN OPC</th>
+            <th>% THỰC HIỆN OPC</th>
+            <th>KẾ HOẠCH CỒN</th>
+            <th>THỰC HIỆN CỒN</th>
+            <th>% THỰC HIỆN CỒN</th>
+            <th>KẾ HOẠCH SỦI</th>
+            <th>THỰC HIỆN SỦI</th>
+            <th>% THỰC HIỆN SỦI</th>
+            <th>Kế Hoạch TW25</th>
+            <th>Thực Hiện TW25</th>
+        </tr>
+        @foreach (DataRow row in Model.Tables[5].Rows)
+        {
+            <tr>        
+                <td class="num">&nbsp;@row["Doanh_thu_k"]&nbsp;</td>
+                <td class="num">&nbsp;@row["Doanh_thu"] &nbsp;</td>
+                <td class="num">@row["Ty_le_OPC"]%</td>
+                <td class="num">&nbsp;@row["Doanh_Thu_K_con"] &nbsp;</td>
+                <td class="num">&nbsp;@row["Doanh_thu_con"] &nbsp;</td>
+                <td class="num">@row["Ty_le_CON"]%</td>
+                <td class="num">&nbsp;@row["Doanh_Thu_K_sui"] &nbsp;</td>
+                <td class="num">&nbsp;@row["Doanh_Thu_sui_tong"] &nbsp;</td>
+                <td class="num">@row["Ty_le_sui"]%</td>
+                <td class="num">&nbsp;@row["Doanh_Thu_K_25"] &nbsp;</td>
+                <td class="num">&nbsp;@row["Doanh_Thu_25"] &nbsp;</td>
+
+            </tr>
+        }
+    </table>
+    <br />
+    <br />
+ <h3>III. THỰC HIỆN THEO LOẠI KHÁCH HÀNG</h3>
+    <table border="1">
+        <tr bgcolor="White">
+
+            <th>MÃ</th>
+            <th>LOẠI KH</th>
+            <th>DOANH THU</th>
+            <th>KHOÁN</th>
+            <th>% TỶ LỆ</th>
+            <th>% TỶ LỆ CƠ CẤU</th>
+
+
+
+        </tr>
+ 
+        @foreach (DataRow row in Model.Tables[6].Rows)
+        {
+            <tr>
+                <td>@row["Ma_loai_KH"]</td>
+                <td>@row["Loai_Kh"]</td>
+                <td class="num">&nbsp;@row["Doanh_thu"] &nbsp;</td>
+                <td class="num">&nbsp;@row["Khoan"] &nbsp;</td>
+                <td class="num">@row["Ty_le"]%</td>
+                <td class="num">@row["Ty_le_co_cau"]%</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <br />
+    <h3>IV. THỰC HIỆN THEO TỈNH THÀNH </h3>
+    <table border="1">
+        <tr bgcolor="White">
+
+            <th>TỈNH THÀNH</th>
+            <th>DOANH THU</th>
+            <th>TỶ LỆ CƠ CẤU</th>
+
+
+
+        </tr>
+
+        @foreach (DataRow row in Model.Tables[7].Rows)
+        {
+            <tr>
+                <td>@row["Ten_tinh_thanh"]</td>
+                <td class="num">&nbsp;@row["Doanh_thu"] &nbsp;</td>
+                <td class="num">@row["Ty_le_co_cau"]%</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <br />
+   <h3>V. THỰC HIỆN THEO ĐƠN VỊ</h3>
+    <table border="1">
+        <tr bgcolor="White">
+
+            <th>ĐƠN VỊ</th>
+            <th>SỐ ĐƠN VỊ</th>
+            <th>DOANH THU</th>
+            <th>TỶ LỆ CƠ CẤU</th>
+        </tr>
+
+        @foreach (DataRow row in Model.Tables[8].Rows)
+        {
+            <tr>
+                <td>@row["Ten_don_vi"]</td>
+                <td class="num">@row["Dem_don_vi"]</td>
+                <td class="num">&nbsp;@row["Doanh_thu"] &nbsp;</td>
+                <td class="num">@row["Ty_le_co_cau"]%</td>
+            </tr>
+        }
+    </table>
+    <button onclick="myfun()">Print Page</button>
+    <button><a href="/Home/About"><p>Trang CHỦ</p></a></button>
+    <script type="text/javascript">
+        function myfun() {
+            window.print();
+        }
+    </script>
+
+</body>
