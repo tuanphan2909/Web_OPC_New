@@ -328,6 +328,7 @@
     <Compile Include="Controllers\ChiTietCongNoPhaiTraController.cs" />
     <Compile Include="Controllers\ChiTietSPTraThuongController.cs" />
     <Compile Include="Controllers\CongNoChiTietController.cs" />
+    <Compile Include="Controllers\CongTacVienCap2Controller.cs" />
     <Compile Include="Controllers\CongTacVienController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\FormBKNopTienController.cs" />
@@ -365,7 +366,10 @@
     <Compile Include="Models\B20SPT_Detail.cs">
       <DependentUpon>SPTrungBay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\B30BKNT_Detail.cs" />
+    <Compile Include="Models\B30CTVCap2Detail.cs" />
     <Compile Include="Models\BienBanTuKiemKe.cs" />
+    <Compile Include="Models\CTVCap2.cs" />
     <Compile Include="Models\ImageModels.cs" />
     <Compile Include="Models\B30CTV.cs">
       <DependentUpon>Detail.tt</DependentUpon>
@@ -417,6 +421,7 @@
       <DependentUpon>SPTrungBay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\StudentMarkDetails.cs" />
+    <Compile Include="Models\BangKeNopTien.cs" />
     <Compile Include="Models\TheoDoiGiaoHang.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1376,6 +1381,10 @@
     <Content Include="Views\BaoCaoDTGVLG\BaoCaoDTGVLG.cshtml" />
     <Content Include="Views\BienBanTuKiemKe\BienBanTuKiemKe_Fill.cshtml" />
     <Content Include="Views\FormBKNopTien\UpdateBangKeLoadHD.cshtml" />
+    <Content Include="Views\CongTacVienCap2\InputCTVCap2.cshtml" />
+    <Content Include="Views\CongTacVienCap2\EditCTVCap2.cshtml" />
+    <Content Include="Views\CongTacVienCap2\CoppyCTVCap2.cshtml" />
+    <Content Include="Views\CongTacVienCap2\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

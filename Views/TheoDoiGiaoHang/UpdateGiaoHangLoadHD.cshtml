@@ -140,18 +140,18 @@
                 <button type="button" id="LoadHd">Load Hóa đơn</button>
 
                 @*<datalist id="dropdownList">
-            @foreach (var item in ViewBag.DataItems)
-            {
-                <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
-            }
-        </datalist>*@
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
+                        }
+                    </datalist>*@
 
                 @*<datalist id="dropdownList">
-            @foreach (var item in ViewBag.DataItems)
-            {
-                <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
-            }
-        </datalist>*@
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
+                        }
+                    </datalist>*@
                 <div class="form-group mb-3">
                     <p><strong>4. Nội Dung&nbsp;</strong></p>
                 </div>
@@ -201,7 +201,7 @@
                     </tbody>
                 </table>
                 <button type="button" id="addRowBtn">Thêm dòng</button>
-                <button class="submit" type="button" id="SaveHD">Lưu</button>
+                <button class="submit" type="button"onclick="saveValueToCookie()" id="SaveHD">Lưu</button>
             </form>
 
         </div>
@@ -638,7 +638,7 @@
                     '&Ma_NVGH=' + encodeURIComponent(maNVGH) +
                     '&Ly_Do=' + encodeURIComponent(ghichu) +
                     '&Ten_NVGH=' + encodeURIComponent(tenNVGH);
-                      '&STT=' + encodeURIComponent(STT); // Redirect or submit form after a short delay
+                '&STT=' + encodeURIComponent(STT); // Redirect or submit form after a short delay
                 queryParams += '&Ten_NVPhuKho=' + encodeURIComponent(TenGH);
                 setTimeout(function () {
                     window.location.href = 'UpdateGiaoHangLoadHD?' + queryParams;
@@ -705,7 +705,16 @@
 
         });
     </script>
+    <script>
+        function saveValueToCookie() {
+            var inputField = document.getElementById('Ly_do');
+            var value = inputField.value;
+            if (value) {
+                document.cookie = "Ly_Do=" + value + "; path=/";
 
+            }
+        }
+    </script>
 
 </body>
 

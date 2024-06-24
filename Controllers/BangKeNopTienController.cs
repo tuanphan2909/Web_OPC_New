@@ -200,7 +200,8 @@ namespace web4.Controllers
             var fromDate = Request.Cookies["From_date"].Value;
             var toDate = Request.Cookies["To_Date"].Value;
             var MaDt = Request.Cookies["Ma_DT"] != null ? Request.Cookies["Ma_DT"].Value : string.Empty;
-            var MaTDV = Request.Cookies["Ma_TDV"].Value;
+            var MaTDV = Request.Cookies["Ma_TDV"] != null ? Request.Cookies["Ma_DT"].Value : string.Empty;
+            var So_PT = Request.Cookies["So_PT"] != null ? Request.Cookies["So_PT"].Value : string.Empty;
             DataSet ds = new DataSet();
 
             ViewBag.DataTDV = dmDlistTDV;
@@ -233,6 +234,7 @@ namespace web4.Controllers
                     cmd.Parameters.AddWithValue("@_Den_Ngay", toDate);
                     cmd.Parameters.AddWithValue("@_Ma_dt", MaDt);
                     cmd.Parameters.AddWithValue("@_Ma_CbNv", MaTDV);
+                    cmd.Parameters.AddWithValue("@_So", So_PT);
                     cmd.Parameters.AddWithValue("@_ma_dvcs", ma_dvcs);
                     sda.Fill(ds);
 

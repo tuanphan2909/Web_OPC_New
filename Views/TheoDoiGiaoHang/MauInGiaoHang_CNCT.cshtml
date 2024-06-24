@@ -147,8 +147,8 @@
             <p>
                 Tuyến giao hàng: @foreach (DataRow row2 in Model.Tables[0].Rows)
                 {
-                    @row2["Ten_NVPhuKho"];
-                    var NVPhuKho = row2["Ten_NVPhuKho"].ToString();
+                    @row2["Ly_Do"];
+                    var NVPhuKho = row2["Ly_Do"].ToString();
 
                     // Lưu giá trị vào cookie
                     HttpCookie tenNVPhuCookie = new HttpCookie("tenNVPhuCookie");

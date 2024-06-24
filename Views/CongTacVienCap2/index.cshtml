@@ -1,0 +1,307 @@
+﻿@using System.Data;
+@using System.Globalization;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        h4 {
+            text-align: center;
+            color: blue;
+        }
+
+        .add-new-button {
+            background-color: #28a745; /* Green color */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 20px; /* Adjust padding as needed */
+            font-size: 16px; /* Adjust font size as needed */
+            /*/float: right; /* Adjust margin to position it to the right */
+            margin-left: auto; /* Auto margin left to push it to the right */
+            display: flex; /* Use flexbox to control layout */
+        }
+
+        td button {
+            background-color: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+            /* padding: 10px 20px;*/
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+            td button:hover {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            /* Optional: Adjust the button size */
+            td button.large {
+                padding: 15px 30px;
+                font-size: 18px;
+            }
+
+            /* Optional: Adjust the button color */
+            td button.primary {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: #fff;
+            }
+
+                td button.primary:hover {
+                    background-color: #0056b3;
+                    border-color: #0056b3;
+                }
+    </style>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Danh Sách Hạn Mức CTV</title>
+    <meta content="" name="description">
+    <meta content="Author" name="MJ Maraz">
+    <link href="~/assets/images/logo.png" rel="icon">
+    <link href="~/assets/images/favicon.png" rel="apple-touch-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- ========================================================= -->
+
+
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css">
+
+
+
+
+
+
+</head>
+<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
+
+<body style="background-color: #e0e8ee ">
+    @*<div class="tab-control" style="position:fixed;bottom:50px">
+            <ul class="tabs" style="background-color: #1d1b31">
+                <li class="tab selected"><a href="/Home/About" style="padding-right:5px">Home</a></li>
+
+            </ul>
+        </div>*@
+
+
+    <header class="header_part" style="background-color: #aec9e0; color: #3483bd ">
+        @if (Request.Cookies["UserName"].Value == "admin-cnct" || Request.Cookies["UserName"].Value == "admin-cntg" || Request.Cookies["UserName"].Value == "admin-cnmd" || Request.Cookies["UserName"].Value == "admin-cnh1" || Request.Cookies["UserName"].Value == "admin-cnvt"
+                     || Request.Cookies["UserName"].Value == "admin-cnnt" || Request.Cookies["UserName"].Value == "admin - cndn" || Request.Cookies["UserName"].Value == "admin - cnna" || Request.Cookies["UserName"].Value == "admin - cnhn")
+        {
+
+
+
+            <a href="/Home/About1" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        else
+        {
+            <a href="/Home/About" style="cursor:pointer">
+                <img src="~/Images/opc.png" style="height:60px;width:60px;margin-left:10px">
+            </a>
+        }
+        <h4 style="color:#3483bd">Danh Sách Hóa Đơn Khách Hàng Cấp 2</h4>
+    </header>
+    <!-- =======  Data-Table  = Start  ========================== -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <button type="button" id="addNewBtn" class="add-new-button">Thêm mới</button>
+
+                <div class="data_table">
+                    <table id="example" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Ngày Chứng từ</th>
+                                <th>Số Chứng Từ</th>
+                                <th>Mã Đối Tượng</th>
+                                <th>Tên Đối Tượng</th>
+                                <th>Mã Đvcs</th>
+                                <th></th>
+                                @*<th></th>*@
+                                <th hidden>CTVid</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row2 in Model.Tables[0].Rows)
+                            {
+                                var currentSoCt = row2["CTVId"].ToString();
+                                <tr data-soct="@currentSoCt">
+                                    <td style="text-align:right">@row2["Ngay_Ct"]</td>
+                                    <td style="text-align:right">@row2["So_CT"]</td>
+                                    <td style="text-align:right">@row2["Ma_DT"]</td>
+                                    <td>@row2["Ten_Dt"]</td>
+                                    <td>@row2["Ma_dvcs"]</td>
+                                    <td><a href="#" class="editBtn">Chỉnh Sửa</a></td>
+                                    @*<td><a href="#" class="Coppy">Thêm Bản Sao Mới</a></td>*@
+                                    <td hidden class="ctvid">@row2["CTVId"]</td>
+                                    <td><button onclick="scrollToBottom()">Xem Chi Tiết</button></td>
+                                </tr>
+                            }
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+                <br />
+                <div class="data_table" style="text-align:center">
+                    <h5 style="font-weight:bold">Chi Tiết Hạn Mức CTV</h5>
+                    <table id="example2" class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th hidden></th>
+                                <th>Mã Vật Tư</th>
+                                <th>Tên Vật Tư</th>
+                                <th>Số Lượng</th>
+                                <th>Đơn Giá</th>
+                                <th>Thành Tiền</th>
+
+                                @*<th>Hình 1</th>
+                                    <th>Hình 2</th>
+                                    <th>Hình 3</th>*@
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (DataRow row2 in Model.Tables[1].Rows)
+                            {
+                                //var hinh1 = row2["Hinh_1"] != DBNull.Value ? Convert.ToBase64String((byte[])row2["Hinh_1"]) : "";
+                                //var hinh2 = row2["Hinh_2"] != DBNull.Value ? Convert.ToBase64String((byte[])row2["Hinh_2"]) : "";
+                                //var hinh3 = row2["Hinh_3"] != DBNull.Value ? Convert.ToBase64String((byte[])row2["Hinh_3"]) : "";
+
+                                <tr>
+                                    <td hidden>@row2["CTVId"]</td>
+                                    <td style="text-align:right" class="NV_GN">@row2["Ma_Vt_SAP"]</td>
+                                    <td style="text-align:left">@row2["Ten_Vt"]</td>
+                                    <td style="text-align:right">@string.Format("{0:n0}", row2["So_Luong"]).Replace(",", ".")</td>
+                                    <td style="text-align:right">@string.Format("{0:n0}", row2["Don_Gia"]).Replace(",", ".")</td>
+                                    <td style="text-align:right">@string.Format("{0:n0}", row2["Thanh_Tien"]).Replace(",", ".")</td>
+
+
+
+
+
+                                    @*<td>
+                                            @if (!String.IsNullOrEmpty(hinh1))
+                                            {
+                                                <img src="data:image/png;base64,@hinh1" alt="Image 1" style="width: 100px; height: auto;" data-clickable="true" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!String.IsNullOrEmpty(hinh2))
+                                            {
+                                                <img src="data:image/png;base64,@hinh2" alt="Image 2" style="width: 100px; height: auto;" data-clickable="true" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (!String.IsNullOrEmpty(hinh3))
+                                            {
+                                                <img src="data:image/png;base64,@hinh3" alt="Image 3" style="width: 100px; height: auto;" data-clickable="true" />
+                                            }
+                                        </td>*@
+
+
+                                </tr>
+                            }
+
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =======  Data-Table  = End  ===================== -->
+    <!-- ============ Java Script Files  ================== -->
+
+    <div id="footer"></div>
+    <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+    <script>
+        // Your existing JavaScript code
+
+        $(document).ready(function () {
+            // Existing document.ready code
+
+            $('#addNewBtn').click(function () {
+
+                window.location.href = '/CongTacVienCap2/InputCTVCap2';
+            });
+        });
+
+        $('.editBtn').click(function () {
+            var ctvId = $(this).closest('tr').find('.ctvid').text();
+            document.cookie = "stt=" + ctvId + ";path=/;expires=Fri, 31 Dec 9999 23:59:59 GMT";
+
+            var newWindow = window.open('', '_blank');
+            newWindow.location.href = '/CongTacVienCap2/EditCTVCap2?CTVId=' + ctvId;
+        });
+
+        $('.Coppy').click(function () {
+            var ctvId = $(this).closest('tr').find('.ctvid').text();
+            var newWindow = window.open('', '_blank');
+            newWindow.location.href = '/CongTacVienCap2/CoppyCTVCap2?CTVId=' + ctvId;
+        });
+    </script>
+
+    <script>
+        function scrollToBottom() {
+            var footer = document.getElementById("footer");
+            if (footer) {
+                footer.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var table1Rows = document.querySelectorAll("#example tbody tr");
+            var table2Rows = document.querySelectorAll("#example2 tbody tr");
+
+
+
+            table2Rows.forEach(function (row2) {
+                row2.style.display = "none";
+            });
+
+            table1Rows.forEach(function (row) {
+                row.querySelector("td:last-child button").addEventListener("click", function () {
+                    var soCt = row.getAttribute("data-soct");
+                    console.log("Sự kiện click đã được kích hoạt");
+                    console.log("so chung tu", soCt);
+
+                    table2Rows.forEach(function (row2) {
+                        row2.style.display = "none";
+                    });
+                    if (soCt !== "") {
+
+                        table2Rows.forEach(function (row2) {
+                            var maDt = row2.querySelector("td:first-child").textContent;
+                            if (maDt === soCt) {
+                                row2.style.display = "table-row";
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

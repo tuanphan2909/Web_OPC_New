@@ -769,13 +769,13 @@
                                             break;
                                         }
                                     }
-                                    <div style="text-align: right; color: #3483bd">
-                                        <strong>@String.Format("{0:n0}", luong).Replace(",", ",")</strong>
-                                    </div>
-                                </td>
+                                <td style="text-align: right; color: #3483bd">@String.Format("{0:n0}", luong).Replace(",", ",")</td>
+
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td style="text-align: right; color: #3483bd">@String.Format("{0:n0}", tongTien).Replace(",", ",")</td>
+                                </td>
 
                             }
                             @if (Request.Cookies["SelectedNhom"].Value == "ma_dt")

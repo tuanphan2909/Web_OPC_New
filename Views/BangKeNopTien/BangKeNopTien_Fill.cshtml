@@ -600,23 +600,25 @@
                         }
                     </datalist>
                     <input type="hidden" name="Ma_TDV" id="selectedOptionTDV">
-
+                    <br /><br />
+                    <a>Số PT</a>
+                    <input type="text" name="So_PT" placeholder="Nhập số PT">
 
                     @*<div class="select-btn" style="width:100px;margin-top:10px">
-                            <select id="dropdownMaTDV" class="select2" style="width: 200px" name="Ma_TDV" onchange="saveSelectedTDVValueToCookie()">
-                                <option value="">Chọn mã TDV</option>
-                                @if (ViewBag.DataTDV != null)
-                                {
-                                    foreach (var item in ViewBag.DataTDV)
-                                    {
-                                        <option value="@item.Ma_CbNv" data-hoten="@item.Ma_CbNv">@item.Ma_CbNv @item.hoten</option>
-                                    }
-                                }
-                            </select>
+            <select id="dropdownMaTDV" class="select2" style="width: 200px" name="Ma_TDV" onchange="saveSelectedTDVValueToCookie()">
+                <option value="">Chọn mã TDV</option>
+                @if (ViewBag.DataTDV != null)
+                {
+                    foreach (var item in ViewBag.DataTDV)
+                    {
+                        <option value="@item.Ma_CbNv" data-hoten="@item.Ma_CbNv">@item.Ma_CbNv @item.hoten</option>
+                    }
+                }
+            </select>
 
-                        </div>*@
+        </div>*@
                     <div>
-                        <button class="submit" type="submit" id="runReportButton" onclick="runReport(); saveNgay();">
+                        <button class="submit" type="submit" id="runReportButton" onclick="runReport(); saveNgay()">
                             Chạy Báo Cáo
                         </button>
 
@@ -859,6 +861,7 @@
             // Hiển thị thẻ span có id là "spanText"
             const spanElement = document.getElementById("spanText");
             spanElement.style.display = "block";
+           
         }
     </script>
     <script>
@@ -916,6 +919,8 @@
         function saveNgay() {
             var from_date = document.getElementById("tu_ngay").value;
             var to_date = document.getElementById("den_ngay").value;
+            var soPT = document.querySelector('input[name="So_PT"]').value;
+            document.cookie = "So_PT=" + soPT;
             document.cookie = "From_date=" + from_date;
             document.cookie = "To_date=" + to_date;
         }
@@ -982,6 +987,7 @@
         });
 
     </script>
+  
 
 </body>
 

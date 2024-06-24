@@ -540,14 +540,16 @@
                                 <th>CK Cồn</th>
                                 <th>CK Sủi</th>
                                 <th>Payment Termp</th>
-                                @*<th>Hạn TTCK</th>
+                                <th>Hạn TTCK TT</th>
                                 <th>Tỷ Lệ</th>
-                                <th>Hạn TTCK 1%</th>
+                                <th>Hạn TT CKTT 1% </th>
                                 <th>Tỷ Lệ 1%</th>
                                 <th>Hạn TT</th>
-                                <th>Hạn Mức Nợ</th>*@
+                              
                                 <th>Mã Đại Diện</th>
                                 <th>Người Đại Diện</th>
+                                <th>Mã TDV</th>
+                                <th>Tên TDV</th>
                                 <th>Mã CSKH</th>
                                 <th>Tên CSKH</th>
                                 <th>Giới Tính CSKH</th>
@@ -566,18 +568,18 @@
                             {
                             <tr>
                                 <td>@row2["Ma_Dvcs"]</td>
-                            
+
                                 <td>@row2["Ma_Dt"]</td>
                                 <td>@row2["Ten_Dt"]</td>
                                 @*<td>@row2["Email"]</td>*@
                                 <td>@row2["Dia_Chi"]</td>
                                 <td>@row2["City"]</td>
                                 @*<td>@row2["Ma_TDV"]</td>
-                                <td>@row2["Ten_TDV"]</td>*@
+        <td>@row2["Ten_TDV"]</td>*@
                                 <td>@row2["Distribution_T"]</td>
                                 <td>@row2["Industry_T"]</td>
                                 @*<td>@row2["Ma_LKH_Ct_OPC"]</td>
-                                <td>@row2["Ten_LKH_OPC"]</td>*@
+        <td>@row2["Ten_LKH_OPC"]</td>*@
                                 <td>@row2["MST"]</td>
                                 <td>@row2["CK_T"]</td>
                                 <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["CK_OPC"]))</td>
@@ -585,14 +587,21 @@
                                 <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["CK_Con"]))</td>
                                 <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["CK_Sui"]))</td>
                                 <td class="" style="text-align:right">@row2["Payment_T"]</td>
+                                <td class="" style="text-align:center">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt_CkTt"]))</td>
+                                <td class="" style="text-align:center">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ty_Le"]))</td>
+                                <td class="" style="text-align:center">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt_CkTt1"]))</td>
+                                <td class="" style="text-align:center">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ty_Le1"]))</td>
+                                <td class="" style="text-align:center">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt"]))</td>
                                 @*<td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt_CkTt"]))</td>
-                                <td class="" style="text-align:right">@row2["Ty_le"]%</td>
-                                <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt_CkTt1"]))</td>
-                                <td class="" style="text-align:right">@row2["Ty_Le1"]%</td>*@
+        <td class="" style="text-align:right">@row2["Ty_le"]%</td>
+        <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt_CkTt1"]))</td>
+        <td class="" style="text-align:right">@row2["Ty_Le1"]%</td>*@
                                 @*<td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Tt"]))</td>
-                                <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Muc_No"]))</td>*@
+        <td class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Han_Muc_No"]))</td>*@
                                 <td>@row2["Ma_Dai_Dien"]</td>
                                 <td>@row2["Nguoi_Dai_Dien"]</td>
+                                <td>@row2["Ma_TDV"]</td>
+                                <td>@row2["Ten_TDV"]</td>
                                 <td>@row2["Ma_CSKH"]</td>
                                 <td>@row2["Ten_CSKH"]</td>
                                 <td>@row2["GT_CSKH"]</td>
@@ -601,10 +610,10 @@
                                 <td>@row2["SDT_CSKH"]</td>
                                 <td>@row2["CMND_CSKH"]</td>
                                 @*<td>@row2["NgayCap_CSKH"]</td>
-                                <td>@row2["NoiCap_CSKH"]</td>
-                                <td>@row2["Ho_Kinh_Doanh"]</td>
-                                <td>@row2["Tinh_Trang"]</td>
-                                <td>@row2["Ngay_Tao_Ma"]</td>*@
+        <td>@row2["NoiCap_CSKH"]</td>
+        <td>@row2["Ho_Kinh_Doanh"]</td>
+        <td>@row2["Tinh_Trang"]</td>
+        <td>@row2["Ngay_Tao_Ma"]</td>*@
                             </tr>
                             }
                         </tbody>

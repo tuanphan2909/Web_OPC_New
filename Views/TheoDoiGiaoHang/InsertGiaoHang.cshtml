@@ -167,7 +167,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
                         <tr>
                             <td>
                                 <input type="text" name="So_HD" id="So_HD" class="So_HD" list="dropdownListVT" placeholder="Tìm kiếm Hóa Đơn">
@@ -190,7 +190,7 @@
                     </tbody>
                 </table>
                 <button type="button" id="addRowBtn">Thêm dòng</button>
-                <button class="submit" type="submit" id="SaveHD">Lưu</button>
+                <button class="submit" type="submit" onclick="saveValueToCookie()"id="SaveHD">Lưu</button>
             </form>
 
         </div>
@@ -458,10 +458,10 @@
             var today = new Date();
             var dateStr = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
             document.getElementById("Ngay_Ct").value = dateStr;
-            
+
         });
     </script>
-     <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             var today = new Date();
             var year = today.getFullYear().toString().slice(-2); // Lấy 2 chữ số cuối của năm
@@ -475,12 +475,21 @@
             //// Lưu số đơn hàng mới vào Local Storage
             //localStorage.setItem('currentOrderNumber', nextOrderNumber);
 
-            var fullOrderNumber = orderPrefix ;
+            var fullOrderNumber = orderPrefix;
             document.getElementById("So_Ct").value = fullOrderNumber;
         });
     </script>
 
+    <script>
+        function saveValueToCookie() {
+            var inputField = document.getElementById('Ly_do');
+            var value = inputField.value;
+            if (value) {
+                document.cookie = "Ly_Do=" + value + "; path=/";
 
+            }
+        }
+    </script>
 
 </body>
 

@@ -34,6 +34,9 @@ namespace web4.Models
       
         public string Tien { get; set; }
         public string Tien1 { get; set; }
+        public float Tien_CKTT { get; set; }
+        public string Ngay_Den_Han { get; set; }
+        public string Ngay_Nop_Tien { get; set; }
 
     }
 }

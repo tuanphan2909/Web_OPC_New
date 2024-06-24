@@ -114,10 +114,12 @@ namespace web4.Controllers
                                     So_HD = row["So_HD"].ToString(),
                                     Ma_Dt = row["Ma_dt"].ToString(),
                                     Ten_Dt = row["Ten_Dt"].ToString(),                                  
-                                    Tien_HD = float.Parse(row["Cong_No"].ToString())
+                                    Tien_HD = float.Parse(row["Cong_No"].ToString()),
+                                     Tien_CKTT = string.IsNullOrEmpty(row["Tien_CKTT"].ToString()) ? 0 : float.Parse(row["Tien_CKTT"].ToString()),
+                                 Tien_Phai_Thu = string.IsNullOrEmpty(row["Tien_Phai_Thu"].ToString()) ? 0 : float.Parse(row["Tien_Phai_Thu"].ToString()),
+                                 Ngay_Den_Han = row["Ngay_Den_Han"].ToString()
 
-
-                                };
+                            };
 
                                 dataItems.Add(dataItem);
                             }
@@ -202,35 +204,34 @@ namespace web4.Controllers
             ViewBag.DataHD = dmListHD;
             return View();
         }
-        public ActionResult SaveHD(TheoDoiGiaoHang TDGH)
+        public ActionResult SaveHD(BangKeNopTien BK)
         {
-            TDGH.Dvcs = Request.Cookies["MA_DVCS"] != null ? Request.Cookies["MA_DVCS"].Value : "";
-            TDGH.Ma_NVGH = Request.Cookies["Ma_NVGH"] != null ? Request.Cookies["Ma_NVGH"].Value : "";
-            TDGH.Ten_NVGH = Request.Cookies["Ten_NVGH"] != null ? Request.Cookies["Ten_NVGH"].Value : "";
-            TDGH.NV_GiaoNhan = Request.Cookies["NV_GiaoNhan"] != null ? Request.Cookies["NV_GiaoNhan"].Value : "";
-            TDGH.Ly_do = Request.Cookies["Ly_Do"] != null ? Request.Cookies["Ly_Do"].Value : "";
+            BK.Dvcs = Request.Cookies["MA_DVCS"] != null ? Request.Cookies["MA_DVCS"].Value : "";
+            BK.Noi_Dung = Request.QueryString["Ly_Do"] != null ? Request.QueryString["Ly_Do"] : "";
 
 
             string result = "Error!";
             connectSQL();
-            if (TDGH != null && TDGH.Details != null)
+            if (BK != null && BK.Details != null)
             {
                 try
                 {
                     var detailsTable = new DataTable();
-                    detailsTable.Columns.Add("So_Hd", typeof(int));
-                    detailsTable.Columns.Add("So_CT1", typeof(int));
-
+                    detailsTable.Columns.Add("So_HD", typeof(int));
+                    detailsTable.Columns.Add("So_CT", typeof(string));
                     detailsTable.Columns.Add("Ngay_HD", typeof(string));
+                    detailsTable.Columns.Add("Ngay_Den_Han", typeof(string));
                     detailsTable.Columns.Add("Ma_Dt", typeof(int));
                     detailsTable.Columns.Add("Ten_Dt", typeof(string));
-                    detailsTable.Columns.Add("NV_GN", typeof(string));
-                    detailsTable.Columns.Add("Tien", typeof(float));
+                    detailsTable.Columns.Add("Tien_HD", typeof(float));
+                    detailsTable.Columns.Add("Tien_CKTT", typeof(float));
+                    detailsTable.Columns.Add("Tien_CKTT", typeof(float));
+                    detailsTable.Columns.Add("Tien_Phai_Thu", typeof(float));
                     detailsTable.Columns.Add("Noi_Dung", typeof(string));
                     
-                    foreach (var detail in TDGH.Details)
+                    foreach (var detail in BK.Details)
                     {
-                        detailsTable.Rows.Add(detail.So_Hd,detail.So_CT1, detail.Ngay_HD, detail.Ma_Dt, detail.Ten_Dt, detail.NV_GiaoNhan, detail.Tien_HD, detail.Noi_Dung);
+                        detailsTable.Rows.Add(detail.So_HD,detail.So_CT, detail.Ngay_HD,detail.Ngay_Den_Han, detail.Ma_Dt, detail.Ten_Dt, detail.Tien_HD, detail.Tien_CKTT, detail.Tien_Phai_Thu,detail.Stt);
                     }
 
                     using (var connection = new SqlConnection(con.ConnectionString))
@@ -241,13 +242,13 @@ namespace web4.Controllers
                         {
                             command.CommandType = CommandType.StoredProcedure;
 
-                            command.Parameters.AddWithValue("@_Ngay_Ct", TDGH.Ngay_Ct);
-                            command.Parameters.AddWithValue("@_so_Ct", TDGH.So_Ct);
-                            command.Parameters.AddWithValue("@_NV_GiaoHang", TDGH.Ma_NVGH);
-                            command.Parameters.AddWithValue("@_Ten_NVGiaoHang", TDGH.Ten_NVGH);
-                            command.Parameters.AddWithValue("@_Ten_NVPhuKho", TDGH.NV_GiaoNhan);
-                            command.Parameters.AddWithValue("@_Dvcs", TDGH.Dvcs);
-                            command.Parameters.AddWithValue("@_Ly_Do", TDGH.Ly_do);
+                            command.Parameters.AddWithValue("@_Ngay_Nop_Tien", BK.Ngay_Nop_Tien);
+                            command.Parameters.AddWithValue("@_So_BK", BK.So_BK);
+                            command.Parameters.AddWithValue("@_Ma_TDV", BK.Ma_TDV);
+                            command.Parameters.AddWithValue("@_Ten_TDV", BK.Ten_TDV);
+                            command.Parameters.AddWithValue("@_Tong_Tien", BK.Tong_Tien);
+                            command.Parameters.AddWithValue("@_Dvcs", BK.Dvcs);
+                            command.Parameters.AddWithValue("@_Noi_Dung", BK.Noi_Dung);
 
                             // Pass details as a TVP parameter
                             var detailsParam = command.Parameters.AddWithValue("@_Details", detailsTable);
@@ -362,73 +363,73 @@ namespace web4.Controllers
 
             return View(ds);
         }
-        public ActionResult SaveUpdate(TheoDoiGiaoHang TDGH)
-        {
+        //public ActionResult SaveUpdate(BangKeNopTien BK)
+        //{
 
 
 
-            TDGH.Dvcs = Request.Cookies["MA_DVCS"] != null ? Request.Cookies["MA_DVCS"].Value : "";
-            TDGH.Ma_NVGH = Request.Cookies["Ma_NVGH"] != null ? Request.Cookies["Ma_NVGH"].Value : "";
-            TDGH.Ten_NVGH = Request.Cookies["Ten_NVGH"] != null ? Request.Cookies["Ten_NVGH"].Value : "";
-            TDGH.NV_GiaoNhan = Request.Cookies["NV_GiaoNhan"] != null ? Request.Cookies["NV_GiaoNhan"].Value : "";
-            TDGH.Ly_do = Request.Cookies["Ly_Do"] != null ? Request.Cookies["Ly_Do"].Value : "";
-            string result = "Error!";
-            connectSQL();
-            if (TDGH != null && TDGH.Details != null)
-            {
-                try
-                {
-                    var detailsTable = new DataTable();
-                    detailsTable.Columns.Add("So_Hd", typeof(int));
-                    detailsTable.Columns.Add("Ngay_HD", typeof(string));
-                    detailsTable.Columns.Add("Ma_Dt", typeof(int));
-                    detailsTable.Columns.Add("Ten_Dt", typeof(string));
-                    detailsTable.Columns.Add("NV_GN", typeof(string));
-                    detailsTable.Columns.Add("Giao_HD", typeof(bool));
-                    detailsTable.Columns.Add("Tien", typeof(float));
-                    detailsTable.Columns.Add("Noi_Dung", typeof(string));
-                    detailsTable.Columns.Add("Chua_giao_hang", typeof(bool));
-                    foreach (var detail in TDGH.Details)
-                    {
-                        detailsTable.Rows.Add(detail.So_Hd, detail.Ngay_HD, detail.Ma_Dt, detail.Ten_Dt, detail.NV_GiaoNhan, detail.Giao_HD, detail.Tien_HD, detail.Noi_Dung, detail.Chua_giao_hang);
-                    }
+        //    BK.Dvcs = Request.Cookies["MA_DVCS"] != null ? Request.Cookies["MA_DVCS"].Value : "";
+        //    BK.Ma_NVGH = Request.Cookies["Ma_NVGH"] != null ? Request.Cookies["Ma_NVGH"].Value : "";
+        //    BK.Ten_NVGH = Request.Cookies["Ten_NVGH"] != null ? Request.Cookies["Ten_NVGH"].Value : "";
+        //    BK.NV_GiaoNhan = Request.Cookies["NV_GiaoNhan"] != null ? Request.Cookies["NV_GiaoNhan"].Value : "";
+        //    BK.Ly_do = Request.Cookies["Ly_Do"] != null ? Request.Cookies["Ly_Do"].Value : "";
+        //    string result = "Error!";
+        //    connectSQL();
+        //    if (BK != null && BK.Details != null)
+        //    {
+        //        try
+        //        {
+        //            var detailsTable = new DataTable();
+        //            detailsTable.Columns.Add("So_Hd", typeof(int));
+        //            detailsTable.Columns.Add("Ngay_HD", typeof(string));
+        //            detailsTable.Columns.Add("Ma_Dt", typeof(int));
+        //            detailsTable.Columns.Add("Ten_Dt", typeof(string));
+        //            detailsTable.Columns.Add("NV_GN", typeof(string));
+        //            detailsTable.Columns.Add("Giao_HD", typeof(bool));
+        //            detailsTable.Columns.Add("Tien", typeof(float));
+        //            detailsTable.Columns.Add("Noi_Dung", typeof(string));
+        //            detailsTable.Columns.Add("Chua_giao_hang", typeof(bool));
+        //            foreach (var detail in BK.Details)
+        //            {
+        //                detailsTable.Rows.Add(detail.So_Hd, detail.Ngay_HD, detail.Ma_Dt, detail.Ten_Dt, detail.NV_GiaoNhan, detail.Giao_HD, detail.Tien_HD, detail.Noi_Dung, detail.Chua_giao_hang);
+        //            }
 
-                    using (var connection = new SqlConnection(con.ConnectionString))
-                    {
-                        connection.Open();
+        //            using (var connection = new SqlConnection(con.ConnectionString))
+        //            {
+        //                connection.Open();
 
-                        using (var command = new SqlCommand("UpdateBangKeNoptTien", connection))
-                        {
-                            command.CommandType = CommandType.StoredProcedure;
+        //                using (var command = new SqlCommand("UpdateBangKeNoptTien", connection))
+        //                {
+        //                    command.CommandType = CommandType.StoredProcedure;
 
-                            command.Parameters.AddWithValue("@_Ngay_Ct", TDGH.Ngay_Ct);
-                            command.Parameters.AddWithValue("@_NV_GiaoHang", TDGH.Ma_NVGH);
-                            command.Parameters.AddWithValue("@_Ten_NVGiaoHang", TDGH.Ten_NVGH);
-                            command.Parameters.AddWithValue("@_Ten_NVPhuKho", TDGH.NV_GiaoNhan);
-                            command.Parameters.AddWithValue("@_Ly_Do", TDGH.Ly_do);
-                            command.Parameters.AddWithValue("@_Stt", TDGH.Stt);
+        //                    command.Parameters.AddWithValue("@_Ngay_Ct", BK.Ngay_Ct);
+        //                    command.Parameters.AddWithValue("@_NV_GiaoHang", BK.Ma_NVGH);
+        //                    command.Parameters.AddWithValue("@_Ten_NVGiaoHang", BK.Ten_NVGH);
+        //                    command.Parameters.AddWithValue("@_Ten_NVPhuKho", BK.NV_GiaoNhan);
+        //                    command.Parameters.AddWithValue("@_Ly_Do", BK.Ly_do);
+        //                    command.Parameters.AddWithValue("@_Stt", BK.Stt);
 
 
-                            // Pass details as a TVP parameter
-                            var detailsParam = command.Parameters.AddWithValue("@_Details", detailsTable);
-                            detailsParam.SqlDbType = SqlDbType.Structured;
-                            detailsParam.TypeName = "B30GdetailType"; // Replace with your actual type name
+        //                    // Pass details as a TVP parameter
+        //                    var detailsParam = command.Parameters.AddWithValue("@_Details", detailsTable);
+        //                    detailsParam.SqlDbType = SqlDbType.Structured;
+        //                    detailsParam.TypeName = "B30GdetailType"; // Replace with your actual type name
 
-                            command.ExecuteNonQuery();
+        //                    command.ExecuteNonQuery();
 
-                            result = "Success! Đã Sửa";
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Handle exceptions appropriately
-                    result = $"Error! {ex.Message}";
-                }
+        //                    result = "Success! Đã Sửa";
+        //                }
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            // Handle exceptions appropriately
+        //            result = $"Error! {ex.Message}";
+        //        }
 
-            }
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //    }
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
 
 

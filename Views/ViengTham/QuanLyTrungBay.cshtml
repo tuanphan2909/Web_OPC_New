@@ -826,6 +826,7 @@ background: white;
                         <thead class="table-dark">
                             <tr>
                                 <th></th>
+                                <th>STT</th>
                                 <th>Mã KH </th>
                                 <th>Tên KH</th>
                                 <th>Số HD</th>
@@ -866,65 +867,69 @@ background: white;
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (DataRow row in Model.Tables[0].Rows)
-                            {
-                                var currentSoCt = row["STT"].ToString();
-                                <tr data-soct="@currentSoCt">
-                                    <td>
-                                        <label class="container1">
-                                            <input type="checkbox" class="rowCheckbox" data-ma-kh="@row["Ma_Dt"]" style="background-color:red">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </td>
+                            @{ 
+                                var stt = 1;
+                                foreach (DataRow row in Model.Tables[0].Rows)
+                                {
 
-                                    <td>@row["Ma_Dt"]</td>
-                                    <td style="text-align:left">@row["Ten_Dt"]</td>
-                                    <td>@row["So_Ct"]</td>
-                                    <td>@row["Ma_TDV"]</td>
-                                    <td style="text-align:left">@row["hoten"]</td>
-                                    <td>@row["Ngay_bat_dau"]</td>
-                                    <td>@row["Ngay_ket_thuc"]</td>
-                                    <td>@row["Thoi_Luong_trung_bay"]</td>
-                                    <td style="text-align:right">@String.Format("{0:n0}", row["Muc_thuong"]).Replace(",", ".")</td>
-                                    <td style="text-align:right">@String.Format("{0:n0}", row["So_Luong_HD"]).Replace(",", ".")</td>
-                                    <td style="text-align:right">@String.Format("{0:n0}", row["Tien"])</td>
-                                    <td>@row["Option_1"]</td>
-                                    <td>@row["Option_2"]</td>
-                                    @*<td>@row["Ma_SP_Thuong"]</td>
-                                        <td style="text-align:left">@row["Ten_SP_Thuong"]</td>
-                                        <td>@row["Dvt_SP_Thuong"]</td>*@
-                                    @*<td>@row["Ma_TDV"]</td>
-                                        <td style="text-align:left">@row["Ten_TDV"]</td>*@
-                                    <td>@row["Tuan_1"]</td>
-                                    <td>@row["Tuan_2"]</td>
-                                    <td>@row["Tuan_3"]</td>
-                                    <td>@row["Tuan_4"]</td>
-                                    @*<td>@row["Tuan_5"]</td>
-                                        <td>@row["Tuan_6"]</td>
-                                        <td>@row["Tuan_7"]</td>
-                                        <td>@row["Tuan_8"]</td>
-                                        <td>@row["Tuan_9"]</td>
-                                        <td>@row["Tuan_10"]</td>
-                                        <td>@row["Tuan_11"]</td>
-                                        <td>@row["Tuan_12"]</td>*@
-                                    <td hidden class="ctvid" data-stt="@row["STT"]">@row["STT"]</td>
-                                    <td hidden>@row["Dong_y_Tra_Thuong"]</td>
-                                    <td>
-                                        @if (Convert.ToInt32(row["Dong_y_tra_thuong"]) == 0)
-                                        {
-                                            <button class="agree-btn" style="display: block;">Đồng ý</button>
-                                            <button class="disagree-btn" hidden>Không</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="agree-btn" hidden>Đồng ý</button>
-                                            <button class="disagree-btn" style="display: block;">Không</button>
-                                        }
-                                    </td>
+                                    var currentSoCt = row["STT"].ToString();
+                            <tr data-soct="@currentSoCt">
+                                <td>
+                                    <label class="container1">
+                                        <input type="checkbox" class="rowCheckbox" data-ma-kh="@row["Ma_Dt"]" style="background-color:red">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </td>
+                                <td>@stt</td>
+                                <td>@row["Ma_Dt"]</td>
+                                <td style="text-align:left">@row["Ten_Dt"]</td>
+                                <td>@row["So_Ct"]</td>
+                                <td>@row["Ma_TDV"]</td>
+                                <td style="text-align:left">@row["hoten"]</td>
+                                <td>@row["Ngay_bat_dau"]</td>
+                                <td>@row["Ngay_ket_thuc"]</td>
+                                <td>@row["Thoi_Luong_trung_bay"]</td>
+                                <td style="text-align:right">@String.Format("{0:n0}", row["Muc_thuong"]).Replace(",", ".")</td>
+                                <td style="text-align:right">@String.Format("{0:n0}", row["So_Luong_HD"]).Replace(",", ".")</td>
+                                <td style="text-align:right">@String.Format("{0:n0}", row["Tien"])</td>
+                                <td>@row["Option_1"]</td>
+                                <td>@row["Option_2"]</td>
+                                @*<td>@row["Ma_SP_Thuong"]</td>
+            <td style="text-align:left">@row["Ten_SP_Thuong"]</td>
+            <td>@row["Dvt_SP_Thuong"]</td>*@
+                                @*<td>@row["Ma_TDV"]</td>
+            <td style="text-align:left">@row["Ten_TDV"]</td>*@
+                                <td>@row["Tuan_1"]</td>
+                                <td>@row["Tuan_2"]</td>
+                                <td>@row["Tuan_3"]</td>
+                                <td>@row["Tuan_4"]</td>
+                                @*<td>@row["Tuan_5"]</td>
+            <td>@row["Tuan_6"]</td>
+            <td>@row["Tuan_7"]</td>
+            <td>@row["Tuan_8"]</td>
+            <td>@row["Tuan_9"]</td>
+            <td>@row["Tuan_10"]</td>
+            <td>@row["Tuan_11"]</td>
+            <td>@row["Tuan_12"]</td>*@
+                                <td hidden class="ctvid" data-stt="@row["STT"]">@row["STT"]</td>
+                                <td hidden>@row["Dong_y_Tra_Thuong"]</td>
+                                <td>
+                                    @if (Convert.ToInt32(row["Dong_y_tra_thuong"]) == 0)
+                                    {
+                                        <button class="agree-btn" style="display: block;">Đồng ý</button>
+                                        <button class="disagree-btn" hidden>Không</button>
+                                    }
+                                    else
+                                    {
+                                        <button class="agree-btn" hidden>Đồng ý</button>
+                                        <button class="disagree-btn" style="display: block;">Không</button>
+                                    }
+                                </td>
 
-                                    <td><button onclick="scrollToBottom()">Xem Chi Tiết</button></td>
-                                </tr>
-                            }
+                                <td><button onclick="scrollToBottom()">Xem Chi Tiết</button></td>
+                            </tr>
+                                        stt++;
+                                    } }
                         </tbody>
 
 
@@ -1461,7 +1466,7 @@ background: white;
             temporaryTable.find('thead th:first-child, tbody td:first-child').remove();
 
             // Define the indices of the columns to remove
-            var columnsToRemove = [15, 16, 17]; // Assuming 'STT' is at index 15, 'Đồng ý Trả Thưởng' at 16, 'Trả thưởng' at 17
+            var columnsToRemove = [18, 19, 20]; // Assuming 'STT' is at index 15, 'Đồng ý Trả Thưởng' at 16, 'Trả thưởng' at 17
 
             // Remove the specified columns
             temporaryTable.find('thead th').each(function (index) {
@@ -1479,9 +1484,9 @@ background: white;
             });
 
             // Remove columns from the 15th index onward
-            temporaryTable.find('thead th:gt(14)').remove();
+            temporaryTable.find('thead th:gt(17)').remove();
             temporaryTable.find('tbody tr').each(function () {
-                $(this).find('td:gt(14)').remove();
+                $(this).find('td:gt(17)').remove();
             });
 
             // Process the 'Doanh Thu' column to remove dots
@@ -1498,7 +1503,6 @@ background: white;
                 filename: "QuanLyTrungBay"
             });
         }
-
     </script>
 </body>
 

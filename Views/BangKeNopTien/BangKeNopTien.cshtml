@@ -613,6 +613,9 @@
                         }
                     </datalist>
                     <input type="hidden" name="Ma_TDV" id="selectedOptionTDV">
+                    <br /><br />
+                    <a>Số PT</a>
+                    <input type="text" name="So_PT" placeholder="Nhập số PT">
                     <div>
                         <button class="submit" type="submit" id="runReportButton" onclick="runReport(); saveNgay();">
                             Chạy Báo Cáo
@@ -1120,6 +1123,8 @@
         function saveNgay() {
             var from_date = document.getElementById("tu_ngay").value;
             var to_date = document.getElementById("den_ngay").value;
+            var soPT = document.querySelector('input[name="So_PT"]').value;
+            document.cookie = "So_PT=" + soPT;
             document.cookie = "From_date=" + from_date;
             document.cookie = "To_date=" + to_date;
         }
@@ -1193,6 +1198,7 @@
             newWindow.location.href = url;
         }
     </script>
+  
 </body>
 
 </html>

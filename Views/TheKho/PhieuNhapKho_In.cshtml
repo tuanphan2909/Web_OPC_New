@@ -6,6 +6,8 @@
     string chinhanh = null;
     string dvcs = null;
     string diachi1 = null;
+    string diachiCN = null;
+    string tenNCC = null;
     decimal totalThanhTien = 0;
     string tkNo = null;
     if (Request.Cookies["MA_DVCS"].Value =="OPC_CT")
@@ -48,7 +50,8 @@
             diachi = row3["Dia_Chi"].ToString();
             chinhanh = row3["Ship_To"].ToString();
             dvcs = row3["Ma_DvCs"].ToString();
-
+            diachiCN = row3["Dia_Chi_CN"].ToString();
+            tenNCC = row3["Ten_Supplier"].ToString();
             break; // Kết thúc vòng lặp khi tìm thấy điều kiện
         }
     }
@@ -588,7 +591,7 @@
 
                 <div style="text-align: center; width: 400px;">
                     <h5 style="color:black;font-weight:bold">Mẫu số 01 - VT</h5>
-                    <h5 style="text-align:center">(Ban hành theo Thông tư số :200/2014/TT-BTC</h5>
+                    <h5 style="text-align:center">(Ban hành theo Thông tư số : 200/2014/TT-BTC</h5>
                     <h5>Ngày 22/12/2014 của Bộ Tài Chính)</h5>
 
                 </div>
@@ -622,20 +625,20 @@
                     </span>
                 </h4>
                 <h4 style=" font-size: 12px;">- Địa chỉ (bộ phận): <span style="color:black;font-weight:bold">@diachi</span></h4>
-                <h4 style=" font-size: 12px;">- Theo.................. số.............. &nbsp;&nbsp;&nbsp;&nbsp;ngày.......tháng.......năm.........của:<span style="color:black;font-weight:bold"></span></h4>
+                <h4 style=" font-size: 12px;">- Theo.................. số.............. &nbsp;&nbsp;&nbsp;&nbsp;ngày.......tháng.......năm.........của:<span style="color:black;font-weight:bold">&nbsp;@tenNCC</span></h4>
                 <h4 style=" font-size: 12px;">
                     - Nhập tại kho: <span style="color:black;font-weight:bold">
                         @chinhanh
                     </span>
                 </h4>
-                <h4 style=" font-size: 12px;">- Địa điểm: <span style="color:black;font-weight:bold">@dvcs @chinhanh </span></h4>
+                <h4 style=" font-size: 12px;">- Địa điểm: <span style="color:black;font-weight:bold"> &nbsp;@diachiCN </span></h4>
 
             </div>
             <div>
                 <table border="1" style="width:700px">
                     <tr>
                         <th rowspan="2">STT</th>
-                        <th rowspan="2" width="120px">Tên,nhãn hiệu, quy cách, phẩm chất vật tư, dụng cụ, sản phẩm, hàng hóa</th>
+                        <th rowspan="2" width="120px">Tên, nhãn hiệu, quy cách, phẩm chất vật tư, dụng cụ, sản phẩm, hàng hóa</th>
                         <th rowspan="2">Mã số</th>
                         <th rowspan="2" style="width:50px">Đơn vị tính</th>
                         <th colspan="2">Số Lượng</th>
@@ -668,9 +671,9 @@
                                         <td>@row3["Ma_Vt"]</td>
                                         <td>@row3["dvt"]</td>
                                         <td></td>
-                                        <td style="text-align:right">@string.Format("{0:#,###}", row3["So_luong"])</td>
-                                        <td style="text-align:right">@string.Format("{0:#,###}", row3["Don_Gia"]).Replace(",", ".")</td>
-                                        <td style="text-align:right">@string.Format("{0:#,###}", row3["Tien"]).Replace(",", ".")</td>
+                                        <td style="text-align: right; padding: 0px 5px 0px 5px">@string.Format("{0:#,###}", row3["So_luong"])</td>
+                                        <td style="text-align: right; padding: 0px 5px 0px 5px">@string.Format("{0:#,###}", row3["Don_Gia"]).Replace(",", ".")</td>
+                                        <td style="text-align: right; padding: 0px 5px 0px 5px">@string.Format("{0:#,###}", row3["Tien"]).Replace(",", ".")</td>
 
                                         <td>@row3["So_Lo"]</td>
                                     </tr>
@@ -690,38 +693,18 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td style="text-align:right">@string.Format("{0:#,###}", totalThanhTien).Replace(",", ".")</td>
+                            <td style="text-align: right; padding: 0px 5px 0px 5px"class="para">@string.Format("{0:#,###}", totalThanhTien).Replace(",", ".")</td>
                             <td></td>
                         </tr>
 
 
-                        <tr style="padding:5px">
-                            <td></td>
-                            <td style="text-align:left;font-weight:bold">Tổng tiền thuế VAT</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style="text-align:left;font-weight:bold">Tổng thanh toán</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                      
                     </tfoot>
                 </table>
+                <br />
                 <div style="text-align:left;margin-left: 20px">
                     <div style="text-align:left">
-                        <div style="text-align:left;font-size:13px;font-weight:bold">- Tổng số tiền (Viết bằng chữ): <span id="resultDiv"></span></div>
+                        <div style="text-align:left;font-size:13px;font-weight:bold">- Tổng số tiền (Viết bằng chữ): <span id="resultDiv1"></span></div>
                         <br />
                         <h5 style="text-align: left; font-size: 13px">- Số chứng từ gốc kèm theo: .............</h5>
                     </div>
@@ -735,13 +718,13 @@
                     <h4>Người lập phiếu&nbsp;&nbsp;&nbsp;&nbsp;</h4>
                     <h4 style="margin-right:10px">Người nhận hàng</h4>
                     <h4>Thủ Kho</h4>
-                    <h4 style="margin-right:35px">GĐ.Đơn vị</h4>
+                    <h4 style="margin-right:35px">Kế Toán Trưởng</h4>
                 </div>
                 <div class="header" style="text-align:center;align-content:space-between;display:flex">
                     <h4 style="text-align:left;margin-left:25px">(Ký, họ tên)</h4>
                     <h4 style="margin-right:-10px">(Ký, họ tên)</h4>
                     <h4 style="text-align:center;margin-right:-40px">(Ký, họ tên)</h4>
-                    <h4 style="text-align:right;margin-right:20px;margin-right:20px">(Ký, họ tên)</h4>
+                    <h4 style="text-align:right;margin-right:20px;margin-right:50px">(Ký, họ tên)</h4>
                 </div>
             </div>
         </form>

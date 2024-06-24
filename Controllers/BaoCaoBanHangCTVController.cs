@@ -43,8 +43,8 @@ namespace web4.Controllers
 
             //string query = "exec usp_Vth_BC_BHCNTK_CN @_ngay_Ct1 = '" + Acc.From_date + "',@_Ngay_Ct2 ='"+ Acc.To_date+"',@_Ma_Dvcs='"+ Acc.Ma_DvCs_1+"'";
             string Pname = "[usp_BaoCaoBanHang_CTV]";
-            //var fromDate = Request.Cookies["From_date"].Value;
-            //var toDate = Request.Cookies["To_date"].Value;
+            var fromDate = Request.Cookies["From_date"].Value;
+            var toDate = Request.Cookies["To_date"].Value;
             var Dvcs = Request.Cookies["MA_DVCS"].Value;
            
 
@@ -57,8 +57,8 @@ namespace web4.Controllers
 
                 using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                 {
-                    cmd.Parameters.AddWithValue("@_Tu_Ngay", Acc.From_date);
-                    cmd.Parameters.AddWithValue("@_Den_Ngay", Acc.To_date);
+                    cmd.Parameters.AddWithValue("@_Tu_Ngay", fromDate);
+                    cmd.Parameters.AddWithValue("@_Den_Ngay", toDate);
                     cmd.Parameters.AddWithValue("@_ma_dvcs", Dvcs);
                     sda.Fill(ds);
 

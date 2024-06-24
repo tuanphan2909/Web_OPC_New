@@ -1,0 +1,643 @@
+﻿@using System.Data;
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Form cộng tác viên</title>
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/Application-Form.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style>
+        #dropdownInput, #selectedOption {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        #dropdownInput {
+            width: 18%; /* Adjust width as needed */
+        }
+
+        #selectedOption {
+            width: 80%; /* Adjust width as needed */
+        }
+
+        .ma-vt-input,
+        .ten-vt-input,
+        .han-muc-input {
+            border-radius: 5px;
+            padding: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
+            width: 80px; /* Adjust width as needed */
+        }
+
+        .han-muc-input {
+            width: 20%; /* Adjust width as needed */
+        }
+
+        .ten-vt-input {
+            width: 80%;
+        }
+
+        .ma-vt-input {
+            width: 20%;
+        }
+
+        #UpdateCTV {
+            display: block;
+            margin: 10px auto; /* Center the buttons and add some spacing */
+            padding: 10px 20px; /* Adjust padding as needed */
+            font-size: 16px; /* Adjust font size as needed */
+            background-color: #28a745; /* Green color */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #218838; /* Darker green on hover */
+        }
+        /* Base styles for checkbox container */
+        .checkbox-class {
+            width: max-content;
+            display: block;
+            position: relative;
+            padding-left: 25px; /* Adjust space between checkbox and label */
+            margin-bottom: 12px; /* Vertical spacing between checkboxes */
+            /* Customize label text (optional) */
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+            /* Hide default checkbox */
+            .checkbox-class input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+        /* Style the custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 50%; /* Move the checkmark to the center vertically */
+            left: 0;
+            transform: translateY(-50%); /* Center the checkmark vertically */
+            height: 20px; /* Size of the checkbox */
+            width: 20px; /* Size of the checkbox */
+            background-color: #eee; /* Background color of checkbox */
+            border: 1px solid #ccc; /* Border color of checkbox */
+            border-radius: 3px; /* Rounded corners */
+        }
+
+        /* When the checkbox is checked, style the checkmark */
+        .checkbox-class input:checked + .checkmark::after {
+            content: ""; /* Add content for pseudo-element */
+            display: block; /* Display the pseudo-element */
+            position: absolute;
+            left: 50%; /* Move the checkmark to the center horizontally */
+            top: 50%; /* Move the checkmark to the center vertically */
+            transform: translate(-50%, -50%) rotate(45deg); /* Rotate and center the checkmark */
+            width: 8px; /* Size of the checkmark */
+            height: 8px; /* Size of the checkmark */
+            border: solid black; /* Style of the checkmark */
+            border-width: 0 2px 2px 0; /* Style of the checkmark */
+            background-color: black; /* Background color of the checkmark */
+            z-index: 1; /* Ensure checkmark is above the checkbox */
+        }
+
+        /* Hide the checkmark by default */
+        .checkmark::after {
+            content: "";
+            display: none;
+        }
+
+        /* Style the label text */
+        .checkbox-class label {
+            margin-left: 10px; /* Space between checkbox and label text */
+        }
+
+        /* Only one checkbox can be checked */
+        .checkbox-class input:checked ~ .checkmark {
+            background-color: #eee; /* Restore background color when checked */
+        }
+
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1 class="text-center text-capitalize">Chỉnh Sửa Hóa Đơn Khách Hàng Cấp 2</h1>
+        <div class="container">
+
+
+            <form action="SaveCtV" method="post">
+                @*<form>*@
+                @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+
+                    DateTime ngayCt = (DateTime)row2["Ngay_Ct"];
+                    string formattedNgayCt = ngayCt.ToString("dd/MM/yyyy");
+
+
+                    <div class="form-group mb-3">
+                        <div class="row">
+                            <div class="col">
+                                <p><strong>1. Ngày</strong>&nbsp;<span class="text-danger">*</span></p>
+                                <input class="form-control datepicker" type="text" required="" name="Ngay_Ct" id="Ngay_Ct" value="@formattedNgayCt" />
+                            </div>
+                            <div class="col">
+                                <p><strong>2. SỐ</strong>&nbsp;<span class="text-danger">*</span></p><input class="form-control" type="text" required="" name="So_Ct" id="So_Ct" value="@row2["So_Ct"]" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <p><strong>3.Đơn Vị Cơ Sở</strong><span class="text-danger">*</span></p>
+                    </div><select class="form-select" name="Dvcs" id="Dvcs">
+                        <option value="OPC_B1" @(row2["Dvcs"].ToString() == "OPC_B1" ? "selected" : "")>Công Ty Cổ Phần Dược Phẩm OPC</option>
+                        <option value="OPC_TP" @(row2["Dvcs"].ToString() == "OPC_TP" ? "selected" : "")>Chi Nhánh Hồ Chí Minh</option>
+                        <option value="OPC_CT" @(row2["Dvcs"].ToString() == "OPC_CT" ? "selected" : "")>Chi nhánh Cần Thơ</option>
+                        <option value="OPC_TG" @(row2["Dvcs"].ToString() == "OPC_TG" ? "selected" : "")>Chi Nhánh Tiền Giang</option>
+                        <option value="OPC_MD" @(row2["Dvcs"].ToString() == "OPC_MD" ? "selected" : "")>Chi nhánh Miền Đông</option>
+                        <option value="OPC_VT" @(row2["Dvcs"].ToString() == "OPC_VT" ? "selected" : "")>Chi Nhánh Vũng Tàu</option>
+                        <option value="OPC_NT" @(row2["Dvcs"].ToString() == "OPC_NT" ? "selected" : "")>Chi Nhánh Nha Trang</option>
+                        <option value="OPC_DN" @(row2["Dvcs"].ToString() == "OPC_DN" ? "selected" : "")>Chi Nhánh Đà Nẵng</option>
+                        <option value="OPC_NA" @(row2["Dvcs"].ToString() == "OPC_NA" ? "selected" : "")>Chi Nhánh Nghệ An</option>
+                        <option value="OPC_HN" @(row2["Dvcs"].ToString() == "OPC_HN" ? "selected" : "")>Chi Nhánh Hà Nội</option>
+                    </select>
+
+                    <div class="form-group mb-3">
+                        <p><strong>4. Đối Tượng&nbsp;</strong></p>
+                    </div>
+                    <input type="text" id="dropdownInput" list="dropdownList" placeholder="Tìm kiếm danh mục" name="Ma_Dt" value="@row2["Ma_Dt"]">
+                    <datalist id="dropdownList">
+                        @foreach (var item in ViewBag.DataItems)
+                        {
+                            <option value="@item.Ma_Dt" data-ten="@item.Ten_Dt" data-dvcs="@item.Dvcs">@item.Ten_Dt</option>
+                        }
+                    </datalist>
+                    <input name="Ten_Dt" id="selectedOption" value="@row2["Ten_Dt"]" readonly>
+                    <input name="CTVid" id="CtvId" value="@row2["CTVId"]" readonly hidden>
+
+                }
+                <div class="form-group mb-3">
+                    <p><strong>5. Thuế&nbsp;</strong></p>
+                </div>
+                @foreach (DataRow row2 in Model.Tables[0].Rows)
+                {
+                    var thueValue = row2["Thue"];
+                    <label class="checkbox-class">
+                        5%
+                        <input type="checkbox" class="tax-checkbox" value="5" @(thueValue.ToString() == "5.00" ? "checked" : "")>
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <label class="checkbox-class">
+                        10%
+                        <input type="checkbox" class="tax-checkbox" value="10" @(thueValue.ToString() == "10.00" ? "checked" : "")>
+                        <span class="checkmark"></span>
+                    </label>
+                }
+                <table id="example" class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Mã Vt</th>
+                            <th>Tên Vt</th>
+                            <th>Số Lượng</th>
+                            <th>Đơn Giá</th>
+                            <th>Thành Tiền</th>
+                            <th>Xóa</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow row2 in Model.Tables[1].Rows)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="text" name="Ma_vt" id="Ma_vt" list="dropdownListVT" value="@row2["Ma_Vt_SAP"]">
+                                    <datalist id="dropdownListVT">
+                                        @foreach (var item in ViewBag.DataItems2)
+                                        {
+                                            <option value="@item.Ma_vt" data-ten="@item.Ten_Vt">@item.Ten_Vt</option>
+                                        }
+                                    </datalist>
+                                </td>
+                                <td><input type="text" name="Ten_Vt" id="Ten_Vt" list="dropdownListVT" value="@row2["Ten_Vt"]"> </td>
+                                <td><input style="text-align:right" type="text" name="So_Luong" id="so_luong" class="so-luong-input"  value="@String.Format("{0:n0}", Convert.ToDecimal(row2["So_Luong"])).Replace(".","")"oninput="calculateRow(this)"></td>
+
+                                <td>
+                                    <input style="text-align:right" type="text" name="Don_Gia" class="don-gia-input" id="don_gia" value="@String.Format("{0:n0}", Convert.ToDecimal(row2["Don_Gia"])).Replace(".","")"oninput="calculateRow(this)" />
+                                </td>
+
+
+
+                                <td><input style="text-align:right" class="thanh-tien-input" type="text" name="Thanh_Tien" id="thanh_tien" list="dropdownListVT" value="@row2["Thanh_Tien"]" readonly></td>
+                                <td><button class="deleteRowBtn">Xóa</button></td>
+
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right">Tiền hàng:</td>
+                                <td id="tien_hang" style="text-align:right">@row2["Tien_Truoc_Thue"]</td>
+                            </tr>
+                        }
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right">Tiền Thuế:</td>
+                                <td id="tien_thue" style="text-align:right">@row2["Tien_Thue"]</td>
+                            </tr>
+                        }
+                        @foreach (DataRow row2 in Model.Tables[0].Rows)
+                        {
+                            <tr>
+
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="text-align:right">Tổng tiền:</td>
+                                <td id="tong_tien" style="text-align:right">@row2["Tien_Sau_Thue"]</td>
+                            </tr>
+                        }
+                    </tfoot>
+                </table>
+                <button type="button" id="addRowBtn">Thêm dòng</button>
+                <button class="submit" type="submit" id="UpdateCTV">Lưu</button>
+
+            </form>
+
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/Application-Form-1.js"></script>
+    <script src="/assets/js/Application-Form.js"></script>
+    @*</ng-><script src="/assets/js/script.js"></script>*@
+
+    <script>
+        document.getElementById("dropdownInput").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownList option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("selectedOption").value = options[i].getAttribute("data-ten");
+                    break;
+                }
+            }
+        });
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var tenDt = selectedOption.text.toString();
+
+                        var selectedDvcs = selectedOption.getAttribute('data-Dvcs');
+
+                        document.cookie = 'Ten_Dt= ' + encodeURIComponent(tenDt);
+
+                        document.cookie = 'Dvcs=' + selectedDvcs;
+
+                    }
+                });
+            }
+        });
+
+        /* danh muc vat tu*/
+
+        document.getElementById("Ma_vt").addEventListener("input", function () {
+            var inputValue = this.value;
+            var options = document.querySelectorAll("#dropdownListVT option");
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].getAttribute("value") === inputValue) {
+                    document.getElementById("Ten_Vt").value = options[i].getAttribute("data-ten");
+                    break;
+                }
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var runReportButton = document.getElementById("runReportButton");
+
+            if (runReportButton) {
+                runReportButton.addEventListener("click", function () {
+                    var dropdownInput = document.getElementById("dropdownInput");
+                    var selectedOption = document.querySelector("#dropdownList option[value='" + dropdownInput.value + "']");
+
+                    if (selectedOption) {
+                        var Ten_Vt = selectedOption.text.toString();
+
+
+                        document.cookie = 'Ten_Vt= ' + encodeURIComponent(Ten_Vt);
+
+
+
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+
+    </script>
+    <script>
+    $(document).ready(function () {
+        // Function to repopulate dropdownListVT
+        function populateDropdownListVT() {
+            var dropdownListVT = $('#dropdownListVT');
+            dropdownListVT.empty();
+
+            var dataItems2 = @Html.Raw(Json.Encode(ViewBag.DataItems2));
+            dataItems2.forEach(function (item) {
+                var option = $('<option>').val(item.Ma_vt).attr('data-ten', item.Ten_Vt).text(item.Ten_Vt);
+                dropdownListVT.append(option);
+            });
+        }
+        function calculateThanhTien(row) {
+            // Lấy giá trị của các ô input trong hàng hiện tại
+            var soLuong = parseFloat(row.find('.so-luong-input').val().replace(/,/g, '')) || 0;
+            var donGia = parseFloat(row.find('.don-gia-input').val().replace(/,/g, '')) || 0;
+
+            // Tính thành tiền
+            var thanhTien = soLuong * donGia;
+            console.log("Thành Tiền", thanhTien);
+
+            // Gán giá trị cho ô thành tiền
+            row.find('.thanh-tien-input').val(thanhTien);
+        }
+        $('#example tbody').on('focus', '.so-luong-input, .don-gia-input', function () {
+            $(this).val(''); // Xóa giá trị hiện tại của ô input
+        });
+        $('#example tbody').on('input', '.so-luong-input, .don-gia-input', function () {
+            var row = $(this).closest('tr');
+            calculateThanhTien(row);
+        });
+        $('#example tbody').on('blur', '.so-luong-input, .don-gia-input', function () {
+            formatNumberInput(this);
+        });
+        $('.so-luong-input, .don-gia-input').on('change input', function () {
+            // Tìm hàng cha của ô đang thay đổi
+            var row = $(this).closest('tr');
+            // Gọi hàm tính toán lại thành tiền với hàng này
+            calculateThanhTien(row);
+        });
+        $('#addRowBtn').click(function () {
+            var newRow = '<tr>' +
+                '<td><input style="width:80%" type="text" name="Ma_vt" class="ma-vt-input" list="dropdownListVT" /></td>' +
+                '<td><input type="text" name="Ten_Vt" class="ten-vt-input" readonly /></td>' +
+                '<td><input type="text" name="So_Luong" id="so_luong"class="so-luong-input" style="text-align:right" oninput="calculateRow(this)" /></td>' +
+                '<td><input type="text" name="Don_Gia" id="don_gia"class="don-gia-input" style="text-align: right" oninput="calculateRow(this)" /></td>' +
+                '<td><input type="text" name="Thanh_Tien" id="thanh_tien"class="thanh-tien-input" style="text-align: right" readonly /></td>' +
+                '<td><button class="deleteRowBtn">Xóa</button></td>' +
+                '</tr>';
+            $('#example tbody').append(newRow);
+
+            // Call the function to recreate the dropdownListVT
+            populateDropdownListVT();
+        });
+
+        $(document).on('input', '.ma-vt-input', function () {
+            var inputValue = $(this).val();
+            var tenVtInput = $(this).closest('tr').find('.ten-vt-input');
+
+            // Find the corresponding option in dropdownListVT
+            var option = $('#dropdownListVT option[value="' + inputValue + '"]');
+
+            if (option.length > 0) {
+                // Update the Ten_vt input with the data-ten attribute of the selected option
+                tenVtInput.val(option.attr('data-ten'));
+            } else {
+                tenVtInput.val('');
+            }
+        });
+
+        $(document).on('click', '.deleteRowBtn', function () {
+            $(this).closest('tr').remove();
+
+            // Call the function to recreate the dropdownListVT after deleting a row
+            populateDropdownListVT();
+        });
+    });
+
+        function UpdateCTV(data) {
+            return $.ajax({
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                type: 'POST',
+                url: "/CongTacVienCap2/UpdateCTV",
+                data: data,
+                success: function (result) {
+                    alert(result);
+                    window.location.href = '/CongTacVienCap2/Index';
+
+                    //console.log(data);
+                },
+                error: function () {
+                    alert("Error!");
+
+                }
+            });
+        }
+        //Collect Multiple Order List For Pass To Controller
+        $("#UpdateCTV").click(function (e) {
+            e.preventDefault();
+            var soLuong = $('#so_luong').val();
+            var donGia = $('#don_gia').val();
+            if (soLuong === '' || donGia === '') {
+                alert("Vui lòng nhập số lượng và đơn giá trước khi lưu!");
+                return; // Dừng việc gửi yêu cầu lưu
+            }
+            var orderArr = [];
+            orderArr.length = 0;
+            var soct;
+            soct = $(this).find('input[name="So_Ct"]').val();
+
+           $("#example tbody tr").each(function () {
+        var maVt = $(this).find('input[name="Ma_vt"]').val();
+        var tenVt = $(this).find('input[name="Ten_Vt"]').val();
+               var soLuong = $(this).find('input[name="So_Luong"]').val();
+               var donGia = $(this).find('input[name="Don_Gia"]').val();
+               var thanhTien = $(this).find('input[name="Thanh_Tien"]').val();
+
+        orderArr.push({
+            Ma_vt: maVt,
+            Ten_Vt: tenVt,
+            So_Luong: soLuong,
+            Don_Gia: donGia,
+            Thanh_Tien: thanhTien
+        });
+
+           });
+            //var tenVt = $(this).find('input[name="Ten_Vt"]').val();
+            //var hanMuc = $(this).find('input[name="Han_Muc"]').val();
+            var ngayCtValue = $("#Ngay_Ct").val();
+
+            // Chuyển đổi ngày tháng từ định dạng ngày/tháng/năm sang tháng/ngày/năm
+            var parts = ngayCtValue.split('/');
+            var ngay = parts[0];
+            var thang = parts[1];
+            var nam = parts[2];
+            var ngayThangNam = thang + '/' + ngay + '/' + nam;
+            var tienHang = parseFloat(document.getElementById('tien_hang').textContent) || 0;
+            var tienThue = parseFloat(document.getElementById('tien_thue').textContent) || 0;
+            var tongTien = parseFloat(document.getElementById('tong_tien').textContent) || 0;
+            console.log("NgayCt", ngayThangNam);
+            var data = JSON.stringify({
+                Ngay_Ct: ngayThangNam,
+               So_Ct: $("#So_Ct").val(),
+                Dvcs: $("#Dvcs").val(),
+                Ma_Dt: $("#dropdownInput").val(),
+                Ten_Dt: $("#selectedOption").val(),
+                Thue: $('.tax-checkbox:checked').val(),
+                Tien_Truoc_Thue: tienHang,
+                Tien_Thue: tienThue,
+                Tien_Sau_Thue: tongTien,
+                CTVId: $("#CtvId").val(),
+
+                details: orderArr
+            });
+
+            $.when(UpdateCTV(data)).then(function (response) {
+                console.log(response);
+            }).fail(function (err) {
+                console.log(err);
+            });
+        });
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd/mm/yy' // Set the desired date format
+                // Add other options if needed
+            });
+        });
+    </script>
+    <script>
+        // Ensure only one checkbox can be checked
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                checkboxes.forEach(cb => {
+                    if (cb !== this) {
+                        cb.checked = false;
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
+
+        function calculateThanhTien() {
+            // Lấy giá trị của các ô input
+            var soLuong = parseFloat(document.getElementById('so_luong').value) || 0;
+            var donGia = parseFloat(document.getElementById('don_gia').value) || 0;
+
+            // Tính thành tiền
+            var thanhTien = soLuong * donGia;
+
+            // Định dạng thành tiền
+            var formattedThanhTien = thanhTien.toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            // Gán giá trị cho ô thành tiền
+            document.getElementById('thanh_tien').value = formattedThanhTien;
+        }
+
+        // Gán sự kiện input cho các ô số lượng và đơn giá
+        document.getElementById('so_luong').addEventListener('input', calculateThanhTien);
+        document.getElementById('don_gia').addEventListener('input', calculateThanhTien);
+    </script>
+    <script>
+        // Ensure only one checkbox can be checked
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                checkboxes.forEach(cb => {
+                    if (cb !== this) {
+                        cb.checked = false;
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
+        /*   document.getElementById('thanh_tien').addEventListener('input', calculateThanhTien);*/
+        function calculateRow(inputElement) {
+
+            const row = inputElement.closest('tr');
+            const soLuong = parseFloat(row.querySelector('#so_luong').value) || 0;
+            const donGia = parseFloat(row.querySelector('#don_gia').value) || 0;
+            const thanhTien = soLuong * donGia;
+            row.querySelector('#thanh_tien').value = thanhTien.toFixed(2);
+
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let tienHang = 0;
+            document.querySelectorAll('.thanh-tien-input').forEach(input => {
+                tienHang += parseFloat(input.value) || 0;
+            });
+
+            const checkedCheckbox = document.querySelector('.tax-checkbox:checked');
+            const taxRate = checkedCheckbox ? parseFloat(checkedCheckbox.value) / 100 : 0;
+            const tienThue = tienHang * taxRate;
+            const tongTien = tienHang + tienThue;
+
+            document.getElementById('tien_hang').textContent = tienHang.toFixed(2);
+            document.getElementById('tien_thue').textContent = tienThue.toFixed(2);
+            document.getElementById('tong_tien').textContent = tongTien.toFixed(2);
+        }
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            calculateTotal();
+        }
+
+        document.querySelectorAll('.tax-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                document.querySelectorAll('.tax-checkbox').forEach(cb => cb.checked = false);
+                checkbox.checked = true;
+                calculateTotal();
+            });
+        });
+
+        calculateTotal();
+    </script>
+
+</body>
+
+
+</html>

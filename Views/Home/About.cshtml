@@ -465,17 +465,14 @@ string.Equals(ViewBag.UserName, "opcmar001", StringComparison.OrdinalIgnoreCase)
                     </button>
                 </div>
                 <div id="submenu1_7" class="submenu-container" style="padding-left:15px">
-                    <a href="#" style="display:flex" onclick="runReport('@Url.Action("BaoCaoMar_Fill", "BaoCaoMAR")'
-                                                      )">
-                        7.1 BC Doanh Thu Bán Hàng OTC
-                    </a>
+                  
                     <a href="#" style="display:flex" onclick="runReport('@Url.Action("QuanLyTrungBay_Fill", "ViengTham")'
                                                       )">
-                        7.2 Quản Lý Trưng Bày
+                        7.1 Quản Lý Trưng Bày
                     </a>
                     <a href="#" style="display:flex" onclick="runReport('@Url.Action("ChiTietSPTraThuong_Fill", "ChiTietSPTraThuong")'
                                                       )">
-                        7.3 Chi Tiết SP Trả Thưởng
+                        7.2 Chi Tiết SP Trả Thưởng
                     </a>
                     @*<a href="#" style="display:flex" onclick="runReport('@Url.Action("PhieuNhapKho_Fill", "TheKho")'
                                               )">
@@ -504,13 +501,13 @@ string.Equals(ViewBag.UserName, "opcmar001", StringComparison.OrdinalIgnoreCase)
                         8.1 BC Thành Phẩm SX chờ QC
                     </a>
                     @*<a href="#" style="display:flex" onclick="runReport('@Url.Action("QuanLyTrungBay_Fill", "ViengTham")'
-                                                      )">
-                        7.2 Quản Lý Trưng Bày
-                    </a>
-                    <a href="#" style="display:flex" onclick="runReport('@Url.Action("ChiTietSPTraThuong_Fill", "ChiTietSPTraThuong")'
-                                                      )">
-                        7.3 Chi Tiết SP Trả Thưởng
-                    </a>*@
+                                              )">
+                7.2 Quản Lý Trưng Bày
+            </a>
+            <a href="#" style="display:flex" onclick="runReport('@Url.Action("ChiTietSPTraThuong_Fill", "ChiTietSPTraThuong")'
+                                              )">
+                7.3 Chi Tiết SP Trả Thưởng
+            </a>*@
                     @*<a href="#" style="display:flex" onclick="runReport('@Url.Action("PhieuNhapKho_Fill", "TheKho")'
                                               )">
                 6.2 Phiếu Nhập Kho
@@ -522,6 +519,64 @@ string.Equals(ViewBag.UserName, "opcmar001", StringComparison.OrdinalIgnoreCase)
             <a href="#" style="display:flex" onclick="runReport('@Url.Action("PhieuNhapKho_Fill", "MauInChungTu")'
                                               )">6.4.Phiếu Nhập Xuất Kho Khác</a>*@
                 </div>
+
+                <div style="display:flex">
+                    <div class="color9"></div>
+                    <button class="submenu-btn" onclick="toggleSubmenu('submenu1_9','arrow-subicon_9')">
+                        9.BC Quản Trị OTC-ETC <div id="arrow-subicon_9" class="subicon-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </button>
+                </div>
+              
+                    <div id="submenu1_9" class="submenu-container">
+                        <a href="#" onclick="toggleSubmenu('submenu1_9_1','arrow-subicon_9_1')" style="display:flex;margin-left:15px">
+                            9.1 Quản trị OTC<div id="arrow-subicon_9_1" class="subicon-arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <div id="submenu1_9_1" class="submenu-container" style="margin-left:28px">
+                            <a href="#" style="display:flex" onclick="runReport('@Url.Action("BaoCaoMar_Fill", "BaoCaoMAR")'
+                                                      )">
+                                9.1.1 BC Doanh Thu Bán Hàng OTC
+                            </a>
+
+
+
+
+                        </div>
+                        <a href="#" onclick="toggleSubmenu('submenu1_9_2','arrow-subicon_9_2')" style="display: flex; margin-left: 15px">
+                            9.2 Quản Trị ETC<div id="arrow-subicon_9_2" class="subicon-arrow">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </a>
+                        <div id="submenu1_9_2" class="submenu-container" style="margin-left:28px">
+                          
+                            @*<a href="#" style="display:flex" onclick="runReport('@Url.Action("TongHopCongNoPhaiTra_Fill", "TongHopPhaiTra")'
+                                                      )">
+                                3.2.3 Chi Tiết Công Nợ Phải Trả
+                            </a>*@
+                        </div>
+                    </div>
+                    @*<a href="#" style="display:flex" onclick="runReport('@Url.Action("QuanLyTrungBay_Fill", "ViengTham")'
+                                          )">
+            7.2 Quản Lý Trưng Bày
+        </a>
+        <a href="#" style="display:flex" onclick="runReport('@Url.Action("ChiTietSPTraThuong_Fill", "ChiTietSPTraThuong")'
+                                          )">
+            7.3 Chi Tiết SP Trả Thưởng
+        </a>*@
+                    @*<a href="#" style="display:flex" onclick="runReport('@Url.Action("PhieuNhapKho_Fill", "TheKho")'
+                                          )">
+            6.2 Phiếu Nhập Kho
+        </a>
+        <a href="#" style="display:flex" onclick="runReport('@Url.Action("PhieuXuatKho_Fill", "TheKho")'
+                                          )">
+            6.3 Phiếu Xuất Kho
+        </a>
+        <a href="#" style="display:flex" onclick="runReport('@Url.Action("PhieuNhapKho_Fill", "MauInChungTu")'
+                                          )">6.4.Phiếu Nhập Xuất Kho Khác</a>*@
+               
             </div>
 
             <button class="dropdown-btn" onclick="toggleSubmenu('submenu2','arrow2')">
@@ -611,6 +666,8 @@ string.Equals(ViewBag.UserName, "opcmar001", StringComparison.OrdinalIgnoreCase)
                                                       )">4.Sản Phẩm Trưng Bày</a>
                 <a href="#" onclick="runReport('@Url.Action("Index", "FormBKNopTien")'
                                                       )">5.Bảng Kê Nộp Tiền</a>
+                <a href="#" onclick="runReport('@Url.Action("Index", "CongTacVienCap2")'
+                                                      )">6.Hóa Đơn Khách Hàng Cấp 2</a>
                 @*<button class="submenu-btn" onclick="toggleSubmenu('submenu2_2')">Báo Cáo Quản Trị</button>
         <div id="submenu2_2" class="submenu-container">
             <a href="#">Submenu 1.2.1</a>

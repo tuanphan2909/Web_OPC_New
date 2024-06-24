@@ -196,6 +196,9 @@ nav button .sidebar-title div, nav .submenu-container.submenu-btn {
 #submenu1_8 {
     border: 3px solid #46fff4;
 }
+#submenu1_9 {
+    border: 3px solid #FFCC00;
+}
 .submenu-container {
     background-color: #3f5161;
   
@@ -240,6 +243,11 @@ nav button .sidebar-title div, nav .submenu-container.submenu-btn {
         width: 8px;
         height: 50px;
         background-color: #46fff4;
+    }
+    .submenu-container .color9 {
+        width: 8px;
+        height: 50px;
+        background-color: #FFCC00;
     }
 .submenu-btn:hover{
     border-left-color:cyan;

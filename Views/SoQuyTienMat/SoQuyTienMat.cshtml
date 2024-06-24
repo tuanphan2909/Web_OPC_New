@@ -1053,7 +1053,7 @@
                                                         decimal PS_Co = Convert.ToDecimal(row2["Ps_Co"]);
                                                         Du_Cuoi_Calculated = Convert.ToDecimal(row2["Du_Cuoi"]) - PS_No + PS_Co;
                                                         isFirstRowFound = true; // Đánh dấu là đã tìm thấy giá trị đầu tiên
-                                                        formattedDuCuoi = String.Format(Du_Cuoi_Calculated.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(".",",");
+                                                        formattedDuCuoi = String.Format(Du_Cuoi_Calculated.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",",".");
 
 
                                                     }
@@ -1066,18 +1066,18 @@
                                                         <td style="text-align:left">@row2["Ten_Dt"]</td>
                                                         <td class="text" style="text-align:left">@row2["Dien_Giai"]</td>
                                                         <td>@row2["Tk_Du"]</td>
-                                                        <td data-t="n" class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_No"])).Replace(".", ",")</td>
-                                                        <td data-t="n" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_Co"])).Replace(".", ",")</td>
-                                                        <td data-t="n" style="text-align:right;">@String.Format("{0:n0}", Convert.ToDecimal(row2["Du_Cuoi"])).Replace(".", ",")</td>
+                                                        <td data-t="n" class="num" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_No"])).Replace(",", ".")</td>
+                                                        <td data-t="n" style="text-align:right">@String.Format("{0:n0}", Convert.ToDecimal(row2["Ps_Co"])).Replace(",", ".")</td>
+                                                        <td data-t="n" style="text-align:right;">@String.Format("{0:n0}", Convert.ToDecimal(row2["Du_Cuoi"])).Replace(",", ".")</td>
                                                     </tr>
                                                     decimal Thu = Convert.ToDecimal(row2["PS_No"]);
                                                     decimal Chi = Convert.ToDecimal(row2["PS_Co"]);
                                                     sumThu += Thu;
                                                     sumChi += Chi;
-                                                    formattedChi = String.Format(sumChi.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(".", ",");
-                                                    formattedThu = String.Format(sumThu.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(".", ",");
+                                                    formattedChi = String.Format(sumChi.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
+                                                    formattedThu = String.Format(sumThu.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
                                                     DuCuoiKy = Convert.ToDecimal(row2["Du_Cuoi"]);
-                                                    formattedDuCuoiKy = String.Format(DuCuoiKy.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(".", ",");
+                                                    formattedDuCuoiKy = String.Format(DuCuoiKy.ToString("#,##0", CultureInfo.InvariantCulture)).Replace(",", ".");
 
                                                 }
                                             }
